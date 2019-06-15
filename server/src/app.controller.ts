@@ -1,12 +1,14 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
+import Recipe from './postgres/recipe.entity';
+import RecipeService from './postgres/recipe.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly recipeService: RecipeService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  async getRecipes(): Promise<Recipe[]> {
+    return await this.recipeService.findAll();
   }
 }

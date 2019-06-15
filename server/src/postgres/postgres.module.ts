@@ -1,5 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module, DynamicModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import RecipeService from './recipe.service';
+import Recipe from './recipe.entity';
+import { createDatabaseProviders } from './postgres.providers';
 
 @Module({
   imports: [
@@ -13,8 +16,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
+    TypeOrmModule.forFeature([Recipe]),
   ],
 })
-class PostgresModule {}
+class PostgresModule {
+  static forRoot(entities: Array<Function>): DynamicModule {
+    const providers = createDatabaseProviders(entities);
+
+    return {
+      module: PostgresModule,
+      providers,
+      exports: providers,
+    };
+  }
+}
 
 export default PostgresModule;
