@@ -17,10 +17,10 @@ class Recipe {
   @Column({ length: 500 })
   name: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   description: string;
 
-  @Column('uuid', { array: true })
+  @Column('uuid', { array: true, default: {} })
   labels: string[];
 
   @UpdateDateColumn()

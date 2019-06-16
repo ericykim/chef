@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import PostgresModule from './postgres/postgres.module';
 import Recipe from './postgres/entities/recipe.entity';
+import RecipeController from './controllers/recipe.controller';
+import Label from './postgres/entities/label.entity';
 
 @Module({
-  imports: [PostgresModule.forRoot([Recipe])],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [PostgresModule.forRoot([Recipe, Label])],
+  controllers: [RecipeController],
 })
 export class AppModule {}

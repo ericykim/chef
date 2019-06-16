@@ -1,10 +1,12 @@
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import Recipe from './recipe.entity';
+import Recipe from './entities/recipe.entity';
 import { Repository } from 'typeorm';
 
 /**
  * Recipe CRUD service.
  */
+@Injectable()
 class RecipeService {
   constructor(
     @InjectRepository(Recipe)
@@ -12,11 +14,15 @@ class RecipeService {
   ) {}
 
   async findAll(): Promise<Recipe[]> {
-    return this.recipeRepository.find();
+    return await this.recipeRepository.find();
   }
 
-  async findOne(id): Promise<Recipe> {
-    return this.recipeRepository.findOne({ id });
+  async findOne(options): Promise<Recipe> {
+    return await this.recipeRepository.findOne(options);
+  }
+
+  async createOne(attributes) {
+    await this.recipeRepository.save(attributes);
   }
 }
 
