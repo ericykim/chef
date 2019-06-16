@@ -1,7 +1,7 @@
 import { Module, DynamicModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import RecipeService from './recipe.service';
-import Recipe from './recipe.entity';
+
+import Recipe from './entities/recipe.entity';
 import { createDatabaseProviders } from './postgres.providers';
 
 @Module({
@@ -15,6 +15,7 @@ import { createDatabaseProviders } from './postgres.providers';
       database: 'chef',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
+      uuidExtension: 'pgcrypto',
     }),
     TypeOrmModule.forFeature([Recipe]),
   ],
