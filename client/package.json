@@ -30,12 +30,15 @@
     "wretch": "^1.5.2"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.12.3",
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
+    "@testing-library/react": "^8.0.1",
     "commander": "^2.20.0",
     "css-modules": "^0.3.0",
+    "jest": "^24.8.0",
+    "jest-dom": "^3.5.0",
+    "parcel-bundler": "^1.12.3",
     "postcss-modules": "^1.4.1"
   }
 }
