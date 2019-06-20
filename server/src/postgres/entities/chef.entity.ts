@@ -1,33 +1,21 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  UpdateDateColumn,
-  CreateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+
+import Account from './account.entity';
+import { Dated } from '.';
 
 /**
  * Chef is any user on the platform.
  */
 @Entity({ name: 'chefs' })
-class Chef {
+class Chef extends Dated {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('text', { nullable: false })
-  firstName: string;
-
-  @Column('text', { nullable: false })
-  lastName: string;
-
-  @Column('text', { nullable: false })
-  email: string;
-
-  @UpdateDateColumn()
-  updatedOn: Date;
-
-  @CreateDateColumn()
-  createdOn: Date;
+  @OneToOne((type) => Account, {
+    eager: true,
+  })
+  @JoinColumn()
+  account: Account;
 }
 
 export default Chef;

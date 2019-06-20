@@ -13,6 +13,10 @@ class ChefService {
     private readonly chefRepository: Repository<Chef>,
   ) {}
 
+  async findAll(): Promise<Chef[]> {
+    return await this.chefRepository.find();
+  }
+
   async findOne(options): Promise<Chef> {
     return await this.chefRepository.findOne(options);
   }
