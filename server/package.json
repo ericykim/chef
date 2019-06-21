@@ -47,6 +47,7 @@
     "@types/supertest": "^2.0.7",
     "babel-jest": "^24.8.0",
     "concurrently": "^4.1.0",
+    "faker": "^4.1.0",
     "jest": "^23.6.0",
     "nodemon": "^1.18.9",
     "prettier": "^1.15.3",
@@ -56,6 +57,7 @@
     "tsconfig-paths": "3.8.0",
     "tslint": "5.16.0",
     "typescript": "3.4.3",
+    "uuid": "^3.3.2",
     "wait-on": "^3.2.0"
   }
 }

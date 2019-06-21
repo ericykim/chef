@@ -1,3 +1,6 @@
+import { createHmac } from 'crypto';
+import { hashSecret } from '../constants';
+
 /**
  * Update values of given entity with the provided entries.
  *
@@ -33,4 +36,14 @@ export const tryReturn = (func: Function, success?) => {
   } catch {
     return false;
   }
+};
+
+/**
+ * Hash given string
+ * @param string
+ */
+export const hash = (string: string, secret = hashSecret): string => {
+  return createHmac('sha256', secret)
+    .update(string)
+    .digest('hex');
 };

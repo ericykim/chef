@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import RecipeService from '../services/recipe.service';
-import Label from 'src/postgres/entities/label.entity';
+import Label from '../../postgres/entities/label.entity';
 import LabelService from '../services/label.service';
 
 @Controller('label')

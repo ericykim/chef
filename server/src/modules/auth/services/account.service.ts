@@ -1,15 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { createHmac } from 'crypto';
-import { get } from 'lodash';
 
 import Account from '../../postgres/entities/account.entity';
 import Chef from '../../postgres/entities/chef.entity';
 import { Registration, Login } from '../interfaces';
-
-import { tryReturn } from '../../utils';
-import { hashSecret } from '../../constants';
+import { hash } from '../../../utils';
 
 @Injectable()
 class AccountService {
@@ -22,7 +18,7 @@ class AccountService {
    * Register the given user.
    * @param registration
    */
-  async createOne(registration: Registration): Promise<boolean> {
+  async register(registration: Registration): Promise<boolean> {
     if (await this.accountExists(registration)) {
       return false;
     }
@@ -42,7 +38,7 @@ class AccountService {
    */
   async authenticate(login: Login): Promise<boolean> {
     const { handle, password } = login;
-    const hashedPassword = this.hash(password);
+    const hashedPassword = hash(password);
 
     const account = await this.accountRepository.findOne({
       where: [
@@ -74,17 +70,7 @@ class AccountService {
    * @param account
    */
   private hashPassword(account: Account): Account {
-    return { ...account, password: this.hash(account.password) };
-  }
-
-  /**
-   * Hash given password
-   * @param password
-   */
-  private hash(password: string): string {
-    return createHmac('sha256', hashSecret)
-      .update(password)
-      .digest('hex');
+    return { ...account, password: hash(account.password) };
   }
 }
 

@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Get, Res, HttpStatus } from '@nestjs/common';
-import AuthService from '../../auth/services/auth.service';
+import AuthService from '../services/auth.service';
 import AccountService from '../services/account.service';
 import { Registration, Login } from '../interfaces';
 import { Response } from 'express';
@@ -25,7 +25,7 @@ class AuthController {
 
   @Post('register')
   async register(@Res() res: Response, @Body() registration: Registration) {
-    const registered = await this.accountService.createOne(registration);
+    const registered = await this.accountService.register(registration);
     res.status(registered ? HttpStatus.CREATED : HttpStatus.CONFLICT).send();
   }
 }
