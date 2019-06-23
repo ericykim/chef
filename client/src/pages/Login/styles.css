@@ -18,27 +18,22 @@
     '. . .';
 }
 
-.loginCard {
-  grid-area: login;
-  align-self: end;
-}
-
 .card {
-  margin: 10px auto;
+  grid-area: login;
 }
 
-.spaced {
-  margin: 10px 0;
+.error {
+  color: #f5222d;
 }
 
-.login {
-  float: left;
+.loginForm {
+  max-width: 300px;
 }
 
-.forgotPassword {
+.loginFormForgot {
   float: right;
 }
 
-.signUp {
-  float: right;
+.loginFormButton {
+  width: 100%;
 }
