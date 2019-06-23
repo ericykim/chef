@@ -1,7 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+  Column,
+} from 'typeorm';
 
-import Account from './account.entity';
 import { Dated } from '.';
+import Account from './account.entity';
+import Recipe from './recipe.entity';
 
 /**
  * Chef is any user on the platform.
@@ -16,6 +24,11 @@ class Chef extends Dated {
   })
   @JoinColumn()
   account: Account;
+
+  @OneToMany((type) => Recipe, (recipe) => recipe.author, {
+    cascade: true,
+  })
+  recipes: Recipe[];
 }
 
 export default Chef;

@@ -6,9 +6,11 @@ import {
   CreateDateColumn,
   ManyToMany,
   JoinTable,
+  ManyToOne,
 } from 'typeorm';
 import Label from './label.entity';
 import { Dated } from '.';
+import Chef from './chef.entity';
 
 /**
  * Recipe is any recipe that has been initialized,
@@ -22,8 +24,11 @@ class Recipe extends Dated {
   /**
    * The primary author of this recipe.
    */
-  @Column('uuid', { nullable: false })
-  author: string;
+  @ManyToOne((type) => Chef, (chef) => chef.recipes, {
+    eager: true,
+    nullable: false,
+  })
+  author: Chef;
 
   @Column({ length: 100 })
   title: string;

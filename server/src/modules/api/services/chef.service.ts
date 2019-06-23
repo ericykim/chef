@@ -14,7 +14,9 @@ class ChefService {
   ) {}
 
   async findAll(): Promise<Chef[]> {
-    return await this.chefRepository.find();
+    return await this.chefRepository.find({
+      relations: ['recipes'],
+    });
   }
 
   async findOne(options): Promise<Chef> {
