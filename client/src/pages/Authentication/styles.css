@@ -11,29 +11,13 @@
 
   display: grid;
   grid-template-columns: auto 400px auto;
-  grid-template-rows: 30% auto 30%;
+  grid-template-rows: 20% auto 20%;
   grid-template-areas:
     '. . .'
-    '. login .'
+    '. component .'
     '. . .';
 }
 
-.card {
-  grid-area: login;
-}
-
-.error {
-  color: #f5222d;
-}
-
-.loginForm {
-  max-width: 300px;
-}
-
-.loginFormForgot {
-  float: right;
-}
-
-.loginFormButton {
-  width: 100%;
+.login {
+  grid-area: component;
 }

@@ -1,0 +1,19 @@
+.card {
+  margin: 10px;
+}
+
+.error {
+  color: #f5222d;
+}
+
+.loginForm {
+  max-width: 300px;
+}
+
+.loginFormForgot {
+  float: right;
+}
+
+.loginFormButton {
+  width: 100%;
+}

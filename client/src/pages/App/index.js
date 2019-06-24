@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './styles.css';
 
-import Login from '../Login';
+import Authentication from '../Authentication';
 
 import { setBreakpoints } from 'responsive-jsx';
 
-const App: FunctionComponent = (props) => {
+const App = (props) => {
   setBreakpoints({
     Mobile: 320,
     Tablet: 768,
@@ -14,7 +14,7 @@ const App: FunctionComponent = (props) => {
 
   return (
     <div>
-      <Login />
+      <Authentication />
     </div>
   );
 };

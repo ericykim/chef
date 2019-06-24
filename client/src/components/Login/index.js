@@ -1,21 +1,17 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { useState } from 'react';
 import wretch from 'wretch';
 
 import { Form, Icon, Checkbox, Card, Input, Button } from 'antd';
 import styles from './styles.css';
 
-type Props = {
-  form: any;
-};
-
-const Login: FunctionComponent<Props> = (props) => {
+const Login = ({ className, form }) => {
   const [error, setError] = useState(false);
-  const { validateFields, getFieldDecorator } = props.form;
+  const { validateFields, getFieldDecorator } = form;
 
   const submit = (e) => {
     e.preventDefault();
 
-    validateFields(async (err: any, values: any) => {
+    validateFields(async (err, values) => {
       if (!err) {
         await wretch('http://localhost:3000/auth/login')
           .post({
@@ -31,7 +27,7 @@ const Login: FunctionComponent<Props> = (props) => {
   };
 
   return (
-    <div className={styles.page}>
+    <div className={className}>
       <Card
         className={styles.card}
         title={'Log In'}
@@ -40,7 +36,6 @@ const Login: FunctionComponent<Props> = (props) => {
             <span className={styles.error}>Incorrect username or password</span>
           )
         }
-        bordered={true}
       >
         <Form onSubmit={submit} className="loginForm">
           <Form.Item>
@@ -95,9 +90,11 @@ const Login: FunctionComponent<Props> = (props) => {
             >
               Log in
             </Button>
-            Or <a href="">register now!</a>
           </Form.Item>
         </Form>
+      </Card>
+      <Card className={styles.card}>
+        New to Chef? <a href="">Register now!</a>
       </Card>
     </div>
   );
