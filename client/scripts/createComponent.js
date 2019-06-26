@@ -8,9 +8,9 @@ commander
     'Directory where the component lives',
     'components',
   )
-  .option('-i, --index [index]', 'Name of component index file', 'index.tsx')
+  .option('-i, --index [index]', 'Name of component index file', 'index.js')
   .option('-s, --styles [styles]', 'Name of styles file', 'styles.css')
-  .option('-t, --test [test]', 'Name of test file', 'test.ts')
+  .option('-t, --test [test]', 'Name of test file', 'test.js')
   .action((component, { dir, index, styles, test }) => {
     const dirPath = `${__dirname}/../src/${dir}`;
     const componentPath = `${dirPath}/${component}`;
@@ -21,7 +21,7 @@ commander
     const pathsAndContent = [
       {
         path: indexPath,
-        content: `import React, { FunctionComponent } from \'react\';\nimport styles from \'./styles.css\';\n\nconst ${component}: FunctionComponent = (props) => {\n  return (<div></div>);\n}\n\nexport default ${component}`,
+        content: `import React from \'react\';\nimport styles from \'./styles.css\';\n\nconst ${component} = (props) => {\n  return (<div></div>);\n}\n\nexport default ${component}`,
       },
       {
         path: stylesPath,
