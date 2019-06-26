@@ -15,7 +15,7 @@ import styles from './styles.css';
 const Authentication = ({ mode = 'login' }) => {
   const modes = {
     login: {
-      $component: SignIn,
+      Component: SignIn,
       prompt: (
         <span>
           New to Chef? <Link to={'/register'}>Register now!</Link>
@@ -23,7 +23,7 @@ const Authentication = ({ mode = 'login' }) => {
       ),
     },
     register: {
-      $component: Register,
+      Component: Register,
       prompt: (
         <span>
           Already have an account? <Link to={'/login'}>Sign in!</Link>
@@ -32,12 +32,12 @@ const Authentication = ({ mode = 'login' }) => {
     },
   };
 
-  const { $component, prompt } = modes[mode];
+  const { Component, prompt } = modes[mode];
 
   return (
     <div className={styles.page}>
       <div className={styles.authComponent}>
-        <$component className={styles.card} />
+        <Component className={styles.card} />
         <Card className={styles.card}>{prompt}</Card>
       </div>
     </div>

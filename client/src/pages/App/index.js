@@ -6,12 +6,6 @@ import Authentication from '../Authentication';
 import styles from './styles.css';
 
 const App = (props) => {
-  setBreakpoints({
-    Mobile: 320,
-    Tablet: 768,
-    Desktop: 1080,
-  });
-
   return (
     <BrowserRouter>
       <Route path={'/login'} render={() => <Authentication mode={'login'} />} />
