@@ -38,7 +38,7 @@ const Register = ({ className, form }) => {
     <Card
       className={className}
       title={'Create Account'}
-      extra={<span className={styles.error}>{error}</span>}
+      extra={error && <span className={styles.error}>{error}</span>}
       data-testid={'Register'}
     >
       <Form onSubmit={register}>

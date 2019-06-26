@@ -25,3 +25,7 @@
 .error {
   color: #f5222d;
 }
+
+.error :global {
+  animation: fadeIn 0.2s ease-in-out;
+}

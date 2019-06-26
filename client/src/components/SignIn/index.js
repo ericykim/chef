@@ -33,7 +33,7 @@ const SignIn = ({ className, form }) => {
     <Card
       className={className}
       title={'Sign In'}
-      extra={<span className={styles.error}>{error}</span>}
+      extra={error && <span className={styles.error}>{error}</span>}
       data-testid={'SignIn'}
     >
       <Form onSubmit={submit}>

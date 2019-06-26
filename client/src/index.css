@@ -1,1 +1,10 @@
 @import url('antd/dist/antd.css');
+
+@keyframes :global(fadeIn) {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
