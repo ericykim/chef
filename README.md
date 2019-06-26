@@ -4,7 +4,7 @@
 
 ## **Roadmap**
 ### **Phase 1**
-The platform will be a simple recipe version control system, supporting features such as exploring popular recipes made by other chefs, creating a recipe from scratch, backtracking recipes' history of changes, and "forking" or collaborating others' recipes. *Chef* is in many ways the Github for recipes.
+The platform will be a simple recipe Version Control System (VCS), supporting features such as exploring popular recipes made by other chefs, creating a recipe from scratch, backtracking recipes' history of changes, and "forking" or collaborating others' recipes. *Chef* is in many ways the Github for recipes.
 
 
 ### **Phase 2**
@@ -16,3 +16,21 @@ Something as simple as a sidebar view of the ingredients, or highlighting the cu
 When *Chef* gets to a point where it's a trusted source of recipes, the platform will empower its users to utilize its features for better meal planning. Users can access the wealth of recipes on the platform to find a suitable dietary plan, resourefully manage a meal with given limited ingredients, or receive in-app directions or suggestions when innovating a recipe.
 
 Phase 3 will consider machine learning to better assist users. 
+
+
+### **Phase n**
+I dunno. Cool yet ethical stuff with people's data...
+
+### **Phase n + 1**
+People will be angry regardless. Probably deal with the backlash of Phase n.
+
+### **Phase n + 2**
+Gordon Ramsey saves us.
+
+
+## **Technology Stack**
+### **Server**
+The server is built with PostgreSQL and Typescript [NestJS](https://nestjs.com/) exposing RESTful APIs. GraphQL is considered but REST was preferred for jumpstarting the project faster. 
+
+### **Client**
+Built with vanilla React.js, using the [Ant Design](https://ant.design/) system.
