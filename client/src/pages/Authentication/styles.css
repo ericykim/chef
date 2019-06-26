@@ -11,13 +11,26 @@
 
   display: grid;
   grid-template-columns: auto 400px auto;
-  grid-template-rows: 20% auto 20%;
-  grid-template-areas:
-    '. . .'
-    '. component .'
-    '. . .';
+  grid-template-areas: '. component .';
 }
 
-.login {
+.card {
+  margin: 10px;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.authComponent {
   grid-area: component;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
