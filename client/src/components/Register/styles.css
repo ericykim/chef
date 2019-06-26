@@ -1,1 +1,27 @@
+.names {
+  display: flex;
+  justify-content: space-between;
+}
 
+.name {
+  width: 95%;
+}
+
+.firstName {
+  composes: name;
+  margin-right: 5px;
+}
+
+.lastName {
+  composes: name;
+  margin-left: 5px;
+}
+
+.register {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.error {
+  color: #f5222d;
+}
