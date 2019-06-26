@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
-import styles from './styles.css';
-
+import { Link } from 'react-router-dom';
 import { Card } from 'antd';
+
 import SignIn from '../../components/SignIn';
 import Register from '../../components/Register';
+import styles from './styles.css';
 
 /**
  * Authentication page that switches between signing into
  * or creating an account.
+ *
+ * Initial mode can be configured to either 'login' or 'register'.
  */
-const Authentication = () => {
-  const [mode, setMode] = useState('login');
+const Authentication = ({ mode = 'login' }) => {
   const modes = {
     login: {
       $component: SignIn,
       prompt: (
         <span>
-          New to Chef? <a onClick={() => setMode('register')}>Register now!</a>
+          New to Chef? <Link to={'/register'}>Register now!</Link>
         </span>
       ),
     },
@@ -24,8 +26,7 @@ const Authentication = () => {
       $component: Register,
       prompt: (
         <span>
-          Already have an account?{' '}
-          <a onClick={() => setMode('login')}>Sign in!</a>
+          Already have an account? <Link to={'/login'}>Sign in!</Link>
         </span>
       ),
     },

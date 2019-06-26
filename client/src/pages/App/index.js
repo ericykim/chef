@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import styles from './styles.css';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { setBreakpoints } from 'responsive-jsx';
 
 import Authentication from '../Authentication';
-
-import { setBreakpoints } from 'responsive-jsx';
+import styles from './styles.css';
 
 const App = (props) => {
   setBreakpoints({
@@ -13,9 +13,13 @@ const App = (props) => {
   });
 
   return (
-    <div>
-      <Authentication />
-    </div>
+    <BrowserRouter>
+      <Route path={'/login'} render={() => <Authentication mode={'login'} />} />
+      <Route
+        path={'/register'}
+        render={() => <Authentication mode={'register'} />}
+      />
+    </BrowserRouter>
   );
 };
 
