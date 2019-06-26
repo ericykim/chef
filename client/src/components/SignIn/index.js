@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import wretch from 'wretch';
-
 import { Form, Icon, Checkbox, Card, Input, Button } from 'antd';
+
+import api from '../../constants';
 import styles from './styles.css';
 
 /**
@@ -16,7 +17,7 @@ const SignIn = ({ className, form }) => {
 
     validateFields(async (err, values) => {
       if (!err) {
-        await wretch('http://localhost:3000/auth/login')
+        await wretch(api.LOGIN)
           .post({
             handle: values.username,
             password: values.password,

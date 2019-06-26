@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import wretch from 'wretch';
+import { Form, Icon, Card, Input, Button } from 'antd';
 
-import { Form, Icon, Checkbox, Card, Input, Button } from 'antd';
+import api from '../../constants';
 import styles from './styles.css';
 
 /**
@@ -16,7 +17,7 @@ const Register = ({ className, form }) => {
 
     validateFields(async (err, values) => {
       if (!err) {
-        await wretch('http://localhost:3000/auth/register')
+        await wretch(api.REGISTER)
           .post(values)
           .error(409, (error) => setError('Username or email is taken'))
           .res(() => setError(''))
