@@ -19,7 +19,7 @@ Phase 3 will consider machine learning to better assist users.
 
 
 ### **Phase n**
-I dunno. Cool yet ethical stuff with people's data...
+I dunno. Cool yet reasonably ethical stuff with people's data...
 
 ### **Phase n + 1**
 People will be angry regardless. Probably deal with the backlash of Phase n.
