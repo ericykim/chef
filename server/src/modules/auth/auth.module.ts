@@ -2,17 +2,17 @@ import { Module } from '@nestjs/common';
 import AuthService from './services/auth.service';
 import PostgresModule from '../postgres/postgres.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import Account from '../postgres/entities/account.entity';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import JwtStrategy from './strategies/jwt.strategy';
 import AuthController from './controllers/auth.controller';
-import AccountService from './services/account.service';
+import ChefService from './services/chef.service';
+import Chef from '../postgres/entities/chef.entity';
 
 @Module({
   imports: [
     PostgresModule,
-    TypeOrmModule.forFeature([Account]),
+    TypeOrmModule.forFeature([Chef]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secretOrPrivateKey: 'secretKey',
@@ -22,7 +22,7 @@ import AccountService from './services/account.service';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, AccountService, JwtStrategy],
+  providers: [AuthService, ChefService, JwtStrategy],
   exports: [PassportModule, AuthService],
 })
 class AuthModule {}

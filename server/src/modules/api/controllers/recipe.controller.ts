@@ -8,12 +8,15 @@ class RecipeController {
 
   @Get()
   async getRecipes(): Promise<Recipe[]> {
-    return await this.recipeService.findAll();
+    return await this.recipeService.findAll({ relations: ['chef'] });
   }
 
   @Get(':id')
   async getRecipe(@Param('id') id): Promise<Recipe> {
-    return await this.recipeService.findOne({ id });
+    return await this.recipeService.findOne({
+      where: { id },
+      relations: ['chef'],
+    });
   }
 
   @Post()

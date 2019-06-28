@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Get, Res, HttpStatus } from '@nestjs/common';
 import AuthService from '../services/auth.service';
-import AccountService from '../services/account.service';
+import AccountService from '../services/chef.service';
 import { Registration, Login } from '../interfaces';
 import { Response } from 'express';
 

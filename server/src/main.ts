@@ -3,6 +3,7 @@ import ApiModule from './modules/api/api.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(ApiModule);
+  app.enableCors();
   await app.listen(3000);
 }
 

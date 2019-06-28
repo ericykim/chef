@@ -2,16 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import Account from '../../postgres/entities/account.entity';
 import Chef from '../../postgres/entities/chef.entity';
 import { Registration, Login } from '../interfaces';
 import { hash } from '../../../utils';
 
 @Injectable()
-class AccountService {
+class ChefService {
   constructor(
-    @InjectRepository(Account)
-    private readonly accountRepository: Repository<Account>,
+    @InjectRepository(Chef)
+    private readonly chefRepository: Repository<Chef>,
   ) {}
 
   /**
@@ -23,12 +22,11 @@ class AccountService {
       return false;
     }
 
-    const account = this.accountRepository.merge(new Account(), {
+    const chef = this.chefRepository.merge(new Chef(), {
       ...registration,
-      chef: new Chef(),
     });
 
-    await this.accountRepository.save(this.hashPassword(account));
+    await this.chefRepository.save(this.hashPassword(chef));
     return true;
   }
 
@@ -40,7 +38,7 @@ class AccountService {
     const { handle, password } = login;
     const hashedPassword = hash(password);
 
-    const account = await this.accountRepository.findOne({
+    const account = await this.chefRepository.findOne({
       where: [
         { email: handle, password: hashedPassword },
         { username: handle, password: hashedPassword },
@@ -55,7 +53,7 @@ class AccountService {
    * @param registration
    */
   private async accountExists(registration: Registration): Promise<boolean> {
-    const account = await this.accountRepository.findOne({
+    const account = await this.chefRepository.findOne({
       where: [
         { username: registration.username },
         { email: registration.email },
@@ -69,9 +67,9 @@ class AccountService {
    * Hash password field.
    * @param account
    */
-  private hashPassword(account: Account): Account {
-    return { ...account, password: hash(account.password) };
+  private hashPassword(chef: Chef): Chef {
+    return { ...chef, password: hash(chef.password) };
   }
 }
 
-export default AccountService;
+export default ChefService;

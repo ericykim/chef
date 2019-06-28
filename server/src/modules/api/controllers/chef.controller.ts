@@ -11,14 +11,14 @@ class ChefController {
     return await this.chefService.findAll();
   }
 
-  @Get(':id')
-  async getChef(@Param('id') id): Promise<Chef> {
-    return await this.chefService.findOne({ id });
-  }
-
-  @Post()
-  async register(@Body() body) {
-    await this.chefService.createOne(body);
+  @Get(':username')
+  async getChef(@Param('username') username): Promise<Chef> {
+    return await this.chefService.findOne({
+      where: {
+        username,
+      },
+      relations: ['recipes', 'contributorOf'],
+    });
   }
 }
 

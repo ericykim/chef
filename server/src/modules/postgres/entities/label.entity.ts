@@ -1,14 +1,7 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  UpdateDateColumn,
-  CreateDateColumn,
-  ManyToMany,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
 
 import Recipe from './recipe.entity';
-import { Dated } from '.';
+import Dated from './dated.entity';
 
 export enum Type {
   Diet = 'diet',
@@ -42,7 +35,7 @@ class Label extends Dated {
   @Column({ type: 'enum', array: true, enum: Type, default: `{${Type.Other}}` })
   type: Type[];
 
-  @ManyToMany((type) => Recipe, { cascade: true })
+  @ManyToMany((type) => Recipe, (recipe) => recipe.labels)
   recipes: Recipe[];
 }
 

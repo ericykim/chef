@@ -13,8 +13,8 @@ class RecipeService {
     private readonly recipeRepository: Repository<Recipe>,
   ) {}
 
-  async findAll(): Promise<Recipe[]> {
-    return await this.recipeRepository.find();
+  async findAll(options): Promise<Recipe[]> {
+    return await this.recipeRepository.find(options);
   }
 
   async findOne(options): Promise<Recipe> {

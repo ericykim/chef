@@ -3,17 +3,16 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   Column,
-  BeforeInsert,
-  BeforeUpdate,
   PrimaryColumn,
 } from 'typeorm';
 
-import Chef from './chef.entity';
-import { Dated } from '.';
+import Dated from './dated.entity';
 
-@Entity({ name: 'accounts' })
 class Account extends Dated {
-  @PrimaryColumn({ type: 'text' })
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({ type: 'text' })
   username: string;
 
   @Column('text', { nullable: false })
@@ -28,8 +27,8 @@ class Account extends Dated {
   @Column('text', { select: false })
   password: string;
 
-  @OneToOne((type) => Chef, (chef) => chef.account, { cascade: true })
-  chef: Chef;
+  @Column('text', { nullable: true })
+  profilePicture: string;
 }
 
 export default Account;
