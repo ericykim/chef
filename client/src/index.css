@@ -4,6 +4,30 @@
   border-radius: 8px;
 }
 
+:global(.ant-layout-header) {
+  padding: 0 10px;
+}
+
+:global(.typeSmall) {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+:global(.typeMedium) {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+:global(.typeLarge) {
+  font-size: 24px;
+  line-height: 32px;
+}
+
+:global(.typeXLarge) {
+  font-size: 30px;
+  line-height: 38px;
+}
+
 @keyframes :global(fadeIn) {
   from {
     opacity: 0;

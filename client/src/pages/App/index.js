@@ -1,19 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { setBreakpoints } from 'responsive-jsx';
+import React, { useState } from 'react';
+import { Layout, Menu, Breadcrumb } from 'antd';
 
-import Authentication from '../Authentication';
+import Header from '../../components/Header';
 import styles from './styles.css';
 
-const App = (props) => {
+const App = () => {
+  const tabs = [
+    {
+      text: 'Home',
+      to: '/register',
+    },
+    {
+      text: 'Profile',
+      to: '/login',
+    },
+  ];
+
   return (
-    <BrowserRouter>
-      <Route path={'/login'} render={() => <Authentication mode={'login'} />} />
-      <Route
-        path={'/register'}
-        render={() => <Authentication mode={'register'} />}
-      />
-    </BrowserRouter>
+    <Layout className={styles.page}>
+      <Header tabs={tabs} currentTab={'Profile'} />
+      <Layout.Content />
+    </Layout>
   );
 };
 
