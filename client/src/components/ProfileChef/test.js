@@ -21,6 +21,11 @@ describe('ProfileChef', () => {
     wrapper = render(<ProfileChef {...chef} />);
   });
 
+  it('renders', () => {
+    const { getByTestId } = wrapper;
+    expect(getByTestId('ProfileChef')).toBeInTheDocument();
+  });
+
   it('renders chef name and username', async () => {
     const { getByText } = wrapper;
 

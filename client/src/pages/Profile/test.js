@@ -36,14 +36,27 @@ describe('Profile', () => {
     );
   });
 
-  it('renders chef name and username', async () => {
-    const { getByText } = wrapper;
+  it('renders', async () => {
+    const { getByTestId } = wrapper;
 
     await wait(() => {
-      expect(getByText(username)).toBeInTheDocument();
-      expect(
-        getByText(`${chef.firstName} ${chef.lastName}`),
-      ).toBeInTheDocument();
+      expect(getByTestId('Profile')).toBeInTheDocument();
+    });
+  });
+
+  it('renders ProfileChef', async () => {
+    const { getByTestId } = wrapper;
+
+    await wait(() => {
+      expect(getByTestId('ProfileChef')).toBeInTheDocument();
+    });
+  });
+
+  it('renders Empty if recipes is empty', async () => {
+    const { getByTestId } = wrapper;
+
+    await wait(() => {
+      expect(getByTestId('Empty')).toBeInTheDocument();
     });
   });
 });

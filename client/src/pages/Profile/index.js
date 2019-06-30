@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { isEmpty } from 'lodash';
 import wretch from 'wretch';
-import { Avatar } from 'antd';
+import { Empty } from 'antd';
+
+import ProfileChef from '../../components/ProfileChef';
+import ProfileRecipe from '../../components/ProfileRecipe';
+import Recipes from '../../components/Recipes';
 
 import api from '../../constants';
 import styles from './styles.css';
-import ProfileChef from '../../components/ProfileChef';
-import ProfileRecipe from '../../components/ProfileRecipe';
 
 /**
  * Chef profile page
@@ -22,16 +25,13 @@ const Profile = ({ match }) => {
 
   return (
     chef && (
-      <div className={styles.page}>
+      <div className={styles.page} data-testid={'Profile'}>
         <ProfileChef className={styles.profileChef} {...chef} />
-
-        {chef.recipes.map((recipe) => (
-          <ProfileRecipe
-            className={styles.profileRecipe}
-            key={recipe.id}
-            recipe={recipe}
-          />
-        ))}
+        {isEmpty(chef.recipes) ? (
+          <Empty data-testid={'Empty'} />
+        ) : (
+          <Recipes recipes={chef.recipes} $component={ProfileRecipe} />
+        )}
       </div>
     )
   );

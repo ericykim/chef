@@ -1,9 +1,10 @@
-.avatar {
-  margin-right: 20px;
-}
-
 .chefCard {
   display: flex;
+  padding-left: 10px;
+}
+
+.avatar {
+  margin-right: 20px;
 }
 
 .chefInformation {
