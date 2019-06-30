@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, cleanup, fireEvent, wait } from '@testing-library/react';
+import { render, fireEvent, wait } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import { FetchMock } from '@react-mock/fetch';
 import v4 from 'uuid/v4';
 
@@ -22,7 +23,11 @@ describe('Register', () => {
     };
 
     it('notifies user of missing fields', async () => {
-      const { container, getByText } = render(<Register />);
+      const { container, getByText } = render(
+        <BrowserRouter>
+          <Register />
+        </BrowserRouter>,
+      );
       fireEvent.click(container.querySelector('button[type="submit"]'));
 
       await wait(() => {
@@ -36,7 +41,11 @@ describe('Register', () => {
     });
 
     it('prompts to enter valid email', async () => {
-      const { getByPlaceholderText, getByText } = render(<Register />);
+      const { getByPlaceholderText, getByText } = render(
+        <BrowserRouter>
+          <Register />
+        </BrowserRouter>,
+      );
 
       fireEvent.change(getByPlaceholderText('Email address'), {
         target: { value: 'gramsey' },
@@ -48,7 +57,11 @@ describe('Register', () => {
     });
 
     it('prompts to confirm password correctly', async () => {
-      const { getByPlaceholderText, getByText } = render(<Register />);
+      const { getByPlaceholderText, getByText } = render(
+        <BrowserRouter>
+          <Register />
+        </BrowserRouter>,
+      );
 
       fireEvent.change(getByPlaceholderText('Password'), {
         target: { value: 'secret sauce' },
@@ -66,7 +79,9 @@ describe('Register', () => {
     it('notifies user of account conflict', async () => {
       const { container, getByPlaceholderText, getByText } = render(
         <FetchMock {...conflictMock}>
-          <Register />,
+          <BrowserRouter>
+            <Register />
+          </BrowserRouter>
         </FetchMock>,
       );
 
@@ -104,7 +119,9 @@ describe('Register', () => {
     it('notifies user of unexpected error', async () => {
       const { container, getByPlaceholderText, getByText } = render(
         <FetchMock {...errorMock}>
-          <Register />,
+          <BrowserRouter>
+            <Register />
+          </BrowserRouter>
         </FetchMock>,
       );
 

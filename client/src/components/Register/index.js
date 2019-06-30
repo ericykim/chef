@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import wretch from 'wretch';
+import { withRouter } from 'react-router-dom';
 import { Form, Icon, Card, Input, Button } from 'antd';
 
 import api from '../../constants';
@@ -8,7 +9,7 @@ import styles from './styles.css';
 /**
  * Register widget for creating a new account.
  */
-const Register = ({ className, form }) => {
+const Register = ({ className, form, history }) => {
   const [error, setError] = useState('');
   const { validateFields, getFieldDecorator } = form;
 
@@ -20,7 +21,10 @@ const Register = ({ className, form }) => {
         await wretch(api.REGISTER)
           .post(values)
           .error(409, (error) => setError('Username or email is taken'))
-          .res(() => setError(''))
+          .res(() => {
+            setError('');
+            history.push(`/profile/${values.username}`);
+          })
           .catch(() => setError('Something went wrong'));
       }
     });
@@ -147,4 +151,4 @@ const Register = ({ className, form }) => {
   );
 };
 
-export default Form.create()(Register);
+export default withRouter(Form.create()(Register));

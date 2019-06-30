@@ -2,13 +2,14 @@ import React from 'react';
 
 import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
+import cn from 'classnames';
 
 import styles from './styles.css';
 
 const SideNav = ({ className, tabs, currentTab, collapse }) => {
   return (
     <Layout.Sider
-      className={styles.sider}
+      className={cn(styles.sider, className)}
       collapsedWidth={0}
       collapsed={collapse}
       data-testid={'SideNav'}

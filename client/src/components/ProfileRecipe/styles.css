@@ -1,0 +1,5 @@
+.subtitle {
+  composes: typeXSmall from global;
+  color: #8c8c8c;
+  margin-bottom: 10px;
+}

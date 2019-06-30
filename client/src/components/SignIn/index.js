@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import wretch from 'wretch';
+import { withRouter } from 'react-router-dom';
 import { Form, Icon, Checkbox, Card, Input, Button } from 'antd';
 
 import api from '../../constants';
@@ -8,7 +9,7 @@ import styles from './styles.css';
 /**
  * Sign in widget for authentication.
  */
-const SignIn = ({ className, form }) => {
+const SignIn = ({ className, form, history }) => {
   const [error, setError] = useState('');
   const { validateFields, getFieldDecorator } = form;
 
@@ -23,8 +24,14 @@ const SignIn = ({ className, form }) => {
             password: values.password,
           })
           .unauthorized(() => setError('Incorrect username or password'))
-          .res(() => setError(''))
-          .catch(() => setError('Something went wrong'));
+          .res(() => {
+            setError('');
+            history.push(`/profile/${values.username}`);
+          })
+          .catch((error) => {
+            console.log(error);
+            setError('Something went wrong');
+          });
       }
     });
   };
@@ -87,4 +94,4 @@ const SignIn = ({ className, form }) => {
   );
 };
 
-export default Form.create()(SignIn);
+export default withRouter(Form.create()(SignIn));

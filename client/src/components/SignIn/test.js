@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, cleanup, fireEvent, wait } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import { FetchMock } from '@react-mock/fetch';
 import v4 from 'uuid/v4';
 
@@ -9,7 +10,11 @@ describe('SignIn', () => {
   afterEach(cleanup);
 
   it('renders', () => {
-    const { getByTestId } = render(<SignIn />);
+    const { getByTestId } = render(
+      <BrowserRouter>
+        <SignIn />
+      </BrowserRouter>,
+    );
     expect(getByTestId('SignIn')).toBeInTheDocument();
   });
 
@@ -27,7 +32,9 @@ describe('SignIn', () => {
 
       wrapper = render(
         <FetchMock mocks={mocks}>
-          <SignIn />,
+          <BrowserRouter>
+            <SignIn />
+          </BrowserRouter>
         </FetchMock>,
       );
     });
@@ -51,7 +58,9 @@ describe('SignIn', () => {
     it('notifies user of wrong credentials', async () => {
       const { container, getByPlaceholderText, getByText } = render(
         <FetchMock {...unauthorizedMock}>
-          <SignIn />,
+          <BrowserRouter>
+            <SignIn />
+          </BrowserRouter>
         </FetchMock>,
       );
 
@@ -75,7 +84,9 @@ describe('SignIn', () => {
     it('notifies user of unexpected error', async () => {
       const { container, getByPlaceholderText, getByText } = render(
         <FetchMock {...errorMock}>
-          <SignIn />,
+          <BrowserRouter>
+            <SignIn />
+          </BrowserRouter>
         </FetchMock>,
       );
 

@@ -1,12 +1,10 @@
 import React from 'react';
-import { FetchMock } from '@react-mock/fetch';
 import { render, wait } from '@testing-library/react';
 
-import Profile from '.';
+import ProfileChef from '.';
 
-describe('Profile', () => {
+describe('ProfileChef', () => {
   let wrapper;
-  let mocks;
   let username;
   let chef;
 
@@ -17,23 +15,10 @@ describe('Profile', () => {
       username,
       firstName: 'Gordon',
       lastName: 'Ramsey',
-      recipes: [],
       bio: 'imma celeb chef',
     };
 
-    mocks = [
-      {
-        matcher: `http://localhost:3000/chef/${username}`,
-        method: 'GET',
-        response: { status: 200, body: chef },
-      },
-    ];
-
-    wrapper = render(
-      <FetchMock mocks={mocks}>
-        <Profile match={{ params: { username } }} />
-      </FetchMock>,
-    );
+    wrapper = render(<ProfileChef {...chef} />);
   });
 
   it('renders chef name and username', async () => {
