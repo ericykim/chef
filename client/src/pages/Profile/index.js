@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 import wretch from 'wretch';
-import { Empty } from 'antd';
+import { Empty, Button } from 'antd';
 
 import ProfileChef from '../../components/ProfileChef';
 import ProfileRecipe from '../../components/ProfileRecipe';
@@ -23,12 +23,18 @@ const Profile = ({ match }) => {
       .json((chef) => setChef(chef));
   }, []);
 
+  const createRecipeCta = (
+    <Button type={'primary'} icon={'form'}>
+      Create a recipe
+    </Button>
+  );
+
   return (
     chef && (
       <div className={styles.page} data-testid={'Profile'}>
         <ProfileChef className={styles.profileChef} {...chef} />
         {isEmpty(chef.recipes) ? (
-          <Empty data-testid={'Empty'} />
+          <Empty description={createRecipeCta} data-testid={'Empty'} />
         ) : (
           <Recipes recipes={chef.recipes} $component={ProfileRecipe} />
         )}

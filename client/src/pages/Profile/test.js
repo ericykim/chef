@@ -53,10 +53,11 @@ describe('Profile', () => {
   });
 
   it('renders Empty if recipes is empty', async () => {
-    const { getByTestId } = wrapper;
+    const { getByText, getByTestId } = wrapper;
 
     await wait(() => {
       expect(getByTestId('Empty')).toBeInTheDocument();
+      expect(getByText('Create a recipe')).toBeInTheDocument();
     });
   });
 });
