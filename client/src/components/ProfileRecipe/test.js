@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { render, fireEvent, cleanup } from '@testing-library/react';
 
 import ProfileRecipe from '.';
@@ -15,7 +16,11 @@ describe('ProfileRecipe', () => {
       published: true,
       views: 123,
     };
-    wrapper = render(<ProfileRecipe recipe={recipe} />);
+    wrapper = render(
+      <BrowserRouter>
+        <ProfileRecipe recipe={recipe} />
+      </BrowserRouter>,
+    );
   });
 
   afterEach(cleanup);
@@ -48,14 +53,20 @@ describe('ProfileRecipe', () => {
 
   it('shows draft state for draft recipes', () => {
     const { getByText } = render(
-      <ProfileRecipe recipe={{ ...recipe, published: false }} />,
+      <BrowserRouter>
+        <ProfileRecipe recipe={{ ...recipe, published: false }} />,
+      </BrowserRouter>,
     );
     expect(getByText('Draft')).toBeInTheDocument();
   });
 
   it('renders first picture if found', () => {
     const recipeWithPictures = { ...recipe, pictures: ['linkToImage'] };
-    const { container } = render(<ProfileRecipe recipe={recipeWithPictures} />);
+    const { container } = render(
+      <BrowserRouter>
+        <ProfileRecipe recipe={recipeWithPictures} />
+      </BrowserRouter>,
+    );
 
     expect(
       container.querySelector(`img[src="${recipeWithPictures.pictures[0]}"`),

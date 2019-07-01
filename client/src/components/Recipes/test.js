@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { orderBy } from 'lodash';
 import { render, getByText } from '@testing-library/react';
 
@@ -33,29 +34,35 @@ describe('Recipes', () => {
 
   it('renders', () => {
     const { getByTestId } = render(
-      <Recipes recipes={recipes} $component={ProfileRecipe} />,
+      <BrowserRouter>
+        <Recipes recipes={recipes} $component={ProfileRecipe} />,
+      </BrowserRouter>,
     );
     expect(getByTestId('Recipes')).toBeInTheDocument();
   });
 
   it('renders all recipes based on given component', () => {
     const { getAllByTestId } = render(
-      <Recipes
-        recipes={recipes}
-        component={ProfileRecipe}
-        $component={ProfileRecipe}
-      />,
+      <BrowserRouter>
+        <Recipes
+          recipes={recipes}
+          component={ProfileRecipe}
+          $component={ProfileRecipe}
+        />
+      </BrowserRouter>,
     );
     expect(getAllByTestId('ProfileRecipe').length).toBe(recipes.length);
   });
 
   it('renders recipes in the order: published, draft', () => {
     const { getAllByTestId } = render(
-      <Recipes
-        recipes={recipes}
-        component={ProfileRecipe}
-        $component={ProfileRecipe}
-      />,
+      <BrowserRouter>
+        <Recipes
+          recipes={recipes}
+          component={ProfileRecipe}
+          $component={ProfileRecipe}
+        />
+      </BrowserRouter>,
     );
 
     const recipeNodes = getAllByTestId('ProfileRecipe');

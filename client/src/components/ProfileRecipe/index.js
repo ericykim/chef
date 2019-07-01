@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import { Card, Tag } from 'antd';
 
@@ -8,19 +9,21 @@ import styles from './styles.css';
  * Recipe card to be displayed on Profile pages.
  */
 const ProfileRecipe = ({ className, recipe }) => {
-  const { title, subtitle, pictures, views, published } = recipe;
+  const { id, title, subtitle, pictures, views, published } = recipe;
 
   return (
-    <Card
-      className={className}
-      cover={!isEmpty(pictures) && <img src={pictures[0]} alt={title} />}
-      hoverable
-      data-testid={'ProfileRecipe'}
-    >
-      <Card.Meta title={title} />
-      <div className={styles.subtitle}>{subtitle}</div>
-      <State published={published} views={views} />
-    </Card>
+    <Link to={`/recipe/${id}`}>
+      <Card
+        className={className}
+        cover={!isEmpty(pictures) && <img src={pictures[0]} alt={title} />}
+        hoverable
+        data-testid={'ProfileRecipe'}
+      >
+        <Card.Meta title={title} />
+        <div className={styles.subtitle}>{subtitle}</div>
+        <State published={published} views={views} />
+      </Card>
+    </Link>
   );
 };
 
