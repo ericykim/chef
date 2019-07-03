@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { FetchMock } from '@react-mock/fetch';
 import v4 from 'uuid/v4';
 
+import UserContext from '../../contexts/UserContext';
 import Authentication from '.';
 
 describe('Authentication', () => {
@@ -13,7 +14,9 @@ describe('Authentication', () => {
     it('renders Register component when mode is register', () => {
       const { getByTestId, getByText, queryByTestId } = render(
         <BrowserRouter>
-          <Authentication mode={'register'} />
+          <UserContext.Provider value={['', () => {}]}>
+            <Authentication mode={'Register'} />
+          </UserContext.Provider>
         </BrowserRouter>,
       );
 
@@ -27,7 +30,9 @@ describe('Authentication', () => {
     it('directs to login from register', async () => {
       const { getByTestId, container } = render(
         <BrowserRouter>
-          <Authentication mode={'register'} />
+          <UserContext.Provider value={['', () => {}]}>
+            <Authentication mode={'Register'} />
+          </UserContext.Provider>
         </BrowserRouter>,
       );
 
@@ -40,7 +45,9 @@ describe('Authentication', () => {
     it('renders SignIn component when mode is login', () => {
       const { getByTestId, getByText, queryByTestId } = render(
         <BrowserRouter>
-          <Authentication mode={'login'} />
+          <UserContext.Provider value={['', () => {}]}>
+            <Authentication mode={'Login'} />
+          </UserContext.Provider>
         </BrowserRouter>,
       );
 
@@ -52,7 +59,9 @@ describe('Authentication', () => {
     it('directs to register from login', async () => {
       const { getByTestId, container } = render(
         <BrowserRouter>
-          <Authentication mode={'login'} />
+          <UserContext.Provider value={['', () => {}]}>
+            <Authentication mode={'Login'} />
+          </UserContext.Provider>
         </BrowserRouter>,
       );
 

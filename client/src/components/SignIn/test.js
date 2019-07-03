@@ -2,18 +2,27 @@ import React from 'react';
 import { render, cleanup, fireEvent, wait } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { FetchMock } from '@react-mock/fetch';
+import UserContext from '../../contexts/UserContext';
 import v4 from 'uuid/v4';
 
 import SignIn from '.';
 
 describe('SignIn', () => {
+  let setUserMock;
+
+  beforeEach(() => {
+    setUserMock = jest.fn();
+  });
+
   afterEach(cleanup);
 
   it('renders', () => {
     const { getByTestId } = render(
-      <BrowserRouter>
-        <SignIn />
-      </BrowserRouter>,
+      <UserContext.Provider value={['', setUserMock]}>
+        <BrowserRouter>
+          <SignIn />
+        </BrowserRouter>
+      </UserContext.Provider>,
     );
     expect(getByTestId('SignIn')).toBeInTheDocument();
   });
@@ -32,14 +41,33 @@ describe('SignIn', () => {
 
       wrapper = render(
         <FetchMock mocks={mocks}>
-          <BrowserRouter>
-            <SignIn />
-          </BrowserRouter>
+          <UserContext.Provider value={['', setUserMock]}>
+            <BrowserRouter>
+              <SignIn />
+            </BrowserRouter>
+          </UserContext.Provider>
         </FetchMock>,
       );
     });
 
-    it('redirects to home page', () => {});
+    it('sets UserContext and redirects to home page', async () => {
+      const { container, getByPlaceholderText } = wrapper;
+
+      fireEvent.change(getByPlaceholderText('Username or email address'), {
+        target: { value: 'wizz' },
+      });
+
+      fireEvent.change(getByPlaceholderText('Password'), {
+        target: { value: 'waleefa' },
+      });
+
+      const submitButton = container.querySelector('button[type="submit"]');
+      fireEvent.click(submitButton);
+
+      await wait(() => {
+        expect(setUserMock).toHaveBeenCalledWith('wizz');
+      });
+    });
   });
 
   describe('failing sign in', () => {
@@ -58,9 +86,11 @@ describe('SignIn', () => {
     it('notifies user of wrong credentials', async () => {
       const { container, getByPlaceholderText, getByText } = render(
         <FetchMock {...unauthorizedMock}>
-          <BrowserRouter>
-            <SignIn />
-          </BrowserRouter>
+          <UserContext.Provider value={['', setUserMock]}>
+            <BrowserRouter>
+              <SignIn />
+            </BrowserRouter>
+          </UserContext.Provider>
         </FetchMock>,
       );
 
@@ -84,9 +114,11 @@ describe('SignIn', () => {
     it('notifies user of unexpected error', async () => {
       const { container, getByPlaceholderText, getByText } = render(
         <FetchMock {...errorMock}>
-          <BrowserRouter>
-            <SignIn />
-          </BrowserRouter>
+          <UserContext.Provider value={['', setUserMock]}>
+            <BrowserRouter>
+              <SignIn />
+            </BrowserRouter>
+          </UserContext.Provider>
         </FetchMock>,
       );
 

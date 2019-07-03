@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from 'antd';
 
 import SignIn from '../../components/SignIn';
 import Register from '../../components/Register';
+import asPage from '../../hocs/asPage';
 import styles from './styles.css';
 
 /**
@@ -12,9 +13,9 @@ import styles from './styles.css';
  *
  * Initial mode can be configured to either 'login' or 'register'.
  */
-const Authentication = ({ mode = 'login' }) => {
+const Authentication = ({ mode = 'Login', setDocumentTitle }) => {
   const modes = {
-    login: {
+    Login: {
       Component: SignIn,
       prompt: (
         <span>
@@ -22,7 +23,7 @@ const Authentication = ({ mode = 'login' }) => {
         </span>
       ),
     },
-    register: {
+    Register: {
       Component: Register,
       prompt: (
         <span>
@@ -31,6 +32,10 @@ const Authentication = ({ mode = 'login' }) => {
       ),
     },
   };
+
+  useEffect(() => {
+    setDocumentTitle(mode);
+  });
 
   const { Component, prompt } = modes[mode];
 
@@ -44,4 +49,4 @@ const Authentication = ({ mode = 'login' }) => {
   );
 };
 
-export default Authentication;
+export default asPage(Authentication);

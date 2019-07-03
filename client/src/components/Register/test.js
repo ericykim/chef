@@ -2,6 +2,7 @@ import React from 'react';
 import { render, fireEvent, wait } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { FetchMock } from '@react-mock/fetch';
+import UserContext from '../../contexts/UserContext';
 import v4 from 'uuid/v4';
 
 import Register from '.';
@@ -25,7 +26,9 @@ describe('Register', () => {
     it('notifies user of missing fields', async () => {
       const { container, getByText } = render(
         <BrowserRouter>
-          <Register />
+          <UserContext.Provider value={['', () => {}]}>
+            <Register />
+          </UserContext.Provider>
         </BrowserRouter>,
       );
       fireEvent.click(container.querySelector('button[type="submit"]'));
@@ -43,7 +46,9 @@ describe('Register', () => {
     it('prompts to enter valid email', async () => {
       const { getByPlaceholderText, getByText } = render(
         <BrowserRouter>
-          <Register />
+          <UserContext.Provider value={['', () => {}]}>
+            <Register />
+          </UserContext.Provider>
         </BrowserRouter>,
       );
 
@@ -59,7 +64,9 @@ describe('Register', () => {
     it('prompts to confirm password correctly', async () => {
       const { getByPlaceholderText, getByText } = render(
         <BrowserRouter>
-          <Register />
+          <UserContext.Provider value={['', () => {}]}>
+            <Register />
+          </UserContext.Provider>
         </BrowserRouter>,
       );
 
@@ -80,7 +87,9 @@ describe('Register', () => {
       const { container, getByPlaceholderText, getByText } = render(
         <FetchMock {...conflictMock}>
           <BrowserRouter>
-            <Register />
+            <UserContext.Provider value={['', () => {}]}>
+              <Register />
+            </UserContext.Provider>
           </BrowserRouter>
         </FetchMock>,
       );
@@ -120,7 +129,9 @@ describe('Register', () => {
       const { container, getByPlaceholderText, getByText } = render(
         <FetchMock {...errorMock}>
           <BrowserRouter>
-            <Register />
+            <UserContext.Provider value={['', () => {}]}>
+              <Register />
+            </UserContext.Provider>
           </BrowserRouter>
         </FetchMock>,
       );

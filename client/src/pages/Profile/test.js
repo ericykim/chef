@@ -1,6 +1,7 @@
 import React from 'react';
 import { FetchMock } from '@react-mock/fetch';
 import { render, wait } from '@testing-library/react';
+import UserContext from '../../contexts/UserContext';
 
 import Profile from '.';
 
@@ -31,7 +32,9 @@ describe('Profile', () => {
 
     wrapper = render(
       <FetchMock mocks={mocks}>
-        <Profile match={{ params: { username } }} />
+        <UserContext.Provider value={[chef.username, () => {}]}>
+          <Profile match={{ params: { username } }} />
+        </UserContext.Provider>
       </FetchMock>,
     );
   });

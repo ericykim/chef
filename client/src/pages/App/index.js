@@ -24,12 +24,17 @@ const App = ({ match }) => {
 
   return (
     <Layout className={styles.page}>
-      <SideNav tabs={tabs} currentTab={'Profile'} collapse={collapse} />
+      <SideNav
+        tabs={tabs}
+        currentTab={'Profile'}
+        collapse={collapse}
+        setCollapse={setCollapse}
+      />
 
       <Layout>
         <Header onHamburger={() => setCollapse(!collapse)} />
         <Layout.Content>
-          <Route path={`/profile/:username`} component={Profile} />
+          <Route path={`/profile`} component={Profile} />
           <Route path={`/recipe/:id`} component={Recipe} />
         </Layout.Content>
       </Layout>

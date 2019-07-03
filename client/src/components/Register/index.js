@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import wretch from 'wretch';
 import { withRouter } from 'react-router-dom';
 import { Form, Icon, Card, Input, Button } from 'antd';
+
+import UserContext from '../../contexts/UserContext';
 
 import api from '../../constants';
 import styles from './styles.css';
@@ -10,6 +12,7 @@ import styles from './styles.css';
  * Register widget for creating a new account.
  */
 const Register = ({ className, form, history }) => {
+  const [_, setUser] = useContext(UserContext);
   const [error, setError] = useState('');
   const { validateFields, getFieldDecorator } = form;
 
@@ -23,7 +26,8 @@ const Register = ({ className, form, history }) => {
           .error(409, (error) => setError('Username or email is taken'))
           .res(() => {
             setError('');
-            history.push(`/profile/${values.username}`);
+            setUser(values.username);
+            history.push(`/profile`);
           })
           .catch(() => setError('Something went wrong'));
       }
