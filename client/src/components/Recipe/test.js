@@ -39,7 +39,7 @@ describe('Recipe', () => {
     const { getByText } = wrapper;
 
     recipe.ingredients.forEach((ingredient, index) => {
-      expect(getByText(`${index + 1}. ${ingredient}`)).toBeInTheDocument();
+      expect(getByText(ingredient)).toBeInTheDocument();
     });
   });
 
@@ -47,7 +47,7 @@ describe('Recipe', () => {
     const { getByText } = wrapper;
 
     recipe.directions.forEach((direction, index) => {
-      expect(getByText(`${index + 1}. ${direction}`)).toBeInTheDocument();
+      expect(getByText(direction)).toBeInTheDocument();
     });
   });
 

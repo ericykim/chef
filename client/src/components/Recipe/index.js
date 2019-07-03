@@ -59,11 +59,11 @@ const List = ({ className, header, elements }) => {
   return (
     <div className={className}>
       <h3> {header} </h3>
-      {elements.map((element, index) => (
-        <div>
-          {index + 1}. {element}
-        </div>
-      ))}
+      <ol>
+        {elements.map((element, index) => (
+          <li key={index}>{element}</li>
+        ))}
+      </ol>
     </div>
   );
 };
