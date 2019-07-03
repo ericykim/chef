@@ -7,6 +7,7 @@ import SideNav from '.';
 describe('SideNav', () => {
   let tabs;
   let currentTab;
+  let onDismissMock;
 
   beforeEach(() => {
     tabs = [
@@ -19,7 +20,9 @@ describe('SideNav', () => {
         to: '/login',
       },
     ];
+
     currentTab = tabs[1].text;
+    onDismissMock = jest.fn();
   });
 
   it('renders', () => {
@@ -63,5 +66,38 @@ describe('SideNav', () => {
 
     const selected = container.querySelector('li.ant-menu-item-selected');
     expect(getByText(selected, currentTab)).toBeInTheDocument();
+  });
+
+  it('calls onDismiss when closed', () => {
+    const { getByText } = render(
+      <BrowserRouter>
+        <SideNav
+          tabs={tabs}
+          currentTab={currentTab}
+          collapse={false}
+          onDismiss={onDismissMock}
+        />
+      </BrowserRouter>,
+    );
+
+    fireEvent.click(getByText('Close'));
+    expect(onDismissMock).toHaveBeenCalled();
+  });
+
+  it('calls onDismiss and redirects to login when signing out', () => {
+    const { container, getByText } = render(
+      <BrowserRouter>
+        <SideNav
+          tabs={tabs}
+          currentTab={currentTab}
+          collapse={false}
+          onDismiss={onDismissMock}
+        />
+      </BrowserRouter>,
+    );
+
+    fireEvent.click(getByText('Sign out'));
+    expect(container.querySelector('a[href="/login"')).toBeInTheDocument();
+    expect(onDismissMock).toHaveBeenCalled();
   });
 });

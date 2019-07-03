@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Layout, Menu, Icon } from 'antd';
+import { Divider, Layout, Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
 
 import styles from './styles.css';
 
-const SideNav = ({ className, tabs, currentTab, collapse, setCollapse }) => {
+const SideNav = ({ className, tabs, currentTab, collapse, onDismiss }) => {
   return (
     <Layout.Sider
       className={cn(styles.sider, className)}
@@ -20,16 +20,26 @@ const SideNav = ({ className, tabs, currentTab, collapse, setCollapse }) => {
         mode="inline"
         defaultSelectedKeys={[currentTab]}
       >
-        <Menu.Item key="Close" onClick={() => setCollapse(true)}>
+        <Menu.Item key="Close" onClick={onDismiss}>
           <Icon type="arrow-left" />
-          <span>Close</span>
+          Close
         </Menu.Item>
 
-        {tabs.map(({ text, to }) => (
+        {tabs.map(({ text, to, type }) => (
           <Menu.Item key={text}>
-            <Link to={to}>{text}</Link>
+            <Link to={to} onClick={onDismiss}>
+              {type && <Icon type={type} />}
+              {text}
+            </Link>
           </Menu.Item>
         ))}
+
+        <Menu.Item className={styles.logout} key="Logout">
+          <Link to={'/login'} onClick={onDismiss}>
+            <Icon type="logout" />
+            Sign out
+          </Link>
+        </Menu.Item>
       </Menu>
     </Layout.Sider>
   );

@@ -13,12 +13,9 @@ const App = ({ match }) => {
 
   const tabs = [
     {
-      text: 'Home',
-      to: '/register',
-    },
-    {
       text: 'Profile',
-      to: '/login',
+      to: '/profile',
+      type: 'user',
     },
   ];
 
@@ -28,7 +25,7 @@ const App = ({ match }) => {
         tabs={tabs}
         currentTab={'Profile'}
         collapse={collapse}
-        setCollapse={setCollapse}
+        onDismiss={() => setCollapse(true)}
       />
 
       <Layout>
