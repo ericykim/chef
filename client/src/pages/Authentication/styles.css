@@ -1,4 +1,4 @@
-.page {
+.page :global {
   position: fixed;
   padding: 0;
   margin: 0;
@@ -12,6 +12,8 @@
   display: grid;
   grid-template-columns: auto 400px auto;
   grid-template-areas: '. component .';
+
+  animation: fadeIn 200ms ease-in-out;
 }
 
 .card {
@@ -19,7 +21,7 @@
 }
 
 .card :global {
-  animation: fadeIn 0.2s ease-in-out;
+  animation: fadeIn 200ms ease-in-out;
 }
 
 .authComponent {

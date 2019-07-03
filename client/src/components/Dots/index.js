@@ -5,7 +5,7 @@ import cn from 'classnames';
 import styles from './styles.css';
 
 /**
- * Dots for scrolling through array.
+ * Dots for scrolling through carousel.
  */
 const Dots = ({ className, elements, selected, onChange }) => {
   const leftDisable = selected === 0;
@@ -16,7 +16,7 @@ const Dots = ({ className, elements, selected, onChange }) => {
       <Button
         size={'small'}
         type={'link'}
-        icon={'left'}
+        icon={'caret-left'}
         disabled={leftDisable}
         onClick={() => onChange(selected - 1)}
         data-testid={'left'}
@@ -36,7 +36,7 @@ const Dots = ({ className, elements, selected, onChange }) => {
       <Button
         size={'small'}
         type={'link'}
-        icon={'right'}
+        icon={'caret-right'}
         onClick={() => onChange(selected + 1)}
         disabled={rightDisable}
         data-testid={'right'}

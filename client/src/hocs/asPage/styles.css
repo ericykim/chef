@@ -1,0 +1,3 @@
+.page :global {
+  animation: fadeIn 200ms ease-in-out;
+}

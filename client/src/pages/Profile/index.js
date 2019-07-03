@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 import wretch from 'wretch';
+import cn from 'classnames';
 import { Empty, Button } from 'antd';
 
 import ProfileChef from '../../components/ProfileChef';
 import ProfileRecipe from '../../components/ProfileRecipe';
 import Recipes from '../../components/Recipes';
+import asPage from '../../hocs/asPage';
 
 import api from '../../constants';
 import styles from './styles.css';
@@ -13,7 +15,7 @@ import styles from './styles.css';
 /**
  * Chef profile page
  */
-const Profile = ({ match }) => {
+const Profile = ({ className, match }) => {
   const { username } = match.params;
   const [chef, setChef] = useState(null);
 
@@ -31,7 +33,7 @@ const Profile = ({ match }) => {
 
   return (
     chef && (
-      <div className={styles.page} data-testid={'Profile'}>
+      <div className={cn(styles.page, className)} data-testid={'Profile'}>
         <ProfileChef className={styles.profileChef} {...chef} />
         {isEmpty(chef.recipes) ? (
           <Empty description={createRecipeCta} data-testid={'Empty'} />
@@ -43,4 +45,4 @@ const Profile = ({ match }) => {
   );
 };
 
-export default Profile;
+export default asPage(Profile);
