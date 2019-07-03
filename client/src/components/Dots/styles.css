@@ -1,7 +1,13 @@
-.dots {
+.container {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .dot {
@@ -14,5 +20,5 @@
 }
 
 .selected {
-  background-color: gray;
+  background-color: #1890ff;
 }
