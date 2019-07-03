@@ -66,7 +66,7 @@ describe('Recipe', () => {
       container.querySelector(`img[src="${recipe.pictures[0]}"]`),
     ).toBeInTheDocument();
 
-    fireEvent.click(getByTestId(`dot${1}`));
+    fireEvent.click(getByTestId(`dot-${1}`));
 
     expect(
       container.querySelector(`img[src="${recipe.pictures[1]}"]`),

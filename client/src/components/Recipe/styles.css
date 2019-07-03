@@ -7,22 +7,3 @@
 .list {
   margin-bottom: 20px;
 }
-
-.dots {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.dot {
-  background-color: transparent;
-  border: 1px solid gray;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  transform: scale(0.5);
-}
-
-.selected {
-  background-color: gray;
-}

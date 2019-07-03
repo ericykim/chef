@@ -3,6 +3,7 @@ import { isEmpty } from 'lodash';
 import { Card, Carousel, Button } from 'antd';
 import cn from 'classnames';
 
+import Dots from '../../components/Dots';
 import styles from './styles.css';
 
 /**
@@ -42,21 +43,6 @@ const Recipe = ({ recipe }) => {
         elements={directions}
       />
     </Card>
-  );
-};
-
-const Dots = ({ elements, selected, onChange }) => {
-  return (
-    <div className={styles.dots}>
-      {elements.map((_, index) => (
-        <button
-          key={index}
-          className={cn(styles.dot, { [styles.selected]: index === selected })}
-          onClick={() => onChange(index)}
-          data-testid={`dot${index}`}
-        />
-      ))}
-    </div>
   );
 };
 
