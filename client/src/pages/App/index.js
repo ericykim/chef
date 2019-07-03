@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Layout } from 'antd';
+import { Route } from 'react-router-dom';
 
-import Header from '../../components/Header';
 import Profile from '../Profile';
-import ViewRecipe from '../ViewRecipe';
-import styles from './styles.css';
+import Recipe from '../Recipe';
+import Header from '../../components/Header';
 import SideNav from '../../components/SideNav';
+import styles from './styles.css';
 
 const App = ({ match }) => {
   const [collapse, setCollapse] = useState(true);
@@ -20,10 +20,6 @@ const App = ({ match }) => {
       text: 'Profile',
       to: '/login',
     },
-    {
-      text: 'Recipe',
-      to: '/profile/vroy',
-    },
   ];
 
   return (
@@ -34,7 +30,7 @@ const App = ({ match }) => {
         <Header onHamburger={() => setCollapse(!collapse)} />
         <Layout.Content>
           <Route path={`/profile/:username`} component={Profile} />
-          <Route path={`/recipe/:id`} component={ViewRecipe} />
+          <Route path={`/recipe/:id`} component={Recipe} />
         </Layout.Content>
       </Layout>
     </Layout>
