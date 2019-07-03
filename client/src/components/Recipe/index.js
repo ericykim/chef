@@ -41,6 +41,7 @@ const Recipe = ({ recipe }) => {
         className={styles.list}
         header={'Directions'}
         elements={directions}
+        ordered
       />
     </Card>
   );
@@ -55,15 +56,15 @@ const Title = ({ title, subtitle }) => {
   );
 };
 
-const List = ({ className, header, elements }) => {
+const List = ({ className, header, elements, ordered }) => {
+  const listedElements = elements.map((element, index) => (
+    <li key={index}>{element}</li>
+  ));
+
   return (
     <div className={className}>
       <h3> {header} </h3>
-      <ol>
-        {elements.map((element, index) => (
-          <li key={index}>{element}</li>
-        ))}
-      </ol>
+      {ordered ? <ol>{listedElements}</ol> : <ul>{listedElements}</ul>}
     </div>
   );
 };
