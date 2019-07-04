@@ -11,3 +11,11 @@
 
   animation: fadeIn 200ms ease-in-out;
 }
+
+.content {
+  transition: opacity 200ms ease-in-out;
+}
+
+.expanded {
+  opacity: 0.2;
+}

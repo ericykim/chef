@@ -1,8 +1,10 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { FetchMock } from '@react-mock/fetch';
 import { render, wait } from '@testing-library/react';
 
 import Recipe from '.';
+import UserContext from '../../contexts/UserContext';
 
 describe('Recipe', () => {
   let wrapper;
@@ -27,24 +29,20 @@ describe('Recipe', () => {
 
     wrapper = render(
       <FetchMock mocks={mocks}>
-        <Recipe match={{ params: { id: recipe.id } }} />
+        <BrowserRouter>
+          <UserContext.Provider value={['', () => {}]}>
+            <Recipe testMatch={{ params: { id: recipe.id } }} />
+          </UserContext.Provider>
+        </BrowserRouter>
       </FetchMock>,
     );
   });
 
-  it('renders', async () => {
-    const { getByTestId } = wrapper;
+  it('renders component and recipe card', async () => {
+    const { getAllByTestId } = wrapper;
 
     await wait(() => {
-      expect(getByTestId('Recipe')).toBeInTheDocument();
+      expect(getAllByTestId('Recipe').length).toBe(2);
     });
   });
-
-  // it('back button links to all recipes', async () => {
-  //   const { container } = wrapper;
-
-  //   await wait(() => {
-  //     expect(container.querySelector()).toBeInTheDocument();
-  //   });
-  // });
 });

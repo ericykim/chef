@@ -5,6 +5,8 @@
 
 .avatar {
   margin-right: 20px;
+  min-height: 80px;
+  min-width: 80px;
 }
 
 .chefInformation {

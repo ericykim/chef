@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import UserContext from '../../contexts/UserContext';
 import { render, fireEvent, getByText } from '@testing-library/react';
 
 import SideNav from '.';
@@ -8,6 +9,7 @@ describe('SideNav', () => {
   let tabs;
   let currentTab;
   let onDismissMock;
+  let setUserMock;
 
   beforeEach(() => {
     tabs = [
@@ -23,11 +25,14 @@ describe('SideNav', () => {
 
     currentTab = tabs[1].text;
     onDismissMock = jest.fn();
+    setUserMock = jest.fn();
   });
 
   it('renders', () => {
     const { getByTestId } = render(
-      <SideNav tabs={tabs} currentTab={currentTab} collapse={true} />,
+      <UserContext.Provider value={[{}, setUserMock]}>
+        <SideNav tabs={tabs} currentTab={currentTab} collapse={true} />
+      </UserContext.Provider>,
     );
     expect(getByTestId('SideNav')).toBeInTheDocument();
   });
@@ -35,7 +40,9 @@ describe('SideNav', () => {
   it('renders tabs and correct links when collapse is false', () => {
     const { container, getByText } = render(
       <BrowserRouter>
-        <SideNav tabs={tabs} currentTab={currentTab} collapse={false} />
+        <UserContext.Provider value={[{}, setUserMock]}>
+          <SideNav tabs={tabs} currentTab={currentTab} collapse={false} />
+        </UserContext.Provider>
       </BrowserRouter>,
     );
 
@@ -48,7 +55,9 @@ describe('SideNav', () => {
   it('hides tabs when collapse is true', () => {
     const { queryByText } = render(
       <BrowserRouter>
-        <SideNav tabs={tabs} currentTab={currentTab} collapse={true} />
+        <UserContext.Provider value={[{}, setUserMock]}>
+          <SideNav tabs={tabs} currentTab={currentTab} collapse={true} />
+        </UserContext.Provider>
       </BrowserRouter>,
     );
 
@@ -60,7 +69,9 @@ describe('SideNav', () => {
   it('defaults to given currentTab', () => {
     const { container } = render(
       <BrowserRouter>
-        <SideNav tabs={tabs} currentTab={currentTab} collapse={false} />
+        <UserContext.Provider value={[{}, setUserMock]}>
+          <SideNav tabs={tabs} currentTab={currentTab} collapse={false} />
+        </UserContext.Provider>
       </BrowserRouter>,
     );
 
@@ -71,12 +82,14 @@ describe('SideNav', () => {
   it('calls onDismiss when closed', () => {
     const { getByText } = render(
       <BrowserRouter>
-        <SideNav
-          tabs={tabs}
-          currentTab={currentTab}
-          collapse={false}
-          onDismiss={onDismissMock}
-        />
+        <UserContext.Provider value={[{}, setUserMock]}>
+          <SideNav
+            tabs={tabs}
+            currentTab={currentTab}
+            collapse={false}
+            onDismiss={onDismissMock}
+          />
+        </UserContext.Provider>
       </BrowserRouter>,
     );
 
@@ -84,20 +97,23 @@ describe('SideNav', () => {
     expect(onDismissMock).toHaveBeenCalled();
   });
 
-  it('calls onDismiss and redirects to login when signing out', () => {
+  it('calls onDismiss, resets user, and redirects to login when signing out', () => {
     const { container, getByText } = render(
       <BrowserRouter>
-        <SideNav
-          tabs={tabs}
-          currentTab={currentTab}
-          collapse={false}
-          onDismiss={onDismissMock}
-        />
+        <UserContext.Provider value={[{}, setUserMock]}>
+          <SideNav
+            tabs={tabs}
+            currentTab={currentTab}
+            collapse={false}
+            onDismiss={onDismissMock}
+          />
+        </UserContext.Provider>
       </BrowserRouter>,
     );
 
     fireEvent.click(getByText('Sign out'));
     expect(container.querySelector('a[href="/login"')).toBeInTheDocument();
     expect(onDismissMock).toHaveBeenCalled();
+    expect(setUserMock).toHaveBeenCalledWith({});
   });
 });

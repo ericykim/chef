@@ -24,7 +24,11 @@ const Recipe = ({ recipe }) => {
   return (
     <Card
       title={<Title title={title} subtitle={subtitle} />}
-      cover={!isEmpty(pictures) && <img src={pictures[picIndex]} alt={title} />}
+      cover={
+        !isEmpty(pictures) && (
+          <img src={pictures[picIndex]} alt={title} loading={'lazy'} />
+        )
+      }
       data-testid={'Recipe'}
     >
       {!isEmpty(pictures) && (

@@ -8,6 +8,9 @@ import ViewRecipe from '../../components/Recipe';
 import asPage from '../../hocs/asPage';
 import styles from './styles.css';
 
+/**
+ * View recipe page.
+ */
 const Recipe = ({ className, match, history, setDocumentTitle }) => {
   const {
     params: { id },
@@ -26,9 +29,9 @@ const Recipe = ({ className, match, history, setDocumentTitle }) => {
 
   return (
     recipe && (
-      <div className={className}>
+      <div className={className} data-testid={'Recipe'}>
         <PageHeader
-          onBack={() => history.push('/profile/gvjacob')}
+          onBack={() => history.push('/profile')}
           subTitle={'Back to recipes'}
         />
 

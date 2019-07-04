@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { FetchMock } from '@react-mock/fetch';
 import { render, wait } from '@testing-library/react';
 import UserContext from '../../contexts/UserContext';
@@ -32,9 +33,11 @@ describe('Profile', () => {
 
     wrapper = render(
       <FetchMock mocks={mocks}>
-        <UserContext.Provider value={[chef.username, () => {}]}>
-          <Profile match={{ params: { username } }} />
-        </UserContext.Provider>
+        <BrowserRouter>
+          <UserContext.Provider value={[chef.username, () => {}]}>
+            <Profile match={{ params: { username } }} />
+          </UserContext.Provider>
+        </BrowserRouter>
       </FetchMock>,
     );
   });
