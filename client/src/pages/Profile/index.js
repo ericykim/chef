@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { isEmpty } from 'lodash';
 import wretch from 'wretch';
 import cn from 'classnames';
-import { Empty, Button, Tabs } from 'antd';
+import { Empty, Button, Tabs, Icon } from 'antd';
 
 import ProfileChef from '../../components/ProfileChef';
 import ProfileRecipe from '../../components/ProfileRecipe';
@@ -47,12 +47,25 @@ const Profile = ({ className, setDocumentTitle }) => {
     {
       tab: 'My Recipes',
       recipes: (recipes) => recipes.filter(({ base }) => isEmpty(base)),
-      cta: createRecipeCta,
+      empty: (
+        <Empty
+          className={styles.empty}
+          description={createRecipeCta}
+          data-testid={'Empty'}
+        />
+      ),
     },
     {
       tab: 'Forked',
       recipes: (recipes) => recipes.filter(({ base }) => !isEmpty(base)),
-      cta: forkRecipeCta,
+      empty: (
+        <Empty
+          className={styles.empty}
+          description={forkRecipeCta}
+          image={<Icon className={styles.forkIcon} type={'fork'} />}
+          data-testid={'Empty'}
+        />
+      ),
     },
   ];
 
@@ -62,20 +75,13 @@ const Profile = ({ className, setDocumentTitle }) => {
         <ProfileChef className={styles.profileChef} {...chef} />
 
         <Tabs defaultActiveKey={'My Recipes'}>
-          {tabs.map(({ tab, recipes, cta }) => (
+          {tabs.map(({ tab, recipes, empty }) => (
             <Tabs.TabPane tab={tab} key={tab}>
-              {isEmpty(recipes(chef.recipes)) ? (
-                <Empty
-                  className={styles.empty}
-                  description={cta}
-                  data-testid={'Empty'}
-                />
-              ) : (
-                <Recipes
-                  recipes={recipes(chef.recipes)}
-                  $component={ProfileRecipe}
-                />
-              )}
+              <Recipes
+                recipes={recipes(chef.recipes)}
+                $component={ProfileRecipe}
+                empty={empty}
+              />
             </Tabs.TabPane>
           ))}
         </Tabs>

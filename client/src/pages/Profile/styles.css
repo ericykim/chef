@@ -14,3 +14,9 @@
 .empty {
   margin-top: 20px;
 }
+
+.forkIcon {
+  font-size: 60px;
+  margin-top: 20px;
+  opacity: 0.5;
+}

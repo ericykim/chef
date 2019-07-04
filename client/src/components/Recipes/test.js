@@ -70,4 +70,19 @@ describe('Recipes', () => {
       expect(getByText(recipeNode, sorted[index].title)).toBeInTheDocument(),
     );
   });
+
+  it('renders empty when recipes is empty', () => {
+    const { getByTestId } = render(
+      <BrowserRouter>
+        <Recipes
+          recipes={[]}
+          component={ProfileRecipe}
+          $component={ProfileRecipe}
+          empty={<div data-testid={'Empty'} />}
+        />
+      </BrowserRouter>,
+    );
+
+    expect(getByTestId('Empty')).toBeInTheDocument();
+  });
 });
