@@ -49,4 +49,4 @@ const Authentication = ({ mode = 'Login', setDocumentTitle }) => {
   );
 };
 
-export default asPage(Authentication);
+export default asPage(Authentication, null);

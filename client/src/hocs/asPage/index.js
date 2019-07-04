@@ -8,18 +8,22 @@ import styles from './styles.css';
 
 /**
  * Higher order component for initializing pages with fade in,
- * providing API for setting document title.
+ * providing API for setting document title, and automatic redirects
+ * when user is not logged in.
  *
  * asPage will revert document title when component is unmounted.
+ *
+ * @param {*} $component component to render
+ * @param {*} redirect if user is not logged in, redirect to?
  */
-const asPage = ($component) =>
+const asPage = ($component, redirect = '/login') =>
   withRouter((props) => {
     const documentTitle = 'Chef';
     const [user] = useContext(UserContext);
 
     useEffect(() => {
-      if (isEmpty(user)) {
-        props.history.push('/login');
+      if (redirect && isEmpty(user)) {
+        props.history.push(redirect);
       }
 
       return () => (document.title = documentTitle);
