@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import wretch from 'wretch';
 import cn from 'classnames';
-import { PageHeader, Card } from 'antd';
+import { PageHeader } from 'antd';
 
 import api from '../../constants';
 import ViewRecipe from '../../components/Recipe';

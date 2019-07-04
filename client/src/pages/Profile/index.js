@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { isEmpty } from 'lodash';
 import wretch from 'wretch';
 import cn from 'classnames';
-import { Empty, Button } from 'antd';
+import { Empty, Button, Tabs } from 'antd';
 
 import ProfileChef from '../../components/ProfileChef';
 import ProfileRecipe from '../../components/ProfileRecipe';
@@ -17,7 +17,7 @@ import styles from './styles.css';
  * Chef profile page
  */
 const Profile = ({ className, setDocumentTitle }) => {
-  const [chef, setChef] = useState(null);
+  const [chef, setChef] = useState({});
   const [username] = useContext(UserContext);
 
   useEffect(() => {
@@ -37,15 +37,48 @@ const Profile = ({ className, setDocumentTitle }) => {
     </Button>
   );
 
+  const forkRecipeCta = (
+    <Button type={'primary'} icon={'form'}>
+      Fork a recipe
+    </Button>
+  );
+
+  const tabs = [
+    {
+      tab: 'My Recipes',
+      recipes: (recipes) => recipes.filter(({ base }) => isEmpty(base)),
+      cta: createRecipeCta,
+    },
+    {
+      tab: 'Forked',
+      recipes: (recipes) => recipes.filter(({ base }) => !isEmpty(base)),
+      cta: forkRecipeCta,
+    },
+  ];
+
   return (
-    chef && (
+    !isEmpty(chef) && (
       <div className={cn(styles.page, className)} data-testid={'Profile'}>
         <ProfileChef className={styles.profileChef} {...chef} />
-        {isEmpty(chef.recipes) ? (
-          <Empty description={createRecipeCta} data-testid={'Empty'} />
-        ) : (
-          <Recipes recipes={chef.recipes} $component={ProfileRecipe} />
-        )}
+
+        <Tabs defaultActiveKey={'My Recipes'}>
+          {tabs.map(({ tab, recipes, cta }) => (
+            <Tabs.TabPane tab={tab} key={tab}>
+              {isEmpty(recipes(chef.recipes)) ? (
+                <Empty
+                  className={styles.empty}
+                  description={cta}
+                  data-testid={'Empty'}
+                />
+              ) : (
+                <Recipes
+                  recipes={recipes(chef.recipes)}
+                  $component={ProfileRecipe}
+                />
+              )}
+            </Tabs.TabPane>
+          ))}
+        </Tabs>
       </div>
     )
   );
