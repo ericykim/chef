@@ -32,13 +32,13 @@ const Profile = ({ className, setDocumentTitle }) => {
   }, []);
 
   const createRecipeCta = (
-    <Button type={'primary'} icon={'form'}>
+    <Button type={'primary'} icon={'form'} block>
       Create a recipe
     </Button>
   );
 
   const forkRecipeCta = (
-    <Button type={'primary'} icon={'form'}>
+    <Button type={'primary'} icon={'form'} block>
       Fork a recipe
     </Button>
   );
@@ -46,7 +46,8 @@ const Profile = ({ className, setDocumentTitle }) => {
   const tabs = [
     {
       tab: 'My Recipes',
-      recipes: (recipes) => recipes.filter(({ base }) => isEmpty(base)),
+      filterRecipes: (recipes) => recipes.filter(({ base }) => isEmpty(base)),
+      cta: createRecipeCta,
       empty: (
         <Empty
           className={styles.empty}
@@ -57,7 +58,8 @@ const Profile = ({ className, setDocumentTitle }) => {
     },
     {
       tab: 'Forked',
-      recipes: (recipes) => recipes.filter(({ base }) => !isEmpty(base)),
+      filterRecipes: (recipes) => recipes.filter(({ base }) => !isEmpty(base)),
+      cta: forkRecipeCta,
       empty: (
         <Empty
           className={styles.empty}
@@ -75,10 +77,14 @@ const Profile = ({ className, setDocumentTitle }) => {
         <ProfileChef className={styles.profileChef} {...chef} />
 
         <Tabs defaultActiveKey={'My Recipes'}>
-          {tabs.map(({ tab, recipes, empty }) => (
+          {tabs.map(({ tab, filterRecipes, cta, empty }) => (
             <Tabs.TabPane tab={tab} key={tab}>
+              {!isEmpty(filterRecipes(chef.recipes)) && (
+                <div className={styles.cta}>{cta}</div>
+              )}
+
               <Recipes
-                recipes={recipes(chef.recipes)}
+                recipes={filterRecipes(chef.recipes)}
                 $component={ProfileRecipe}
                 empty={empty}
               />

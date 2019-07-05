@@ -156,4 +156,38 @@ describe('Profile', () => {
       expect(getByText('two')).toBeInTheDocument();
     });
   });
+
+  it('renders Create a recipe cta for My Recipes', async () => {
+    const { getByText } = render(
+      <FetchMock mocks={mocks}>
+        <BrowserRouter>
+          <UserContext.Provider value={[chef.username, () => {}]}>
+            <Profile match={{ params: { username } }} />
+          </UserContext.Provider>
+        </BrowserRouter>
+      </FetchMock>,
+    );
+
+    await wait(() => {
+      expect(getByText('Create a recipe')).toBeInTheDocument();
+    });
+  });
+
+  it('renders Fork a recipe cta for Forked', async () => {
+    const { getByText } = render(
+      <FetchMock mocks={mocks}>
+        <BrowserRouter>
+          <UserContext.Provider value={[chef.username, () => {}]}>
+            <Profile match={{ params: { username } }} />
+          </UserContext.Provider>
+        </BrowserRouter>
+      </FetchMock>,
+    );
+
+    await wait(() => {
+      fireEvent.click(getByText('Forked'));
+
+      expect(getByText('Fork a recipe')).toBeInTheDocument();
+    });
+  });
 });
