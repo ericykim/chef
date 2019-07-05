@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout } from 'antd';
-import { Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import cn from 'classnames';
 
 import Profile from '../Profile';
 import Recipe from '../Recipe';
+import CreateRecipe from '../CreateRecipe';
 import Header from '../../components/Header';
 import SideNav from '../../components/SideNav';
 import asPage from '../../hocs/asPage';
@@ -32,9 +33,13 @@ const App = ({ match }) => {
 
       <Layout className={cn(styles.content, { [styles.expanded]: !collapse })}>
         <Header onHamburger={() => setCollapse(!collapse)} />
+
         <Layout.Content>
-          <Route path={`/profile`} component={Profile} />
-          <Route path={`/recipe/:id`} component={Recipe} />
+          <Switch>
+            <Route path={`/profile`} component={Profile} />
+            <Route exact path={`/recipe/new`} component={CreateRecipe} />
+            <Route path={`/recipe/:id`} component={Recipe} />
+          </Switch>
         </Layout.Content>
       </Layout>
     </Layout>

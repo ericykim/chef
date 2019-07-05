@@ -1,9 +1,5 @@
 @import url('antd/dist/antd.css');
 
-/* :global(.ant-card) {
-  border-radius: 4px;
-} */
-
 :global(.ant-layout-header) {
   padding: 0 10px;
   z-index: 99;
@@ -11,7 +7,6 @@
 
 :global(.ant-layout-content) {
   background-color: white;
-  min-height: 100%;
 }
 
 :global(.ant-avatar) {

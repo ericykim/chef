@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { isEmpty } from 'lodash';
+import { Link } from 'react-router-dom';
 import wretch from 'wretch';
 import cn from 'classnames';
 import { Empty, Button, Tabs, Icon } from 'antd';
@@ -32,9 +33,11 @@ const Profile = ({ className, setDocumentTitle }) => {
   }, []);
 
   const createRecipeCta = (
-    <Button type={'primary'} icon={'form'} block>
-      Create a recipe
-    </Button>
+    <Link to={'/recipe/new'}>
+      <Button type={'primary'} icon={'form'} block>
+        Create a recipe
+      </Button>
+    </Link>
   );
 
   const forkRecipeCta = (

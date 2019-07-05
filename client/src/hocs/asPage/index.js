@@ -7,7 +7,7 @@ import UserContext from '../../contexts/UserContext';
 import styles from './styles.css';
 
 /**
- * Higher order component for initializing pages with fade in,
+ * Higher order component for initializing pages with fade in and initial scroll,
  * providing API for setting document title, and automatic redirects
  * when user is not logged in.
  *

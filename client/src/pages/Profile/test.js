@@ -7,7 +7,6 @@ import UserContext from '../../contexts/UserContext';
 import Profile from '.';
 
 describe('Profile', () => {
-  let wrapper;
   let mocks;
   let username;
   let chef;
@@ -186,7 +185,6 @@ describe('Profile', () => {
 
     await wait(() => {
       fireEvent.click(getByText('Forked'));
-
       expect(getByText('Fork a recipe')).toBeInTheDocument();
     });
   });
