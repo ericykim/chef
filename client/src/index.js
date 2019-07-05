@@ -10,7 +10,7 @@ import UserContext from './contexts/UserContext';
 import App from './pages/App';
 
 const Routes = (props) => {
-  const userState = useState({});
+  const userState = useState('gvjacob');
 
   return (
     <UserContext.Provider value={userState}>

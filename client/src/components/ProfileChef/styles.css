@@ -16,6 +16,6 @@
 }
 
 .name {
-  composes: typeMedium from global;
+  composes: typeNormal from global;
   composes: typeBold from global;
 }

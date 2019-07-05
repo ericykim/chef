@@ -1,0 +1,42 @@
+.titles {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1px;
+}
+
+.title {
+  composes: typeSmall from global;
+}
+
+.createRecipe {
+  padding: 20px;
+}
+
+.input {
+  margin: 5px 0;
+  border: none;
+}
+
+.input input {
+  border: none;
+}
+
+.addButton {
+  margin: 5px 0;
+}
+
+.description {
+  composes: typeXSmall from global;
+}
+
+.dynamicList {
+  margin-top: 20px;
+}
+
+.save {
+  margin-top: 40px;
+}
+
+.remove {
+  margin-right: -15px;
+}
