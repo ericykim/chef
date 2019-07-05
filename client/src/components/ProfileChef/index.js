@@ -13,7 +13,12 @@ const ProfileChef = ({
 }) => {
   return (
     <div className={cn(styles.chefCard, className)} data-testid={'ProfileChef'}>
-      <Avatar className={styles.avatar} src={profilePicture} icon={'user'} />
+      <Avatar
+        className={styles.avatar}
+        src={profilePicture}
+        size={80}
+        icon={'user'}
+      />
 
       <div className={styles.chefInformation}>
         <div className={styles.name}>{`${firstName} ${lastName}`}</div>
