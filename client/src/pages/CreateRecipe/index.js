@@ -1,10 +1,11 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useContext } from 'react';
 import { isEmpty } from 'lodash';
 import wretch from 'wretch';
 import { Card, PageHeader, Input, Button, Icon } from 'antd';
 import cn from 'classnames';
 import ordinal from 'ordinal-number-suffix';
 
+import UserContext from '../../contexts/UserContext';
 import api from '../../constants';
 import asPage from '../../hocs/asPage';
 import styles from './styles.css';
@@ -13,6 +14,8 @@ import styles from './styles.css';
  * Create a new recipe page.
  */
 const CreateRecipe = ({ className, history }) => {
+  const [{ id }] = useContext(UserContext);
+
   const [title, setTitle] = useState(null);
   const [subtitle, setSubtitle] = useState(null);
   const [description, setDescription] = useState(null);
@@ -23,7 +26,7 @@ const CreateRecipe = ({ className, history }) => {
 
   const save = () => {
     wretch(api.CREATE_RECIPE).post({
-      chef: '2d4399d9-427f-4146-a767-ad693ef11e89',
+      chef: id,
       title,
       subtitle,
       description,
@@ -65,6 +68,7 @@ const CreateRecipe = ({ className, history }) => {
           onChange={(e) => setDescription(e.target.value)}
           rows={3}
           placeholder={'Description'}
+          autosize
         />
 
         <DynamicList

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
-import { Card, Carousel, Button } from 'antd';
+import { Card, Divider } from 'antd';
 import cn from 'classnames';
 
 import Dots from '../../components/Dots';
@@ -17,6 +17,8 @@ const Recipe = ({ recipe }) => {
     ingredients,
     directions,
     pictures,
+    preparationTime,
+    cookTime,
   } = recipe;
 
   const [picIndex, setPicIndex] = useState(0);
@@ -36,6 +38,8 @@ const Recipe = ({ recipe }) => {
       )}
 
       <p>{description}</p>
+      <Times preparationTime={preparationTime} cookTime={cookTime} />
+
       <List
         className={styles.list}
         header={'Ingredients'}
@@ -56,6 +60,27 @@ const Title = ({ title, subtitle }) => {
     <div className={styles.titles}>
       <div className={styles.title}>{title}</div>
       <div className={styles.subtitle}>{subtitle}</div>
+    </div>
+  );
+};
+
+const Times = ({ preparationTime, cookTime }) => {
+  return (
+    <div className={styles.times}>
+      <div>
+        <div className={styles.timeHeader}>Prep</div>
+        <div>{preparationTime} mins</div>
+      </div>
+      <Divider className={styles.divider} type={'vertical'} />
+      <div>
+        <div className={styles.timeHeader}>Cooking</div>
+        <div>{cookTime} mins</div>
+      </div>
+      <Divider className={styles.divider} type={'vertical'} />
+      <div>
+        <div className={styles.timeHeader}>Total</div>
+        <div>{cookTime + preparationTime} mins</div>
+      </div>
     </div>
   );
 };

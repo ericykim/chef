@@ -2,14 +2,18 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import ordinal from 'ordinal-number-suffix';
 import { render, fireEvent, get } from '@testing-library/react';
+import v4 from 'uuid/v4';
 
+import UserContext from '../../contexts/UserContext';
 import CreateRecipe from '.';
 
 describe('CreateRecipe', () => {
   it('renders', () => {
     const { getByTestId } = render(
       <BrowserRouter>
-        <CreateRecipe />
+        <UserContext.Provider value={[{ id: v4() }, () => {}]}>
+          <CreateRecipe />
+        </UserContext.Provider>
       </BrowserRouter>,
     );
     expect(getByTestId('CreateRecipe')).toBeInTheDocument();
@@ -18,7 +22,9 @@ describe('CreateRecipe', () => {
   it('renders title, subtitle, description input', () => {
     const { getByPlaceholderText } = render(
       <BrowserRouter>
-        <CreateRecipe />
+        <UserContext.Provider value={[{ id: v4() }, () => {}]}>
+          <CreateRecipe />
+        </UserContext.Provider>
       </BrowserRouter>,
     );
 
@@ -30,7 +36,9 @@ describe('CreateRecipe', () => {
   it('renders only first ingredient and direction inputs', () => {
     const { getByPlaceholderText, queryByPlaceholderText } = render(
       <BrowserRouter>
-        <CreateRecipe />
+        <UserContext.Provider value={[{ id: v4() }, () => {}]}>
+          <CreateRecipe />
+        </UserContext.Provider>
       </BrowserRouter>,
     );
 
@@ -46,7 +54,9 @@ describe('CreateRecipe', () => {
   it('add new ingredient and direction inputs when adding more fields', () => {
     const { getByPlaceholderText, queryByPlaceholderText, getByText } = render(
       <BrowserRouter>
-        <CreateRecipe />
+        <UserContext.Provider value={[{ id: v4() }, () => {}]}>
+          <CreateRecipe />
+        </UserContext.Provider>
       </BrowserRouter>,
     );
 
@@ -70,7 +80,9 @@ describe('CreateRecipe', () => {
       getByText,
     } = render(
       <BrowserRouter>
-        <CreateRecipe />
+        <UserContext.Provider value={[{ id: v4() }, () => {}]}>
+          <CreateRecipe />
+        </UserContext.Provider>
       </BrowserRouter>,
     );
 
@@ -97,7 +109,9 @@ describe('CreateRecipe', () => {
       queryByDisplayValue,
     } = render(
       <BrowserRouter>
-        <CreateRecipe />
+        <UserContext.Provider value={[{ id: v4() }, () => {}]}>
+          <CreateRecipe />
+        </UserContext.Provider>
       </BrowserRouter>,
     );
 

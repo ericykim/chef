@@ -4,6 +4,21 @@
   color: gray;
 }
 
+.times {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.timeHeader {
+  composes: typeSmall from global;
+  composes: typeMedium from global;
+}
+
+.divider {
+  height: 50px;
+}
+
 .list {
   margin-bottom: 20px;
 }

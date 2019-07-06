@@ -16,6 +16,8 @@ describe('Recipe', () => {
       ingredients: ['mushrooms', 'frog leg'],
       directions: ['get high'],
       pictures: ['pic1', 'pic2'],
+      preparationTime: 5,
+      cookTime: 20,
     };
 
     wrapper = render(<Recipe recipe={recipe} />);
@@ -70,6 +72,16 @@ describe('Recipe', () => {
 
     expect(
       container.querySelector(`img[src="${recipe.pictures[1]}"]`),
+    ).toBeInTheDocument();
+  });
+
+  it('renders prep, cook, and ready times', () => {
+    const { getByText } = wrapper;
+
+    expect(getByText(`${recipe.preparationTime} mins`)).toBeInTheDocument();
+    expect(getByText(`${recipe.cookTime} mins`)).toBeInTheDocument();
+    expect(
+      getByText(`${recipe.cookTime + recipe.preparationTime} mins`),
     ).toBeInTheDocument();
   });
 });
