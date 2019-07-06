@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { pickBy, isEmpty } from 'lodash';
+
+import { tryReturn } from '../../../utils';
 import Recipe from '../../postgres/entities/recipe.entity';
 
 /**
@@ -19,15 +22,21 @@ class RecipeService {
 
   async findOne(options): Promise<Recipe> {
     return await this.recipeRepository.findOne(options);
-    // const { base, ...recipe } = await this.recipeRepository.findOne(options);
-    // const baseRecipe = await this.recipeRepository.findOne({
-    //   where: { id: base },
-    // });
-    // return { ...recipe, base: baseRecipe && { title: baseRecipe.title } };
   }
 
-  async createOne(attributes) {
-    await this.recipeRepository.save(attributes);
+  /**
+   * Create a Recipe.
+   * @param attributes
+   * @returns true if successful
+   */
+  async createOne(attributes): Promise<boolean> {
+    const trimmedRecipe = pickBy(attributes, (value) => !isEmpty(value));
+    const recipe = await tryReturn(
+      async () => await this.recipeRepository.save(trimmedRecipe),
+      false,
+    );
+
+    return !!recipe;
   }
 }
 

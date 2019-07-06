@@ -29,9 +29,9 @@ export const update = <T>(
  * @param success
  * @param failure
  */
-export const tryReturn = (func: Function, success?) => {
+export const tryReturn = async (func: Function, success?) => {
   try {
-    const result = func();
+    const result = await func();
     return success || result;
   } catch {
     return false;

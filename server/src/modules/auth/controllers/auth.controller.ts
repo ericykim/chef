@@ -1,8 +1,9 @@
 import { Controller, Post, Body, Get, Res, HttpStatus } from '@nestjs/common';
+import { Response } from 'express';
+
 import AuthService from '../services/auth.service';
 import ChefService from '../services/chef.service';
 import { Registration, Login } from '../interfaces';
-import { Response } from 'express';
 
 @Controller('auth')
 class AuthController {

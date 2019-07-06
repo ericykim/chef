@@ -1,4 +1,14 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Res,
+  Param,
+  Post,
+  Body,
+  HttpStatus,
+} from '@nestjs/common';
+import { Response } from 'express';
+
 import RecipeService from '../services/recipe.service';
 import Recipe from '../../postgres/entities/recipe.entity';
 
@@ -22,8 +32,9 @@ class RecipeController {
   }
 
   @Post()
-  async createRecipe(@Body() body) {
-    await this.recipeService.createOne(body);
+  async createRecipe(@Res() res: Response, @Body() body) {
+    const created = await this.recipeService.createOne(body);
+    res.status(created ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST).send();
   }
 }
 

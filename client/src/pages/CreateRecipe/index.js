@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { isEmpty } from 'lodash';
 import wretch from 'wretch';
-import { Link } from 'react-router-dom';
-import { Card, PageHeader, Input, Button, Icon } from 'antd';
+import { Card, PageHeader, Input, Button, Icon, message } from 'antd';
 import cn from 'classnames';
 
 import Times from './Times';
@@ -15,7 +14,7 @@ import styles from './styles.css';
 /**
  * Create a new recipe page.
  */
-const CreateRecipe = ({ className, history }) => {
+const CreateRecipe = ({ className, setDocumentTitle, history }) => {
   const [{ id }] = useContext(UserContext);
 
   const [title, setTitle] = useState(null);
@@ -25,6 +24,10 @@ const CreateRecipe = ({ className, history }) => {
   const [cookTime, setCookTime] = useState(null);
   const [ingredients, setIngredients] = useState([null]);
   const [directions, setDirections] = useState([null]);
+
+  useEffect(() => {
+    setDocumentTitle(title || '');
+  }, [title]);
 
   const removeEmpty = (array) => array.filter((e) => !isEmpty(e));
 
@@ -40,7 +43,9 @@ const CreateRecipe = ({ className, history }) => {
         ingredients: removeEmpty(ingredients),
         directions: removeEmpty(directions),
       })
-      .res(() => history.push('/profile'));
+      .error(400, () => message.error('Recipe is missing a title'))
+      .res(() => history.push('/profile'))
+      .catch(() => message.error('Something went wrong. Try again next time.'));
   };
 
   return (

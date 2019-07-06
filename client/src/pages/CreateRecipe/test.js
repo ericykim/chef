@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { FetchMock } from '@react-mock/fetch';
 import ordinal from 'ordinal-number-suffix';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, wait } from '@testing-library/react';
 import v4 from 'uuid/v4';
 
 import UserContext from '../../contexts/UserContext';
@@ -152,5 +153,53 @@ describe('CreateRecipe', () => {
 
     expect(getByDisplayValue('ingredient 3')).toBeInTheDocument();
     expect(queryByDisplayValue('ingredient 2')).toBeNull();
+  });
+
+  it('renders invalid form error when receiving 400', async () => {
+    const id = v4();
+
+    const { getByText } = render(
+      <BrowserRouter>
+        <FetchMock
+          matcher={`http://localhost:3000/recipe`}
+          method={'POST'}
+          response={{ status: 400, body: {} }}
+        >
+          <UserContext.Provider value={[{ id }, () => {}]}>
+            <CreateRecipe />
+          </UserContext.Provider>
+        </FetchMock>
+      </BrowserRouter>,
+    );
+
+    fireEvent.click(getByText('Save recipe'));
+
+    await wait(() => {
+      expect(getByText('Recipe is missing a title'));
+    });
+  });
+
+  it('renders general error when receiving 500', async () => {
+    const id = v4();
+
+    const { getByText } = render(
+      <BrowserRouter>
+        <FetchMock
+          matcher={`http://localhost:3000/recipe`}
+          method={'POST'}
+          response={{ status: 500, body: {} }}
+        >
+          <UserContext.Provider value={[{ id }, () => {}]}>
+            <CreateRecipe />
+          </UserContext.Provider>
+        </FetchMock>
+      </BrowserRouter>,
+    );
+
+    fireEvent.click(getByText('Save recipe'));
+
+    await wait(() => {
+      expect(getByText('Something went wrong', { exact: false }));
+    });
   });
 });
