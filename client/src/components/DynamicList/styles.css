@@ -1,0 +1,16 @@
+.input {
+  margin: 5px 0;
+  border: none;
+}
+
+.input input {
+  border: none;
+}
+
+.addButton {
+  margin: 5px 0;
+}
+
+.remove {
+  margin-right: -15px;
+}

@@ -21,12 +21,12 @@
   border: none;
 }
 
-.addButton {
-  margin: 5px 0;
-}
-
 .description {
   composes: typeXSmall from global;
+}
+
+.times {
+  margin: 10px 0;
 }
 
 .dynamicList {
@@ -35,8 +35,4 @@
 
 .save {
   margin-top: 40px;
-}
-
-.remove {
-  margin-right: -15px;
 }

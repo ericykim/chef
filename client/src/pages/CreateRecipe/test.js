@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import ordinal from 'ordinal-number-suffix';
-import { render, fireEvent, get } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import v4 from 'uuid/v4';
 
 import UserContext from '../../contexts/UserContext';
@@ -49,6 +49,30 @@ describe('CreateRecipe', () => {
 
     expect(getByPlaceholderText(`${ordinal(1)} direction`)).toBeInTheDocument();
     expect(queryByPlaceholderText(`${ordinal(2)} direction`)).toBeNull();
+  });
+
+  it('renders Times component', () => {
+    const { getByTestId } = render(
+      <BrowserRouter>
+        <UserContext.Provider value={[{ id: v4() }, () => {}]}>
+          <CreateRecipe />
+        </UserContext.Provider>
+      </BrowserRouter>,
+    );
+
+    expect(getByTestId('Times')).toBeInTheDocument();
+  });
+
+  it('renders two DynamicLists', () => {
+    const { getAllByTestId } = render(
+      <BrowserRouter>
+        <UserContext.Provider value={[{ id: v4() }, () => {}]}>
+          <CreateRecipe />
+        </UserContext.Provider>
+      </BrowserRouter>,
+    );
+
+    expect(getAllByTestId('DynamicList').length).toBe(2);
   });
 
   it('add new ingredient and direction inputs when adding more fields', () => {
