@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { isEmpty } from 'lodash';
 import { Card, Divider } from 'antd';
 import cn from 'classnames';
@@ -65,24 +65,32 @@ const Title = ({ title, subtitle }) => {
 };
 
 const Times = ({ preparationTime, cookTime }) => {
-  return (
+  return preparationTime || cookTime ? (
     <div className={styles.times}>
-      <div>
-        <div className={styles.timeHeader}>Prep</div>
-        <div>{preparationTime} mins</div>
-      </div>
-      <Divider className={styles.divider} type={'vertical'} />
-      <div>
-        <div className={styles.timeHeader}>Cooking</div>
-        <div>{cookTime} mins</div>
-      </div>
-      <Divider className={styles.divider} type={'vertical'} />
+      {preparationTime && (
+        <Fragment>
+          <div>
+            <div className={styles.timeHeader}>Prep</div>
+            <div>{preparationTime} mins</div>
+          </div>
+          <Divider className={styles.divider} type={'vertical'} />
+        </Fragment>
+      )}
+      {cookTime && (
+        <Fragment>
+          <div>
+            <div className={styles.timeHeader}>Cooking</div>
+            <div>{cookTime} mins</div>
+          </div>
+          <Divider className={styles.divider} type={'vertical'} />
+        </Fragment>
+      )}
       <div>
         <div className={styles.timeHeader}>Total</div>
         <div>{cookTime + preparationTime} mins</div>
       </div>
     </div>
-  );
+  ) : null;
 };
 
 const List = ({ className, header, elements, ordered }) => {

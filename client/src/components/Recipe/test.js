@@ -19,18 +19,16 @@ describe('Recipe', () => {
       preparationTime: 5,
       cookTime: 20,
     };
-
-    wrapper = render(<Recipe recipe={recipe} />);
   });
 
   it('renders', () => {
-    const { getByTestId } = wrapper;
+    const { getByTestId } = render(<Recipe recipe={recipe} />);
 
     expect(getByTestId('Recipe')).toBeInTheDocument();
   });
 
   it('renders recipe title, subtitle, and description', () => {
-    const { getByText } = wrapper;
+    const { getByText } = render(<Recipe recipe={recipe} />);
 
     expect(getByText(recipe.title)).toBeInTheDocument();
     expect(getByText(recipe.subtitle)).toBeInTheDocument();
@@ -38,7 +36,7 @@ describe('Recipe', () => {
   });
 
   it('renders ingredients', () => {
-    const { getByText } = wrapper;
+    const { getByText } = render(<Recipe recipe={recipe} />);
 
     recipe.ingredients.forEach((ingredient, index) => {
       expect(getByText(ingredient)).toBeInTheDocument();
@@ -46,7 +44,7 @@ describe('Recipe', () => {
   });
 
   it('renders directions', () => {
-    const { getByText } = wrapper;
+    const { getByText } = render(<Recipe recipe={recipe} />);
 
     recipe.directions.forEach((direction, index) => {
       expect(getByText(direction)).toBeInTheDocument();
@@ -54,7 +52,7 @@ describe('Recipe', () => {
   });
 
   it('renders first image if exists', () => {
-    const { container } = wrapper;
+    const { container } = render(<Recipe recipe={recipe} />);
 
     expect(
       container.querySelector(`img[src="${recipe.pictures[0]}"]`),
@@ -62,7 +60,7 @@ describe('Recipe', () => {
   });
 
   it('changes image when dot is clicked', () => {
-    const { container, getByTestId } = wrapper;
+    const { container, getByTestId } = render(<Recipe recipe={recipe} />);
 
     expect(
       container.querySelector(`img[src="${recipe.pictures[0]}"]`),
@@ -76,12 +74,40 @@ describe('Recipe', () => {
   });
 
   it('renders prep, cook, and ready times', () => {
-    const { getByText } = wrapper;
+    const { getByText } = render(<Recipe recipe={recipe} />);
 
     expect(getByText(`${recipe.preparationTime} mins`)).toBeInTheDocument();
     expect(getByText(`${recipe.cookTime} mins`)).toBeInTheDocument();
     expect(
       getByText(`${recipe.cookTime + recipe.preparationTime} mins`),
     ).toBeInTheDocument();
+  });
+
+  it('does not render prep, cook, and ready times if not available', () => {
+    const { queryByText } = render(
+      <Recipe recipe={{ ...recipe, preparationTime: null, cookTime: null }} />,
+    );
+
+    expect(queryByText('Prep')).toBeNull();
+    expect(queryByText('Cooking')).toBeNull();
+    expect(queryByText('Total')).toBeNull();
+  });
+
+  it('renders only prep and total if cook does not exist', () => {
+    const { getAllByText, queryByText } = render(
+      <Recipe recipe={{ ...recipe, preparationTime: 1, cookTime: null }} />,
+    );
+
+    expect(getAllByText(`1 mins`).length).toBe(2);
+    expect(queryByText('Cooking')).toBeNull();
+  });
+
+  it('renders only cook and total if prep does not exist', () => {
+    const { getAllByText, queryByText } = render(
+      <Recipe recipe={{ ...recipe, cookTime: 1, preparationTime: null }} />,
+    );
+
+    expect(getAllByText(`1 mins`).length).toBe(2);
+    expect(queryByText('Prep')).toBeNull();
   });
 });
