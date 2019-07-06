@@ -8,9 +8,16 @@ import v4 from 'uuid/v4';
 import SignIn from '.';
 
 describe('SignIn', () => {
+  let chef;
   let setUserMock;
 
   beforeEach(() => {
+    chef = {
+      id: v4(),
+      username: v4(),
+      firstName: 'Hello',
+      lastName: 'World',
+    };
     setUserMock = jest.fn();
   });
 
@@ -18,7 +25,7 @@ describe('SignIn', () => {
 
   it('renders', () => {
     const { getByTestId } = render(
-      <UserContext.Provider value={['', setUserMock]}>
+      <UserContext.Provider value={[{}, setUserMock]}>
         <BrowserRouter>
           <SignIn />
         </BrowserRouter>
@@ -35,13 +42,13 @@ describe('SignIn', () => {
         {
           matcher: 'http://localhost:3000/auth/login',
           method: 'POST',
-          response: { status: 200, body: v4() },
+          response: { status: 200, body: chef },
         },
       ];
 
       wrapper = render(
         <FetchMock mocks={mocks}>
-          <UserContext.Provider value={['', setUserMock]}>
+          <UserContext.Provider value={[{}, setUserMock]}>
             <BrowserRouter>
               <SignIn />
             </BrowserRouter>
@@ -65,7 +72,7 @@ describe('SignIn', () => {
       fireEvent.click(submitButton);
 
       await wait(() => {
-        expect(setUserMock).toHaveBeenCalledWith('wizz');
+        expect(setUserMock).toHaveBeenCalledWith(chef);
       });
     });
   });

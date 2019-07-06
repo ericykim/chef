@@ -38,7 +38,7 @@ describe('Profile', () => {
     const { getByTestId } = render(
       <FetchMock mocks={mocks}>
         <BrowserRouter>
-          <UserContext.Provider value={[chef.username, () => {}]}>
+          <UserContext.Provider value={[chef, () => {}]}>
             <Profile match={{ params: { username } }} />
           </UserContext.Provider>
         </BrowserRouter>
@@ -54,7 +54,7 @@ describe('Profile', () => {
     const { getByTestId } = render(
       <FetchMock mocks={mocks}>
         <BrowserRouter>
-          <UserContext.Provider value={[chef.username, () => {}]}>
+          <UserContext.Provider value={[chef, () => {}]}>
             <Profile match={{ params: { username } }} />
           </UserContext.Provider>
         </BrowserRouter>
@@ -72,7 +72,7 @@ describe('Profile', () => {
     const { getByText, getByTestId } = render(
       <FetchMock mocks={mocks}>
         <BrowserRouter>
-          <UserContext.Provider value={[chef.username, () => {}]}>
+          <UserContext.Provider value={[chef, () => {}]}>
             <Profile match={{ params: { username } }} />
           </UserContext.Provider>
         </BrowserRouter>
@@ -89,7 +89,7 @@ describe('Profile', () => {
     const { getByText } = render(
       <FetchMock mocks={mocks}>
         <BrowserRouter>
-          <UserContext.Provider value={[chef.username, () => {}]}>
+          <UserContext.Provider value={[chef, () => {}]}>
             <Profile match={{ params: { username } }} />
           </UserContext.Provider>
         </BrowserRouter>
@@ -106,7 +106,7 @@ describe('Profile', () => {
     const { getByText } = render(
       <FetchMock mocks={mocks}>
         <BrowserRouter>
-          <UserContext.Provider value={[chef.username, () => {}]}>
+          <UserContext.Provider value={[chef, () => {}]}>
             <Profile match={{ params: { username } }} />
           </UserContext.Provider>
         </BrowserRouter>
@@ -123,7 +123,7 @@ describe('Profile', () => {
     const { getByText, queryByText } = render(
       <FetchMock mocks={mocks}>
         <BrowserRouter>
-          <UserContext.Provider value={[chef.username, () => {}]}>
+          <UserContext.Provider value={[chef, () => {}]}>
             <Profile match={{ params: { username } }} />
           </UserContext.Provider>
         </BrowserRouter>
@@ -141,7 +141,7 @@ describe('Profile', () => {
     const { getByText } = render(
       <FetchMock mocks={mocks}>
         <BrowserRouter>
-          <UserContext.Provider value={[chef.username, () => {}]}>
+          <UserContext.Provider value={[chef, () => {}]}>
             <Profile match={{ params: { username } }} />
           </UserContext.Provider>
         </BrowserRouter>
@@ -160,7 +160,7 @@ describe('Profile', () => {
     const { getByText } = render(
       <FetchMock mocks={mocks}>
         <BrowserRouter>
-          <UserContext.Provider value={[chef.username, () => {}]}>
+          <UserContext.Provider value={[chef, () => {}]}>
             <Profile match={{ params: { username } }} />
           </UserContext.Provider>
         </BrowserRouter>
@@ -176,7 +176,7 @@ describe('Profile', () => {
     const { getByText } = render(
       <FetchMock mocks={mocks}>
         <BrowserRouter>
-          <UserContext.Provider value={[chef.username, () => {}]}>
+          <UserContext.Provider value={[chef, () => {}]}>
             <Profile match={{ params: { username } }} />
           </UserContext.Provider>
         </BrowserRouter>

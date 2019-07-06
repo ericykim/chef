@@ -2,11 +2,10 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  UpdateDateColumn,
-  CreateDateColumn,
   ManyToMany,
   JoinTable,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 import Label from './label.entity';
@@ -75,6 +74,18 @@ class Recipe extends Dated {
   // How many people across app have viewed this recipe?
   @Column('int', { default: 0, nullable: false })
   views: number;
+
+  // Forked parent recipe
+  @ManyToOne((type) => Recipe, (recipe) => recipe.children, {
+    cascade: true,
+    nullable: true,
+  })
+  base: Recipe;
+
+  @OneToMany((type) => Recipe, (recipe) => recipe.base, {
+    nullable: false,
+  })
+  children: Recipe[];
 }
 
 export default Recipe;

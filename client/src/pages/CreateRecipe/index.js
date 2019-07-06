@@ -1,8 +1,11 @@
 import React, { useState, Fragment } from 'react';
+import { isEmpty } from 'lodash';
+import wretch from 'wretch';
 import { Card, PageHeader, Input, Button, Icon } from 'antd';
 import cn from 'classnames';
 import ordinal from 'ordinal-number-suffix';
 
+import api from '../../constants';
 import asPage from '../../hocs/asPage';
 import styles from './styles.css';
 
@@ -10,8 +13,24 @@ import styles from './styles.css';
  * Create a new recipe page.
  */
 const CreateRecipe = ({ className, history }) => {
-  const [ingredients, setIngredients] = useState(['']);
-  const [directions, setDirections] = useState(['']);
+  const [title, setTitle] = useState(null);
+  const [subtitle, setSubtitle] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [ingredients, setIngredients] = useState([null]);
+  const [directions, setDirections] = useState([null]);
+
+  const removeEmpty = (array) => array.filter((e) => !isEmpty(e));
+
+  const save = () => {
+    wretch(api.CREATE_RECIPE).post({
+      chef: '2d4399d9-427f-4146-a767-ad693ef11e89',
+      title,
+      subtitle,
+      description,
+      ingredients: removeEmpty(ingredients),
+      directions: removeEmpty(directions),
+    });
+  };
 
   return (
     <div className={cn(styles.page, className)} data-testid={'CreateRecipe'}>
@@ -25,17 +44,26 @@ const CreateRecipe = ({ className, history }) => {
           <div className={styles.titles}>
             <Input
               className={cn(styles.input, styles.title)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder={'Title'}
             />
 
-            <Input className={styles.input} placeholder={'Subtitle'} />
+            <Input
+              className={styles.input}
+              value={subtitle}
+              onChange={(e) => setSubtitle(e.target.value)}
+              placeholder={'Subtitle'}
+            />
           </div>
         }
         data-testid={'Recipe'}
       >
         <Input.TextArea
-          rows={3}
           className={cn(styles.input, styles.description)}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          rows={3}
           placeholder={'Description'}
         />
 
@@ -53,7 +81,7 @@ const CreateRecipe = ({ className, history }) => {
           setElements={setDirections}
         />
 
-        <Button className={styles.save} type={'primary'} block>
+        <Button className={styles.save} type={'primary'} onClick={save} block>
           <Icon type={'form'} />
           Save recipe
         </Button>
@@ -91,7 +119,7 @@ const DynamicList = ({ header, placeholder, elements, setElements }) => {
       return nextInput.focus();
     }
 
-    setElements(elements.concat(''));
+    setElements(elements.concat(null));
     setTimeout(() => getNextInput(curIndex).focus(), 20);
   };
 
@@ -123,7 +151,7 @@ const DynamicList = ({ header, placeholder, elements, setElements }) => {
       <Button
         className={styles.addButton}
         type={'dashed'}
-        onClick={() => setElements(elements.concat(''))}
+        onClick={() => setElements(elements.concat(null))}
         block
       >
         <Icon type={'plus-circle'} />

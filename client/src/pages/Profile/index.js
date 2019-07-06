@@ -19,7 +19,7 @@ import styles from './styles.css';
  */
 const Profile = ({ className, setDocumentTitle }) => {
   const [chef, setChef] = useState({});
-  const [username] = useContext(UserContext);
+  const [{ username }] = useContext(UserContext);
 
   useEffect(() => {
     wretch(`${api.GET_CHEF_PROFILE}/${username}`)

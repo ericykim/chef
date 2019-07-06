@@ -26,12 +26,12 @@ const SignIn = ({ className, form, history }) => {
             password: values.password,
           })
           .unauthorized(() => setError('Incorrect username or password'))
-          .res(() => {
+          .json((chef) => {
             setError('');
-            setUser(values.username);
+            setUser(chef);
             history.push(`/profile`);
           })
-          .catch((error) => {
+          .catch(() => {
             setError('Something went wrong');
           });
       }

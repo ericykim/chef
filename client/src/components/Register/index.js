@@ -24,9 +24,9 @@ const Register = ({ className, form, history }) => {
         await wretch(api.REGISTER)
           .post(values)
           .error(409, (error) => setError('Username or email is taken'))
-          .res(() => {
+          .json((chef) => {
             setError('');
-            setUser(values.username);
+            setUser(chef);
             history.push(`/profile`);
           })
           .catch(() => setError('Something went wrong'));

@@ -17,24 +17,23 @@ class ChefService {
    * Register the given user.
    * @param registration
    */
-  async register(registration: Registration): Promise<boolean> {
+  async register(registration: Registration): Promise<Chef> {
     if (await this.accountExists(registration)) {
-      return false;
+      return null;
     }
 
     const chef = this.chefRepository.merge(new Chef(), {
       ...registration,
     });
 
-    await this.chefRepository.save(this.hashPassword(chef));
-    return true;
+    return await this.chefRepository.save(this.hashPassword(chef));
   }
 
   /**
    * Authenticate given login credentials.
    * @param login
    */
-  async authenticate(login: Login): Promise<boolean> {
+  async authenticate(login: Login): Promise<Chef> {
     const { handle, password } = login;
     const hashedPassword = hash(password);
 
@@ -45,7 +44,7 @@ class ChefService {
       ],
     });
 
-    return !!account;
+    return account;
   }
 
   /**

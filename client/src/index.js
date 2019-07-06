@@ -10,10 +10,12 @@ import UserContext from './contexts/UserContext';
 import App from './pages/App';
 
 const Routes = (props) => {
-  const userState = useState('gvjacob');
+  const [user, setContextUser] = useState({});
+  const setUser = ({ id, username, firstName, lastName }) =>
+    setContextUser({ id, username, firstName, lastName });
 
   return (
-    <UserContext.Provider value={userState}>
+    <UserContext.Provider value={[user, setUser]}>
       <BrowserRouter>
         <Switch>
           <Route

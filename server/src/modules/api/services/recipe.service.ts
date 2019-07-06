@@ -19,6 +19,11 @@ class RecipeService {
 
   async findOne(options): Promise<Recipe> {
     return await this.recipeRepository.findOne(options);
+    // const { base, ...recipe } = await this.recipeRepository.findOne(options);
+    // const baseRecipe = await this.recipeRepository.findOne({
+    //   where: { id: base },
+    // });
+    // return { ...recipe, base: baseRecipe && { title: baseRecipe.title } };
   }
 
   async createOne(attributes) {
