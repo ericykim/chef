@@ -7,6 +7,7 @@
 
 :global(.ant-layout-content) {
   background-color: white;
+  min-height: auto;
 }
 
 :global(.ant-avatar) {
