@@ -70,7 +70,7 @@ const Times = ({ preparationTime, cookTime }) => {
       {preparationTime && (
         <Fragment>
           <div>
-            <div className={styles.timeHeader}>Prep</div>
+            <h4>Prep</h4>
             <div>{preparationTime} mins</div>
           </div>
           <Divider className={styles.divider} type={'vertical'} />
@@ -79,14 +79,14 @@ const Times = ({ preparationTime, cookTime }) => {
       {cookTime && (
         <Fragment>
           <div>
-            <div className={styles.timeHeader}>Cooking</div>
+            <h4>Cooking</h4>
             <div>{cookTime} mins</div>
           </div>
           <Divider className={styles.divider} type={'vertical'} />
         </Fragment>
       )}
       <div>
-        <div className={styles.timeHeader}>Total</div>
+        <h4>Total</h4>
         <div>{cookTime + preparationTime} mins</div>
       </div>
     </div>
@@ -100,7 +100,7 @@ const List = ({ className, header, elements, ordered }) => {
 
   return (
     <div className={className}>
-      <h3> {header} </h3>
+      <h4> {header} </h4>
       {ordered ? <ol>{listedElements}</ol> : <ul>{listedElements}</ul>}
     </div>
   );
