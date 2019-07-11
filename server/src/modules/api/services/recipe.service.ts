@@ -16,12 +16,8 @@ class RecipeService {
     private readonly recipeRepository: Repository<Recipe>,
   ) {}
 
-  async findAll(options): Promise<Recipe[]> {
-    return await this.recipeRepository.find(options);
-  }
-
   /**
-   * Find one Recipe given the conditions
+   * Find one Recipe given query options.
    *
    * @param options
    * @returns Recipe

@@ -2,12 +2,7 @@ import RecipeService from './recipe.service';
 import { Repository } from 'typeorm';
 import Recipe from '../../postgres/entities/recipe.entity';
 
-import { hash } from '../../../utils';
 import { createRecipe } from '../../../../test/factories/recipe.factory';
-
-import * as faker from 'faker';
-import { v4 } from 'uuid';
-import { createChef } from 'test/factories/chef.factory';
 
 describe('RecipeService', () => {
   let recipeService: RecipeService;

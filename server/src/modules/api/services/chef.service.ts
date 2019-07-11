@@ -13,18 +13,14 @@ class ChefService {
     private readonly chefRepository: Repository<Chef>,
   ) {}
 
-  async findAll(): Promise<Chef[]> {
-    return await this.chefRepository.find({
-      relations: ['recipes'],
-    });
-  }
-
+  /**
+   * Find a Chef with given query options.
+   *
+   * @param options
+   * @returns Chef
+   */
   async findOne(options): Promise<Chef> {
     return await this.chefRepository.findOne(options);
-  }
-
-  async createOne(attributes) {
-    await this.chefRepository.save(attributes);
   }
 }
 
