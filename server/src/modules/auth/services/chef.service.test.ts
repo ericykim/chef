@@ -33,7 +33,7 @@ describe('ChefService', () => {
         password: faker.internet.password(),
       };
 
-      saveMock = jest.fn();
+      saveMock = jest.fn().mockImplementation((saved) => saved);
 
       findOneMock = async ({ where }) => {
         const match = where.find((options) => {
@@ -60,14 +60,14 @@ describe('ChefService', () => {
 
     test('true and registered if there are no duplicate chefs', async () => {
       const registered = await chefService.register(registration);
-
-      expect(saveMock).toHaveBeenCalledWith({
+      const registeredChef = {
         ...new Chef(),
         ...registration,
         password: hash(registration.password),
-      });
+      };
 
-      expect(registered).toBe(true);
+      expect(saveMock).toHaveBeenCalledWith(registeredChef);
+      expect(registered).toEqual(registeredChef);
     });
 
     test('false and not registered if username exists', async () => {
@@ -77,7 +77,7 @@ describe('ChefService', () => {
       };
       const registered = await chefService.register(invalidRegistration);
 
-      expect(registered).toBe(false);
+      expect(registered).toBe(null);
     });
 
     test('false and not registered if email exists', async () => {
@@ -87,7 +87,7 @@ describe('ChefService', () => {
       };
       const registered = await chefService.register(invalidRegistration);
 
-      expect(registered).toBe(false);
+      expect(registered).toBe(null);
     });
   });
 
@@ -135,25 +135,25 @@ describe('ChefService', () => {
 
     test('true when email and password match', async () => {
       jest.spyOn(chefRepository, 'findOne').mockImplementation(mockFindOne);
-      expect(await chefService.authenticate(login)).toBe(true);
+      expect(await chefService.authenticate(login)).toEqual(chef);
     });
 
     test('true when username and password match', async () => {
       jest.spyOn(chefRepository, 'findOne').mockImplementation(mockFindOne);
-      expect(await chefService.authenticate(login)).toBe(true);
+      expect(await chefService.authenticate(login)).toEqual(chef);
     });
 
     test('false when username/email do not match', async () => {
       jest.spyOn(chefRepository, 'findOne').mockImplementation(mockFindOne);
       expect(await chefService.authenticate({ ...login, handle: v4() })).toBe(
-        false,
+        null,
       );
     });
 
     test('false when password do not match', async () => {
       jest.spyOn(chefRepository, 'findOne').mockImplementation(mockFindOne);
       expect(await chefService.authenticate({ ...login, password: v4() })).toBe(
-        false,
+        null,
       );
     });
 
@@ -161,7 +161,7 @@ describe('ChefService', () => {
       jest.spyOn(chefRepository, 'findOne').mockImplementation(mockFindOne);
       expect(
         await chefService.authenticate({ handle: v4(), password: v4() }),
-      ).toBe(false);
+      ).toBe(null);
     });
   });
 });

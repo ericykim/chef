@@ -20,6 +20,12 @@ class RecipeService {
     return await this.recipeRepository.find(options);
   }
 
+  /**
+   * Find one Recipe given the conditions
+   *
+   * @param options
+   * @returns Recipe
+   */
   async findOne(options): Promise<Recipe> {
     return await this.recipeRepository.findOne(options);
   }

@@ -44,10 +44,10 @@ class Recipe extends Dated {
   description: string;
 
   @Column('int', { nullable: true })
-  preparationTime;
+  preparationTime: number;
 
   @Column('int', { nullable: true })
-  cookTime;
+  cookTime: number;
 
   @Column('text', { array: true, default: {} })
   ingredients: string[];
