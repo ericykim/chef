@@ -1,8 +1,10 @@
 import * as faker from 'faker';
 import { v4 } from 'uuid';
-import Chef from 'src/modules/postgres/entities/chef.entity';
+import Chef from '../../src/modules/postgres/entities/chef.entity';
 
-export const createChef = (options = {}): Chef => {
+import factoryManager from './factory';
+
+export const createChef = async (options = {}): Promise<Chef> => {
   return {
     id: v4(),
     firstName: faker.name.firstName(),
@@ -18,4 +20,9 @@ export const createChef = (options = {}): Chef => {
     createdOn: new Date(),
     ...options,
   };
+};
+
+export const saveChef = async (options = {}): Promise<Chef> => {
+  const chef = await createChef(options);
+  return await factoryManager.createOne(Chef, chef);
 };

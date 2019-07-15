@@ -1,167 +1,89 @@
 import ChefService from './chef.service';
-import { Repository } from 'typeorm';
-import Chef from '../../postgres/entities/chef.entity';
-import { Login, Registration } from '../interfaces';
+import { TestingModule } from '@nestjs/testing';
+import getTestModule from '../../../../test/testModule';
+
+import { createRegistration } from '../../../../test/factories/registration.factory';
+import { createLogin } from '../../../../test/factories/login.factory';
+import { saveChef } from '../../../../test/factories/chef.factory';
 import { hash } from '../../../utils';
-import { createChef } from '../../../../test/factories/chef.factory';
-import * as faker from 'faker';
-import { v4 } from 'uuid';
 
 describe('ChefService', () => {
+  let testModule: TestingModule;
   let chefService: ChefService;
-  let chefRepository: Repository<Chef>;
 
-  beforeEach(() => {
-    chefRepository = new Repository<Chef>();
-    chefService = new ChefService(chefRepository);
+  beforeEach(async () => {
+    testModule = await getTestModule({
+      providers: [ChefService],
+    });
+
+    chefService = testModule.get<ChefService>(ChefService);
   });
 
+  afterEach(() => testModule.close());
+
   describe('register', () => {
-    let chef: Chef;
-    let findOneMock;
-    let saveMock;
-    let registration: Registration;
+    it('registers and returns given chef', async () => {
+      const registration = await createRegistration();
+      const chef = await chefService.register(registration);
 
-    beforeEach(() => {
-      chef = createChef();
-
-      registration = {
-        username: faker.internet.userName(),
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password(),
-      };
-
-      saveMock = jest.fn().mockImplementation((saved) => saved);
-
-      findOneMock = async ({ where }) => {
-        const match = where.find((options) => {
-          return options.username === chef.username ||
-            options.email === chef.email
-            ? chef
-            : null;
-        });
-
-        return match ? chef : null;
-      };
-
-      jest.spyOn(chefRepository, 'findOne').mockImplementation(findOneMock);
-
-      jest
-        .spyOn(chefRepository, 'merge')
-        .mockImplementation((chef: Chef, obj: Object) => ({
-          ...chef,
-          ...obj,
-        }));
-
-      jest.spyOn(chefRepository, 'save').mockImplementation(saveMock);
+      expect(
+        await chefService.findOne({
+          where: { username: registration.username },
+        }),
+      ).not.toBeNull();
+      expect(chef.username).toBe(registration.username);
     });
 
-    test('true and registered if there are no duplicate chefs', async () => {
-      const registered = await chefService.register(registration);
-      const registeredChef = {
-        ...new Chef(),
-        ...registration,
-        password: hash(registration.password),
-      };
-
-      expect(saveMock).toHaveBeenCalledWith(registeredChef);
-      expect(registered).toEqual(registeredChef);
-    });
-
-    test('false and not registered if username exists', async () => {
-      const invalidRegistration: Registration = {
+    it('returns null if duplicate chef with same username exists', async () => {
+      const chef = await saveChef();
+      const registration = await createRegistration();
+      const registeredChef = await chefService.register({
         ...registration,
         username: chef.username,
-      };
-      const registered = await chefService.register(invalidRegistration);
+      });
 
-      expect(registered).toBe(null);
+      expect(registeredChef).toBeNull();
     });
 
-    test('false and not registered if email exists', async () => {
-      const invalidRegistration: Registration = {
+    it('returns null if duplicate chef with same email exists', async () => {
+      const chef = await saveChef();
+      const registration = await createRegistration();
+      const registeredChef = await chefService.register({
         ...registration,
         email: chef.email,
-      };
-      const registered = await chefService.register(invalidRegistration);
+      });
 
-      expect(registered).toBe(null);
+      expect(registeredChef).toBeNull();
     });
   });
 
   describe('authenticate', () => {
-    let mockFindOne;
-    let handle, password, hashedPassword;
-    let login: Login;
-    let chef: Chef;
-
-    beforeEach(() => {
-      handle = v4();
-      password = v4();
-      hashedPassword = hash(password);
-
-      login = {
-        handle,
+    it('returns authenticated chef', async () => {
+      const password = '123';
+      const chef = await saveChef({ password: hash(password) });
+      const login = await createLogin({
+        handle: chef.username,
         password,
-      };
-
-      chef = createChef({
-        email: handle,
-        password: hashedPassword,
       });
+      const authenticatedChef = await chefService.authenticate(login);
 
-      mockFindOne = async ({ where }) => {
-        const match = where.find((options) => {
-          if (
-            options.username === handle &&
-            options.password === hashedPassword
-          ) {
-            return true;
-          } else if (
-            options.email === handle &&
-            options.password === hashedPassword
-          ) {
-            return true;
-          }
-
-          return false;
-        });
-
-        return match ? chef : null;
-      };
+      expect(authenticatedChef).not.toBeNull();
+      expect(authenticatedChef.username).toBe(chef.username);
     });
 
-    test('true when email and password match', async () => {
-      jest.spyOn(chefRepository, 'findOne').mockImplementation(mockFindOne);
-      expect(await chefService.authenticate(login)).toEqual(chef);
+    it('returns null if chef does not exist', async () => {
+      const login = await createLogin();
+      const chef = await chefService.authenticate(login);
+
+      expect(chef).toBeNull();
     });
 
-    test('true when username and password match', async () => {
-      jest.spyOn(chefRepository, 'findOne').mockImplementation(mockFindOne);
-      expect(await chefService.authenticate(login)).toEqual(chef);
-    });
+    it('returns null if invalid password', async () => {
+      const chef = await saveChef();
+      const login = await createLogin({ handle: chef.username });
+      const authenticatedChef = await chefService.authenticate(login);
 
-    test('false when username/email do not match', async () => {
-      jest.spyOn(chefRepository, 'findOne').mockImplementation(mockFindOne);
-      expect(await chefService.authenticate({ ...login, handle: v4() })).toBe(
-        null,
-      );
-    });
-
-    test('false when password do not match', async () => {
-      jest.spyOn(chefRepository, 'findOne').mockImplementation(mockFindOne);
-      expect(await chefService.authenticate({ ...login, password: v4() })).toBe(
-        null,
-      );
-    });
-
-    test('false when username/email and password do not match', async () => {
-      jest.spyOn(chefRepository, 'findOne').mockImplementation(mockFindOne);
-      expect(
-        await chefService.authenticate({ handle: v4(), password: v4() }),
-      ).toBe(null);
+      expect(authenticatedChef).toBeNull();
     });
   });
 });

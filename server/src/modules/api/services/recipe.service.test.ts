@@ -1,74 +1,62 @@
 import RecipeService from './recipe.service';
-import { Repository } from 'typeorm';
-import Recipe from '../../postgres/entities/recipe.entity';
+import { TestingModule } from '@nestjs/testing';
+import { v4 } from 'uuid';
+import getTestModule from '../../../../test/testModule';
 
-import { createRecipe } from '../../../../test/factories/recipe.factory';
+import {
+  createRecipe,
+  saveRecipe,
+} from '../../../../test/factories/recipe.factory';
 
 describe('RecipeService', () => {
+  let testModule: TestingModule;
   let recipeService: RecipeService;
-  let recipeRepository: Repository<Recipe>;
 
-  beforeEach(() => {
-    recipeRepository = new Repository<Recipe>();
-    recipeService = new RecipeService(recipeRepository);
+  beforeEach(async () => {
+    testModule = await getTestModule({
+      providers: [RecipeService],
+    });
+
+    recipeService = testModule.get<RecipeService>(RecipeService);
   });
 
-  describe('createOne', () => {
-    let recipe: Recipe;
-
-    beforeEach(() => {
-      recipe = createRecipe();
-    });
-
-    it('true when a recipe is created', async () => {
-      jest
-        .spyOn(recipeRepository, 'save')
-        .mockImplementation(async () => recipe);
-
-      const created = await recipeService.createOne(recipe);
-      expect(created).toBe(true);
-    });
-
-    it('false when a recipe is not created', async () => {
-      jest.spyOn(recipeRepository, 'save').mockImplementation(async () => null);
-
-      const created = await recipeService.createOne(recipe);
-      expect(created).toBe(false);
-    });
-
-    it('false when repository errors out', async () => {
-      jest.spyOn(recipeRepository, 'save').mockImplementation(async () => {
-        throw Error();
-      });
-
-      const created = await recipeService.createOne(recipe);
-      expect(created).toBe(false);
-    });
-  });
+  afterEach(() => testModule.close());
 
   describe('findOne', () => {
-    let recipe: Recipe;
-
-    beforeEach(() => {
-      recipe = createRecipe();
-    });
-
-    it('returns Recipe', async () => {
-      jest
-        .spyOn(recipeRepository, 'findOne')
-        .mockImplementation(async () => recipe);
-
-      const found = await recipeService.findOne({});
-      expect(found).toEqual(recipe);
+    it('returns recipe if found', async () => {
+      const recipe = await saveRecipe();
+      const found = await recipeService.findOne({ where: { id: recipe.id } });
+      expect(found.id).toBe(recipe.id);
     });
 
     it('returns null if not found', async () => {
-      jest
-        .spyOn(recipeRepository, 'findOne')
-        .mockImplementation(async () => null);
+      const found = await recipeService.findOne({ where: { id: v4() } });
+      expect(found).toBeNull();
+    });
+  });
 
-      const found = await recipeService.findOne({});
-      expect(found).toBe(null);
+  describe('createOne', () => {
+    it('creates given recipe and returns true', async () => {
+      const recipe = await createRecipe();
+      const created = await recipeService.createOne(recipe);
+      const found = await recipeService.findOne({ where: { id: recipe.id } });
+
+      expect(found.id).toBe(recipe.id);
+      expect(created).toBe(true);
+    });
+
+    it('returns false if recipe already exists', async () => {
+      const recipe = await saveRecipe();
+      const created = await recipeService.createOne(recipe);
+
+      expect(created).toBe(false);
+    });
+
+    it('returns false if recipe does not have title', async () => {
+      const recipe = await createRecipe();
+      const created = await recipeService.createOne({ ...recipe, title: null });
+
+      expect(created).toBe(false);
     });
   });
 });

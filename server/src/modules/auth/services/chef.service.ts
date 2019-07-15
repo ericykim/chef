@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 
 import Chef from '../../postgres/entities/chef.entity';
 import { Registration, Login } from '../interfaces';
@@ -44,7 +44,17 @@ class ChefService {
       ],
     });
 
-    return account;
+    return account || null;
+  }
+
+  /**
+   * Find a Chef with given query options.
+   *
+   * @param options
+   * @returns Chef
+   */
+  async findOne(options: FindOneOptions<Chef>): Promise<Chef> {
+    return (await this.chefRepository.findOne(options)) || null;
   }
 
   /**

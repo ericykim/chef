@@ -1,45 +1,39 @@
 import ChefService from './chef.service';
-import { Repository } from 'typeorm';
-import Chef from '../../postgres/entities/chef.entity';
+import { TestingModule } from '@nestjs/testing';
+import getTestModule from '../../../../test/testModule';
 
-import { createChef } from '../../../../test/factories/chef.factory';
+import { saveChef } from '../../../../test/factories/chef.factory';
 
 describe('ChefService', () => {
+  let testModule: TestingModule;
   let chefService: ChefService;
-  let chefRepository: Repository<Chef>;
 
-  beforeEach(() => {
-    chefRepository = new Repository<Chef>();
-    chefService = new ChefService(chefRepository);
+  beforeEach(async () => {
+    testModule = await getTestModule({
+      providers: [ChefService],
+    });
+
+    chefService = testModule.get<ChefService>(ChefService);
   });
 
-  describe('findOne', () => {
-    let chef;
+  afterEach(() => testModule.close());
 
-    beforeEach(() => {
-      chef = createChef();
+  describe('findOne', () => {
+    it('returns null if not found', async () => {
+      const found = await chefService.findOne({
+        where: { username: 'gvjacob' },
+      });
+
+      expect(found).toBe(null);
     });
 
     it('returns chef if found', async () => {
-      jest.spyOn(chefRepository, 'findOne').mockImplementation(() => chef);
+      const chef = await saveChef();
+      const found = await chefService.findOne({
+        where: { username: chef.username },
+      });
 
-      const found = await chefService.findOne({});
-      expect(found).toEqual(chef);
-    });
-
-    it('returns null if not found', async () => {
-      jest.spyOn(chefRepository, 'findOne').mockImplementation(() => null);
-
-      const found = await chefService.findOne({});
-      expect(found).toEqual(null);
-    });
-  });
-
-  describe('createOne', () => {
-    let chef;
-
-    beforeEach(() => {
-      chef = createChef();
+      expect(found).not.toBe(null);
     });
   });
 });

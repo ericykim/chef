@@ -13,7 +13,12 @@ class LabelService {
     private readonly labelRepository: Repository<Label>,
   ) {}
 
-  async findAll(): Promise<Label[]> {
+  /**
+   * Find all labels given query options.
+   *
+   * @param options
+   */
+  async findAll(options): Promise<Label[]> {
     return await this.labelRepository.find();
   }
 }
