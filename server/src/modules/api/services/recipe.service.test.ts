@@ -20,7 +20,7 @@ describe('RecipeService', () => {
     recipeService = testModule.get<RecipeService>(RecipeService);
   });
 
-  afterEach(() => testModule.close());
+  afterEach(async () => await testModule.close());
 
   describe('findOne', () => {
     it('returns recipe if found', async () => {

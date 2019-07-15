@@ -1,6 +1,6 @@
 const factoryManager = require('./test/factories/factory');
 
 // Delete records in tables after each test
-afterEach(async () => {
+afterAll(async () => {
   await factoryManager.default.cleanUp();
 });

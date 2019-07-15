@@ -19,7 +19,7 @@ describe('ChefService', () => {
     chefService = testModule.get<ChefService>(ChefService);
   });
 
-  afterEach(() => testModule.close());
+  afterEach(async () => await testModule.close());
 
   describe('register', () => {
     it('registers and returns given chef', async () => {

@@ -16,7 +16,7 @@ describe('ChefService', () => {
     chefService = testModule.get<ChefService>(ChefService);
   });
 
-  afterEach(() => testModule.close());
+  afterEach(async () => await testModule.close());
 
   describe('findOne', () => {
     it('returns null if not found', async () => {
