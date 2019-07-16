@@ -7,4 +7,5 @@ export default {
   GET_CHEF_PROFILE: `${API_BASE_URL}/chef`,
   GET_RECIPE: `${API_BASE_URL}/recipe`,
   CREATE_RECIPE: `${API_BASE_URL}/recipe`,
+  DELETE_RECIPE: `${API_BASE_URL}/recipe`,
 };

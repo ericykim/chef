@@ -35,6 +35,25 @@ describe('RecipeService', () => {
     });
   });
 
+  describe('deleteOne', () => {
+    it('returns true if deleted recipe', async () => {
+      const recipe = await saveRecipe();
+      expect(
+        await recipeService.findOne({ where: { id: recipe.id } }),
+      ).not.toBeNull();
+
+      const deleted = await recipeService.deleteOne(recipe.id);
+      expect(
+        await recipeService.findOne({ where: { id: recipe.id } }),
+      ).toBeNull();
+      expect(deleted).toBe(true);
+    });
+
+    it('returns false if not deleted', async () => {
+      expect(await recipeService.deleteOne(v4())).toBe(false);
+    });
+  });
+
   describe('createOne', () => {
     it('creates given recipe and returns true', async () => {
       const recipe = await createRecipe();

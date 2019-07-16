@@ -6,6 +6,7 @@ import {
   Post,
   Body,
   HttpStatus,
+  Delete,
 } from '@nestjs/common';
 import { Response } from 'express';
 
@@ -22,6 +23,12 @@ class RecipeController {
       where: { id },
       relations: ['chef'],
     });
+  }
+
+  @Delete(':id')
+  async deleteRecipe(@Res() res: Response, @Param('id') id) {
+    const deleted = await this.recipeService.deleteOne(id);
+    res.status(deleted ? HttpStatus.OK : HttpStatus.NOT_MODIFIED).send();
   }
 
   @Post()

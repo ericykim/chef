@@ -27,6 +27,14 @@ class RecipeService {
   }
 
   /**
+   * Delete Recipe with given id.
+   * @param id
+   */
+  async deleteOne(id: string): Promise<boolean> {
+    return (await this.recipeRepository.delete({ id })).affected > 0;
+  }
+
+  /**
    * Create a Recipe.
    *
    * @param attributes

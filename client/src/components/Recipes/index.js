@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Empty } from 'antd';
 import { isEmpty } from 'lodash';
 import { orderBy } from 'lodash';
@@ -9,17 +9,23 @@ import styles from './styles.css';
  * Display container that orders the recipes.
  */
 const Recipes = ({ recipes, $component, empty }) => {
-  const ordered = orderBy(recipes, 'published', 'desc');
+  const [localRecipes, setLocalRecipes] = useState(
+    orderBy(recipes, 'published', 'desc'),
+  );
+
+  const remove = (recipeId) =>
+    setLocalRecipes(localRecipes.filter(({ id }) => recipeId !== id));
 
   return (
     <div data-testid={'Recipes'}>
-      {isEmpty(recipes)
+      {isEmpty(localRecipes)
         ? empty
-        : ordered.map((recipe) => (
+        : localRecipes.map((recipe) => (
             <$component
               className={styles.component}
               key={recipe.id}
               recipe={recipe}
+              remove={remove}
             />
           ))}
     </div>
