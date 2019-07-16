@@ -31,7 +31,8 @@ class RecipeService {
    * @param id
    */
   async deleteOne(id: string): Promise<boolean> {
-    return (await this.recipeRepository.delete({ id })).affected > 0;
+    const { affected } = await this.recipeRepository.delete({ id });
+    return affected > 0;
   }
 
   /**

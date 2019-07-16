@@ -18,7 +18,7 @@ class LabelService {
    *
    * @param options
    */
-  async findAll(options): Promise<Label[]> {
+  async findAll(options = {}): Promise<Label[]> {
     return await this.labelRepository.find();
   }
 }

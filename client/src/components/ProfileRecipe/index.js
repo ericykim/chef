@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import wretch from 'wretch';
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'lodash';
-import { Button, Card, Tag } from 'antd';
+import { Button, Card, Tag, Modal } from 'antd';
 
 import api from '../../constants';
 import styles from './styles.css';
@@ -12,6 +12,7 @@ import styles from './styles.css';
  */
 const ProfileRecipe = ({ className, recipe, remove }) => {
   const { id, title, subtitle, pictures, views, published } = recipe;
+  const [openModal, setOpenModal] = useState(false);
 
   const deleteRecipe = async () => {
     await wretch(`${api.DELETE_RECIPE}/${recipe.id}`)
@@ -20,32 +21,57 @@ const ProfileRecipe = ({ className, recipe, remove }) => {
       .res(({ status }) => {
         if (status === 200) {
           remove(recipe.id);
+          setOpenModal(false);
         }
       });
   };
 
   return (
-    <Card
-      className={className}
-      cover={!isEmpty(pictures) && <img src={pictures[0]} alt={title} />}
-      actions={[
-        <Button type={'link'} icon="edit" />,
-        <Button
-          type={'link'}
-          icon="delete"
-          onClick={deleteRecipe}
-          data-testid={'delete'}
-        />,
-      ]}
-      hoverable
-      data-testid={'ProfileRecipe'}
-    >
-      <Link to={`/recipe/${id}`}>
-        <Card.Meta title={title} />
-        <div className={styles.subtitle}>{subtitle}</div>
-      </Link>
-      <State published={published} views={views} />
-    </Card>
+    <Fragment>
+      <Modal
+        visible={openModal}
+        title={`Remove ${title}?`}
+        onOk={deleteRecipe}
+        onCancel={() => setOpenModal(false)}
+        footer={[
+          <Button key="back" onClick={deleteRecipe}>
+            Remove
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            onClick={() => setOpenModal(false)}
+          >
+            Cancel
+          </Button>,
+        ]}
+      >
+        <p>
+          Are you sure you want to remove <b>{title}</b> from your recipes?
+        </p>
+      </Modal>
+      <Card
+        className={className}
+        cover={!isEmpty(pictures) && <img src={pictures[0]} alt={title} />}
+        actions={[
+          <Button type={'link'} icon="edit" />,
+          <Button
+            type={'link'}
+            icon="delete"
+            onClick={() => setOpenModal(true)}
+            data-testid={'delete'}
+          />,
+        ]}
+        hoverable
+        data-testid={'ProfileRecipe'}
+      >
+        <Link to={`/recipe/${id}`}>
+          <Card.Meta title={title} />
+          <div className={styles.subtitle}>{subtitle}</div>
+        </Link>
+        <State published={published} views={views} />
+      </Card>
+    </Fragment>
   );
 };
 

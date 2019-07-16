@@ -79,7 +79,7 @@ describe('Recipes', () => {
   });
 
   it('removes recipe when delete is pressed', async () => {
-    const { getAllByTestId } = render(
+    const { getAllByTestId, getByText } = render(
       <BrowserRouter>
         <FetchMock
           matcher={`http://localhost:3000/recipe/${sorted[0].id}`}
@@ -99,6 +99,8 @@ describe('Recipes', () => {
     expect(getAllByTestId('ProfileRecipe').length).toBe(recipes.length);
 
     fireEvent.click(firstDelete);
+    fireEvent.click(getByText('Remove'));
+
     await wait(() => {
       expect(getAllByTestId('ProfileRecipe').length).toBe(recipes.length - 1);
     });

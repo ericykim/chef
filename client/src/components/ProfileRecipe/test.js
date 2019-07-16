@@ -94,7 +94,7 @@ describe('ProfileRecipe', () => {
 
   it('calls remove when delete button is pressed and status returns 200', async () => {
     const removeMock = jest.fn();
-    const { getByTestId } = render(
+    const { getByTestId, getByText } = render(
       <BrowserRouter>
         <FetchMock
           matcher={`http://localhost:3000/recipe/${recipe.id}`}
@@ -107,6 +107,7 @@ describe('ProfileRecipe', () => {
     );
 
     fireEvent.click(getByTestId('delete'));
+    fireEvent.click(getByText('Remove'));
 
     await wait(() => {
       expect(removeMock).toHaveBeenCalledWith(recipe.id);
@@ -115,7 +116,7 @@ describe('ProfileRecipe', () => {
 
   it('does not call remove when delete button is pressed and status returns 304', async () => {
     const removeMock = jest.fn();
-    const { getByTestId } = render(
+    const { getByTestId, getByText } = render(
       <BrowserRouter>
         <FetchMock
           matcher={`http://localhost:3000/recipe/${recipe.id}`}
@@ -128,6 +129,7 @@ describe('ProfileRecipe', () => {
     );
 
     fireEvent.click(getByTestId('delete'));
+    fireEvent.click(getByText('Remove'));
 
     await wait(() => {
       expect(removeMock).not.toHaveBeenCalled();
