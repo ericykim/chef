@@ -4,7 +4,7 @@
   "description": "Starter React app built with Parcel",
   "main": "index.js",
   "scripts": {
-    "start": "parcel ./public/index.html -p 8080",
+    "start": "parcel ./public/index.html -p 3000",
     "restart": "npm run clean && npm run start",
     "clean": "rm -rf ./dist ./.cache",
     "build-prod": "parcel build src/index.html",
