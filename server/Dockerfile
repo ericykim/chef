@@ -4,8 +4,11 @@ FROM node:10
 # Install postgres client (?)
 RUN apt-get update && apt-get install -y --no-install-recommends postgresql-client
 
+# Create chef directory
+RUN mkdir /usr/chef
+
 # Create application's home directory
-WORKDIR /usr/src/app
+WORKDIR /usr/chef/client
 
 # Copy all package* files into WORKDIR
 COPY package*.json ./

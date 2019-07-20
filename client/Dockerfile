@@ -1,8 +1,11 @@
 # Use LTS Node 10 base image
 FROM node:10
 
+# Create chef directory
+RUN mkdir /usr/chef
+
 # Create application's home directory
-WORKDIR /usr/src/app
+WORKDIR /usr/chef/client
 
 # Copy all package* files into WORKDIR
 COPY package*.json ./
