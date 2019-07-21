@@ -6,6 +6,8 @@ services:
     ports:
       - '8080:3000'
     container_name: chef_client
+    volumes:
+      - ./client:/usr/chef/client/
 
   server:
     build: ./server
@@ -21,6 +23,8 @@ services:
       - DB_PASSWORD=i am chef
       - DB=chef
     container_name: chef_server
+    volumes:
+      - ./server:/usr/chef/server/
 
   postgres:
     image: postgres

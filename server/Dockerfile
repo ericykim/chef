@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends postgresql-clie
 RUN mkdir /usr/chef
 
 # Create application's home directory
-WORKDIR /usr/chef/client
+WORKDIR /usr/chef/server
 
 # Copy all package* files into WORKDIR
 COPY package*.json ./
