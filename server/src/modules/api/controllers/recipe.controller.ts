@@ -11,11 +11,20 @@ import {
 import { Response } from 'express';
 
 import Recipe from '../../postgres/entities/recipe.entity';
+import Label from '../../postgres/entities/label.entity';
 import RecipeService from '../services/recipe.service';
 
 @Controller('recipe')
 class RecipeController {
   constructor(private readonly recipeService: RecipeService) {}
+
+  /**
+   * Get all labeled recipes.
+   */
+  @Get('labels')
+  async getLabeledRecipes(): Promise<Label[]> {
+    return await this.recipeService.getLabeledRecipes();
+  }
 
   /**
    * Get Recipe with given id.
