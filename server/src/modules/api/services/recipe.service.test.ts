@@ -8,13 +8,16 @@ import {
   saveRecipe,
 } from '../../../../test/factories/recipe.factory';
 
+import { saveLabel } from '../../../../test/factories/label.factory';
+import LabelService from './label.service';
+
 describe('RecipeService', () => {
   let testModule: TestingModule;
   let recipeService: RecipeService;
 
   beforeEach(async () => {
     testModule = await getTestModule({
-      providers: [RecipeService],
+      providers: [RecipeService, LabelService],
     });
 
     recipeService = testModule.get<RecipeService>(RecipeService);
@@ -32,6 +35,47 @@ describe('RecipeService', () => {
     it('returns null if not found', async () => {
       const found = await recipeService.findOne({ where: { id: v4() } });
       expect(found).toBeNull();
+    });
+  });
+
+  describe('getLabeledRecipes', () => {
+    it('returns empty if not found', async () => {
+      const labeledRecipes = await recipeService.getLabeledRecipes();
+      expect(labeledRecipes.length).toBe(0);
+    });
+
+    it('returns labels with empty recipes if there are no relations', async () => {
+      await saveLabel();
+      const labeledRecipes = await recipeService.getLabeledRecipes();
+
+      expect(labeledRecipes.length).toBe(1);
+      expect(labeledRecipes[0].recipes.length).toBe(0);
+    });
+
+    it('returns labels with recipes if there are relations', async () => {
+      const recipe = await saveRecipe();
+      await saveLabel({ recipes: [recipe] });
+      const labeledRecipes = await recipeService.getLabeledRecipes();
+
+      const first = labeledRecipes[0];
+      expect(labeledRecipes.length).toBe(1);
+      expect(first.recipes.length).toBe(1);
+      expect(first.recipes[0].id).toBe(recipe.id);
+    });
+
+    it('returns only selected labels', async () => {
+      const recipeOne = await saveRecipe();
+      const recipeTwo = await saveRecipe();
+      const labelOne = await saveLabel({ recipes: [recipeOne] });
+      await saveLabel({ recipes: [recipeTwo] });
+      const labeledRecipes = await recipeService.getLabeledRecipes(
+        labelOne.name,
+      );
+
+      const first = labeledRecipes[0];
+      expect(labeledRecipes.length).toBe(1);
+      expect(first.recipes.length).toBe(1);
+      expect(first.recipes[0].id).toBe(recipeOne.id);
     });
   });
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, FindManyOptions } from 'typeorm';
 import Label from '../../postgres/entities/label.entity';
 
 /**
@@ -18,8 +18,8 @@ class LabelService {
    *
    * @param options
    */
-  async findAll(options = {}): Promise<Label[]> {
-    return await this.labelRepository.find();
+  async findAll(options: FindManyOptions = {}): Promise<Label[]> {
+    return await this.labelRepository.find(options);
   }
 }
 

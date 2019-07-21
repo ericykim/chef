@@ -1,9 +1,8 @@
-import { createConnection, Connection } from 'typeorm';
+import { createConnection } from 'typeorm';
 
 import Chef from '../../src/modules/postgres/entities/chef.entity';
 import Recipe from '../../src/modules/postgres/entities/recipe.entity';
 import Label from '../../src/modules/postgres/entities/label.entity';
-import { networkInterfaces } from 'os';
 
 const getConnection = async () => {
   return await createConnection({
