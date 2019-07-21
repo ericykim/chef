@@ -5,6 +5,7 @@ services:
     build: ./client
     ports:
       - '8080:3000'
+    container_name: chef_client
 
   server:
     build: ./server
@@ -19,12 +20,22 @@ services:
       - DB_USERNAME=chef
       - DB_PASSWORD=i am chef
       - DB=chef
+    container_name: chef_server
 
   postgres:
     image: postgres
+    ports:
+      - '5432:5432'
+
+    # Load all seed SQL scripts
+    volumes:
+      - ./postgres/scripts:/docker-entrypoint-initdb.d/
+      - ./postgres/seed-local-data.sql:/seed-local-data.sql
 
     # Variables for initial Postgres table.
     environment:
       - POSTGRES_USER=chef
       - POSTGRES_PASSWORD=i am chef
       - POSTGRES_DB=chef
+
+    container_name: chef_postgres

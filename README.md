@@ -29,3 +29,25 @@ The server is built with PostgreSQL and Typescript [NestJS](https://nestjs.com/)
 
 **Client**
 Built with vanilla React.js, using the [Ant Design](https://ant.design/) system.
+
+
+
+## **Getting Started**
+1. Clone the repository
+
+```sh
+$ git clone git@github.com:gvjacob/chef.git
+```
+
+2. Install and start Docker (refer to [Docker for Mac](#Docker-for-Mac))
+3. Run `docker-compose up -d` on project root directory
+4. Go to `localhost:8080` to view Chef.
+
+### **Docker for Mac**
+
+Chef local development runs on Docker. Download, install, and run [Docker for Mac](https://www.docker.com/docker-mac). If you have brew for mac, you can run `brew cask install docker` and then launch docker from spotlight.
+
+### **Accessing the Database**
+The postgres database should be live at `localhost:5432`. Log into the `chef` database as `postgres` with `postgres` as its password. 
+
+> Note: run `./postgres/seed.sh` to seed local database with mock data everytime you rebuild docker.
