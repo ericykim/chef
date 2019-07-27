@@ -1,22 +1,30 @@
+import { Record, String, Static } from 'runtypes';
+
 export interface JwtPayload {
   email: string;
 }
 
-// Registration payload
-export interface Registration {
-  email: string;
-  password: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-}
+/**
+ * Chef Registration credentials
+ */
+export const Registration = Record({
+  email: String,
+  password: String,
+  username: String,
+  firstName: String,
+  lastName: String,
+});
+
+export type Registration = Static<typeof Registration>;
 
 /**
- * Login payload
+ * Chef Login credentials
  *
- * handle: email or username of user
+ * handle: either email or username
  */
-export interface Login {
-  handle: string;
-  password: string;
-}
+export const Login = Record({
+  handle: String,
+  password: String,
+});
+
+export type Login = Static<typeof Login>;

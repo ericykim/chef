@@ -4,6 +4,7 @@ import { Response } from 'express';
 import AuthService from '../services/auth.service';
 import ChefService from '../services/chef.service';
 import { Registration, Login } from '../interfaces';
+import { validate } from '../../../utils';
 
 @Controller('auth')
 class AuthController {

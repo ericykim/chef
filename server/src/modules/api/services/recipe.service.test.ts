@@ -104,8 +104,8 @@ describe('RecipeService', () => {
       const created = await recipeService.createOne(recipe);
       const found = await recipeService.findOne({ where: { id: recipe.id } });
 
-      expect(found.id).toBe(recipe.id);
       expect(created).toBe(true);
+      expect(found.id).toBe(recipe.id);
     });
 
     it('returns false if recipe already exists', async () => {
