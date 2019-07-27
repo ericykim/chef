@@ -59,11 +59,10 @@ describe('ChefService', () => {
 
   describe('authenticate', () => {
     it('returns authenticated chef', async () => {
-      const password = '123';
-      const chef = await saveChef({ password: hash(password) });
+      const chef = await saveChef();
       const login = await createLogin({
         handle: chef.username,
-        password,
+        password: chef.password,
       });
       const authenticatedChef = await chefService.authenticate(login);
 

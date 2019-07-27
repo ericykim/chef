@@ -3,6 +3,7 @@ import { v4 } from 'uuid';
 import Chef from '../../src/modules/postgres/entities/chef.entity';
 
 import factoryManager from './factory';
+import { hash } from '../../src/utils/index';
 
 export const createChef = async (options = {}): Promise<Chef> => {
   return {
@@ -24,5 +25,10 @@ export const createChef = async (options = {}): Promise<Chef> => {
 
 export const saveChef = async (options = {}): Promise<Chef> => {
   const chef = await createChef(options);
-  return await factoryManager.createOne(Chef, chef);
+  const savedChef = await factoryManager.createOne(Chef, {
+    ...chef,
+    password: hash(chef.password),
+  });
+
+  return { ...savedChef, password: chef.password };
 };

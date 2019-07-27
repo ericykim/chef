@@ -8,17 +8,17 @@ import { validate } from '../../../utils';
 
 @Controller('auth')
 class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly chefService: ChefService,
-  ) {}
+  constructor(private readonly chefService: ChefService) {}
 
   @Post('login')
   async login(@Res() res: Response, @Body() login: Login) {
+    if (!validate(login, Login)) {
+      return res.status(HttpStatus.BAD_REQUEST).send();
+    }
+
     const chef = await this.chefService.authenticate(login);
 
     if (chef) {
-      const token = await this.authService.tokenize(login);
       res.status(HttpStatus.OK).send(chef);
     } else {
       res.status(HttpStatus.UNAUTHORIZED).send();
@@ -27,6 +27,10 @@ class AuthController {
 
   @Post('register')
   async register(@Res() res: Response, @Body() registration: Registration) {
+    if (!validate(registration, Registration)) {
+      return res.status(HttpStatus.BAD_REQUEST).send();
+    }
+
     const chef = await this.chefService.register(registration);
 
     if (chef) {
