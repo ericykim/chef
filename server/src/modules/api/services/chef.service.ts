@@ -21,7 +21,7 @@ class ChefService {
    * @param options
    * @returns Chef
    */
-  async findOne(options: FindOneOptions<Chef>): Promise<Chef> {
+  async findOne(options: FindOneOptions<Chef>): Promise<Chef | null> {
     return (await this.chefRepository.findOne(options)) || null;
   }
 }

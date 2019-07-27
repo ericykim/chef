@@ -17,7 +17,7 @@ class ChefService {
    * Register the given user.
    * @param registration
    */
-  async register(registration: Registration): Promise<Chef> {
+  async register(registration: Registration): Promise<Chef | null> {
     if (await this.accountExists(registration)) {
       return null;
     }
@@ -33,7 +33,7 @@ class ChefService {
    * Authenticate given login credentials.
    * @param login
    */
-  async authenticate(login: Login): Promise<Chef> {
+  async authenticate(login: Login): Promise<Chef | null> {
     const { handle, password } = login;
     const hashedPassword = hash(password);
 
@@ -53,7 +53,7 @@ class ChefService {
    * @param options
    * @returns Chef
    */
-  async findOne(options: FindOneOptions<Chef>): Promise<Chef> {
+  async findOne(options: FindOneOptions<Chef>): Promise<Chef | null> {
     return (await this.chefRepository.findOne(options)) || null;
   }
 

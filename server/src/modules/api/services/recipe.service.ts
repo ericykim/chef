@@ -25,7 +25,7 @@ class RecipeService {
    * @param options
    * @returns Recipe
    */
-  async findOne(options: FindOneOptions): Promise<Recipe> {
+  async findOne(options: FindOneOptions): Promise<Recipe | null> {
     return (await this.recipeRepository.findOne(options)) || null;
   }
 
@@ -50,7 +50,7 @@ class RecipeService {
    */
   async deleteOne(id: string): Promise<boolean> {
     const { affected } = await this.recipeRepository.delete({ id });
-    return affected > 0;
+    return !!affected && affected > 0;
   }
 
   /**
@@ -59,7 +59,7 @@ class RecipeService {
    * @param attributes
    * @returns true if successful
    */
-  async createOne(attributes): Promise<boolean> {
+  async createOne(attributes: Recipe): Promise<boolean> {
     const trimmedRecipe = pickBy(attributes, (value) => !isEmpty(value));
     const recipe = await asyncAttempt(() =>
       this.recipeRepository.insert(trimmedRecipe),

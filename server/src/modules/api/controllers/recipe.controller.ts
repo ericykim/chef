@@ -32,7 +32,7 @@ class RecipeController {
    * @param id
    */
   @Get(':id')
-  async getRecipe(@Param('id') id): Promise<Recipe> {
+  async getRecipe(@Param('id') id: string): Promise<Recipe | null> {
     return await this.recipeService.findOne({
       where: { id },
       relations: ['chef'],
@@ -45,7 +45,7 @@ class RecipeController {
    * @param id
    */
   @Delete(':id')
-  async deleteRecipe(@Res() res: Response, @Param('id') id) {
+  async deleteRecipe(@Res() res: Response, @Param('id') id: string) {
     const deleted = await this.recipeService.deleteOne(id);
     res.status(deleted ? HttpStatus.OK : HttpStatus.NOT_MODIFIED).send();
   }

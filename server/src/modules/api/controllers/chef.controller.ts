@@ -7,7 +7,7 @@ class ChefController {
   constructor(private readonly chefService: ChefService) {}
 
   @Get(':username')
-  async getChef(@Param('username') username): Promise<Chef> {
+  async getChef(@Param('username') username: string): Promise<Chef | null> {
     return await this.chefService.findOne({
       where: {
         username,
