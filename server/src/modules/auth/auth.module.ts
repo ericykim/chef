@@ -15,7 +15,7 @@ import Chef from '../postgres/entities/chef.entity';
     TypeOrmModule.forFeature([Chef]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secretOrPrivateKey: 'secretKey',
+      secret: 'secretKey',
       signOptions: {
         expiresIn: 3600,
       },

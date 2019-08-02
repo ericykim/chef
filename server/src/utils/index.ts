@@ -21,12 +21,20 @@ export const asyncAttempt = async (func: Function) => {
 };
 
 /**
+ * Reverse a boolean value because ! is
+ * not as readable.
+ *
+ * @param value
+ */
+export const not = (value: boolean) => !value;
+
+/**
  * Validate that given value is of given runType.
  *
  * @param value
  * @param runType
  */
-export const validate = (value: any, runType: Runtype): boolean => {
+export const isType = (value: any, runType: Runtype): boolean => {
   return !isError(attempt(runType.check, value));
 };
 

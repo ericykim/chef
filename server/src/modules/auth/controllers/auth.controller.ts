@@ -4,7 +4,7 @@ import { Response } from 'express';
 import AuthService from '../services/auth.service';
 import ChefService from '../services/chef.service';
 import { Registration, Login } from '../interfaces';
-import { validate } from '../../../utils';
+import { isType, not } from '../../../utils';
 
 @Controller('auth')
 class AuthController {
@@ -20,7 +20,7 @@ class AuthController {
    */
   @Post('login')
   async login(@Res() res: Response, @Body() login: Login) {
-    if (!validate(login, Login)) {
+    if (not(isType(login, Login))) {
       return res.status(HttpStatus.BAD_REQUEST).send();
     }
 
@@ -42,7 +42,7 @@ class AuthController {
    */
   @Post('register')
   async register(@Res() res: Response, @Body() registration: Registration) {
-    if (!validate(registration, Registration)) {
+    if (not(isType(registration, Registration))) {
       return res.status(HttpStatus.BAD_REQUEST).send();
     }
 

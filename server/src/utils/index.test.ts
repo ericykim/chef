@@ -1,20 +1,30 @@
 import { Record, String } from 'runtypes';
 import { isError } from 'lodash';
-import { asyncAttempt, validate } from '.';
+import { asyncAttempt, isType, not } from '.';
 
-describe('validate', () => {
+describe('isType', () => {
   const Message = Record({
     text: String,
   });
 
   test('returns true if value matches runType', () => {
     const message = { text: 'this is a message' };
-    expect(validate(message, Message)).toBe(true);
+    expect(isType(message, Message)).toBe(true);
   });
 
   test('returns false if value does not match runType', () => {
     const notAMessage = { notAText: 1 };
-    expect(validate(notAMessage, Message)).toBe(false);
+    expect(isType(notAMessage, Message)).toBe(false);
+  });
+});
+
+describe('not', () => {
+  test('true to false', () => {
+    expect(not(true)).toBe(false);
+  });
+
+  test('false to true', () => {
+    expect(not(false)).toBe(true);
   });
 });
 
