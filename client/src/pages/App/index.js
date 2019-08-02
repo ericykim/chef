@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import cn from 'classnames';
 
 import Profile from '../Profile';
+import Explore from '../Explore';
 import Recipe from '../Recipe';
 import CreateRecipe from '../CreateRecipe';
 import Header from '../../components/Header';
@@ -12,9 +13,15 @@ import asPage from '../../hocs/asPage';
 import styles from './styles.css';
 
 const App = ({ match }) => {
+  const [currentTab, setCurrentTab] = useState('Explore');
   const [collapse, setCollapse] = useState(true);
 
   const tabs = [
+    {
+      text: 'Explore',
+      to: '/explore',
+      type: 'shop',
+    },
     {
       text: 'Profile',
       to: '/profile',
@@ -26,7 +33,8 @@ const App = ({ match }) => {
     <Layout className={styles.page}>
       <SideNav
         tabs={tabs}
-        currentTab={'Profile'}
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
         collapse={collapse}
         onDismiss={() => setCollapse(true)}
       />
@@ -36,6 +44,7 @@ const App = ({ match }) => {
 
         <Layout.Content>
           <Switch>
+            <Route path={`/explore`} component={Explore} />
             <Route path={`/profile`} component={Profile} />
             <Route exact path={`/recipe/new`} component={CreateRecipe} />
             <Route path={`/recipe/:id`} component={Recipe} />

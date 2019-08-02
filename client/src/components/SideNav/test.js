@@ -8,6 +8,7 @@ import SideNav from '.';
 describe('SideNav', () => {
   let tabs;
   let currentTab;
+  let setCurrentTabMock;
   let onDismissMock;
   let setUserMock;
 
@@ -24,6 +25,7 @@ describe('SideNav', () => {
     ];
 
     currentTab = tabs[1].text;
+    setCurrentTabMock = jest.fn();
     onDismissMock = jest.fn();
     setUserMock = jest.fn();
   });
@@ -31,7 +33,12 @@ describe('SideNav', () => {
   it('renders', () => {
     const { getByTestId } = render(
       <UserContext.Provider value={[{}, setUserMock]}>
-        <SideNav tabs={tabs} currentTab={currentTab} collapse={true} />
+        <SideNav
+          tabs={tabs}
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTabMock}
+          collapse={true}
+        />
       </UserContext.Provider>,
     );
     expect(getByTestId('SideNav')).toBeInTheDocument();
@@ -41,7 +48,12 @@ describe('SideNav', () => {
     const { container, getByText } = render(
       <BrowserRouter>
         <UserContext.Provider value={[{}, setUserMock]}>
-          <SideNav tabs={tabs} currentTab={currentTab} collapse={false} />
+          <SideNav
+            tabs={tabs}
+            currentTab={currentTab}
+            setCurrentTab={setCurrentTabMock}
+            collapse={false}
+          />
         </UserContext.Provider>
       </BrowserRouter>,
     );
@@ -56,7 +68,12 @@ describe('SideNav', () => {
     const { queryByText } = render(
       <BrowserRouter>
         <UserContext.Provider value={[{}, setUserMock]}>
-          <SideNav tabs={tabs} currentTab={currentTab} collapse={true} />
+          <SideNav
+            tabs={tabs}
+            currentTab={currentTab}
+            setCurrentTab={setCurrentTabMock}
+            collapse={true}
+          />
         </UserContext.Provider>
       </BrowserRouter>,
     );
@@ -70,13 +87,37 @@ describe('SideNav', () => {
     const { container } = render(
       <BrowserRouter>
         <UserContext.Provider value={[{}, setUserMock]}>
-          <SideNav tabs={tabs} currentTab={currentTab} collapse={false} />
+          <SideNav
+            tabs={tabs}
+            currentTab={currentTab}
+            setCurrentTab={setCurrentTabMock}
+            collapse={false}
+          />
         </UserContext.Provider>
       </BrowserRouter>,
     );
 
     const selected = container.querySelector('li.ant-menu-item-selected');
     expect(getByText(selected, currentTab)).toBeInTheDocument();
+  });
+
+  it('calls setCurrentTab when switching tabs', () => {
+    const { getByText } = render(
+      <BrowserRouter>
+        <UserContext.Provider value={[{}, setUserMock]}>
+          <SideNav
+            tabs={tabs}
+            currentTab={currentTab}
+            setCurrentTab={setCurrentTabMock}
+            collapse={false}
+            onDismiss={onDismissMock}
+          />
+        </UserContext.Provider>
+      </BrowserRouter>,
+    );
+
+    fireEvent.click(getByText('Home'));
+    expect(setCurrentTabMock).toHaveBeenCalledWith('Home');
   });
 
   it('calls onDismiss when closed', () => {
@@ -86,6 +127,7 @@ describe('SideNav', () => {
           <SideNav
             tabs={tabs}
             currentTab={currentTab}
+            setCurrentTab={setCurrentTabMock}
             collapse={false}
             onDismiss={onDismissMock}
           />
@@ -104,6 +146,7 @@ describe('SideNav', () => {
           <SideNav
             tabs={tabs}
             currentTab={currentTab}
+            setCurrentTab={setCurrentTabMock}
             collapse={false}
             onDismiss={onDismissMock}
           />

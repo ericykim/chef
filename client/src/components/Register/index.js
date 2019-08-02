@@ -27,7 +27,7 @@ const Register = ({ className, form, history }) => {
           .json((chef) => {
             setError('');
             setUser(chef);
-            history.push(`/profile`);
+            history.push(`/explore`);
           })
           .catch(() => setError('Something went wrong'));
       }

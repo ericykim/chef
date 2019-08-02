@@ -1,14 +1,26 @@
 import React, { useContext } from 'react';
 
-import { Divider, Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
 
 import UserContext from '../../contexts/UserContext';
 import styles from './styles.css';
 
-const SideNav = ({ className, tabs, currentTab, collapse, onDismiss }) => {
+const SideNav = ({
+  className,
+  tabs,
+  currentTab,
+  setCurrentTab,
+  collapse,
+  onDismiss,
+}) => {
   const [_, setUser] = useContext(UserContext);
+
+  const clickTab = (tab) => {
+    onDismiss();
+    setCurrentTab(tab);
+  };
 
   const signOut = () => {
     onDismiss();
@@ -35,7 +47,7 @@ const SideNav = ({ className, tabs, currentTab, collapse, onDismiss }) => {
 
         {tabs.map(({ text, to, type }) => (
           <Menu.Item key={text}>
-            <Link to={to} onClick={onDismiss}>
+            <Link to={to} onClick={() => clickTab(text)}>
               {type && <Icon type={type} />}
               {text}
             </Link>
