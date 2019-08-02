@@ -10,6 +10,14 @@ import { validate } from '../../../utils';
 class AuthController {
   constructor(private readonly chefService: ChefService) {}
 
+  /**
+   * Login by authenticating the "handle" and password, where
+   * handle can be either the username or email address.
+   *
+   * @param res
+   * @param login
+   * @returns 400, 401, 200
+   */
   @Post('login')
   async login(@Res() res: Response, @Body() login: Login) {
     if (!validate(login, Login)) {
@@ -25,6 +33,13 @@ class AuthController {
     }
   }
 
+  /**
+   * Register given user credentials.
+   *
+   * @param res
+   * @param login
+   * @returns 400, 409, 201
+   */
   @Post('register')
   async register(@Res() res: Response, @Body() registration: Registration) {
     if (!validate(registration, Registration)) {
