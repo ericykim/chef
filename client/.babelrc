@@ -30,6 +30,13 @@
           "preventFullImport": true
         }
       }
+    ],
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "libraryDirectory": "es"
+      }
     ]
   ]
 }
