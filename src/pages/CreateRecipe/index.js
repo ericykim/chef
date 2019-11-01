@@ -11,6 +11,8 @@ import api from '../../constants';
 import asPage from '../../hocs/asPage';
 import styles from './styles.css';
 
+import { addRecipe } from '../../content';
+
 /**
  * Create a new recipe page.
  */
@@ -32,20 +34,20 @@ const CreateRecipe = ({ className, setDocumentTitle, history }) => {
   const removeEmpty = (array) => array.filter((e) => !isEmpty(e));
 
   const save = () => {
-    wretch(api.CREATE_RECIPE)
-      .post({
-        chef: id,
-        title,
-        subtitle,
-        description,
-        preparationTime,
-        cookTime,
-        ingredients: removeEmpty(ingredients),
-        directions: removeEmpty(directions),
-      })
-      .error(400, () => message.error('Recipe is missing a title'))
-      .res(() => history.push('/profile'))
-      .catch(() => message.error('Something went wrong. Try again next time.'));
+    const newRecipe = {
+      id: title,
+      chef: id,
+      title,
+      subtitle,
+      description,
+      preparationTime,
+      cookTime,
+      ingredients: removeEmpty(ingredients),
+      directions: removeEmpty(directions),
+    };
+
+    addRecipe(newRecipe);
+    history.push('/profile');
   };
 
   return (

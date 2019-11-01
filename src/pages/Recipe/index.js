@@ -8,6 +8,8 @@ import ViewRecipe from '../../components/Recipe';
 import asPage from '../../hocs/asPage';
 import styles from './styles.css';
 
+import { findRecipe } from '../../content';
+
 /**
  * View recipe page.
  */
@@ -16,16 +18,7 @@ const Recipe = ({ className, match, history, setDocumentTitle }) => {
     params: { id },
   } = match;
 
-  const [recipe, setRecipe] = useState(null);
-
-  useEffect(() => {
-    wretch(`${api.GET_RECIPE}/${id}`)
-      .get()
-      .json((recipe) => {
-        setRecipe(recipe);
-        setDocumentTitle(recipe.title);
-      });
-  }, []);
+  const recipe = findRecipe(id);
 
   return (
     recipe && (

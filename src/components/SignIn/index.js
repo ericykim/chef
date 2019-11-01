@@ -7,6 +7,8 @@ import api from '../../constants';
 import UserContext from '../../contexts/UserContext';
 import styles from './styles.css';
 
+import { chef } from '../../content';
+
 /**
  * Sign in widget for authentication.
  */
@@ -19,22 +21,9 @@ const SignIn = ({ className, form, history }) => {
     e.preventDefault();
 
     validateFields(async (err, values) => {
-      if (!err) {
-        await wretch(api.LOGIN)
-          .post({
-            handle: values.username,
-            password: values.password,
-          })
-          .unauthorized(() => setError('Incorrect username or password'))
-          .json((chef) => {
-            setError('');
-            setUser(chef);
-            history.push(`/explore`);
-          })
-          .catch(() => {
-            setError('Something went wrong');
-          });
-      }
+      console.log(chef);
+      setUser(chef);
+      history.push(`/explore`);
     });
   };
 

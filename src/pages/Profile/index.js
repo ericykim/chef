@@ -13,23 +13,18 @@ import asPage from '../../hocs/asPage';
 
 import api from '../../constants';
 import styles from './styles.css';
+import { chef } from '../../content';
 
 /**
  * Chef profile page
  */
 const Profile = ({ className, setDocumentTitle }) => {
-  const [chef, setChef] = useState({});
-  const [{ username }] = useContext(UserContext);
+  // const [chef] = useContext(UserContext);
+  // console.log('HELLLOOOO', chef, userChef);
 
   useEffect(() => {
-    wretch(`${api.GET_CHEF_PROFILE}/${username}`)
-      .get()
-      .json((chef) => {
-        setChef(chef);
-
-        const { firstName, lastName } = chef;
-        setDocumentTitle(`${firstName} ${lastName}`);
-      });
+    const { firstName, lastName } = chef;
+    setDocumentTitle(`${firstName} ${lastName}`);
   }, []);
 
   const createRecipeCta = (
