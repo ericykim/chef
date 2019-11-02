@@ -11,13 +11,14 @@ import api from '../../constants';
 import asPage from '../../hocs/asPage';
 import styles from './styles.css';
 
-import { addRecipe } from '../../content';
-
 /**
  * Create a new recipe page.
  */
 const CreateRecipe = ({ className, setDocumentTitle, history }) => {
-  const [{ id }] = useContext(UserContext);
+  const {
+    chef: { id },
+    addRecipe,
+  } = useContext(UserContext);
 
   const [title, setTitle] = useState(null);
   const [subtitle, setSubtitle] = useState(null);

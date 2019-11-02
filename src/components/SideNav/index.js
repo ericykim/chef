@@ -15,7 +15,7 @@ const SideNav = ({
   collapse,
   onDismiss,
 }) => {
-  const [_, setUser] = useContext(UserContext);
+  const { setChef: setUser } = useContext(UserContext);
 
   const clickTab = (tab) => {
     onDismiss();

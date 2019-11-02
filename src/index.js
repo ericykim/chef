@@ -8,14 +8,13 @@ import 'regenerator-runtime/runtime';
 import Authentication from './pages/Authentication';
 import UserContext from './contexts/UserContext';
 import App from './pages/App';
+import { useChef } from './hooks';
 
 const Routes = (props) => {
-  const [user, setContextUser] = useState({});
-  const setUser = ({ id, username, firstName, lastName }) =>
-    setContextUser({ id, username, firstName, lastName });
+  const chefContext = useChef();
 
   return (
-    <UserContext.Provider value={[user, setUser]}>
+    <UserContext.Provider value={chefContext}>
       <BrowserRouter>
         <Switch>
           <Route

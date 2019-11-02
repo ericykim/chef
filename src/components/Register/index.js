@@ -12,7 +12,7 @@ import styles from './styles.css';
  * Register widget for creating a new account.
  */
 const Register = ({ className, form, history }) => {
-  const [_, setUser] = useContext(UserContext);
+  const { setChef: setUser } = useContext(UserContext);
   const [error, setError] = useState('');
   const { validateFields, getFieldDecorator } = form;
 

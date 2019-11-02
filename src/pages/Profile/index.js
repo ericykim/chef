@@ -13,14 +13,12 @@ import asPage from '../../hocs/asPage';
 
 import api from '../../constants';
 import styles from './styles.css';
-import { chef } from '../../content';
 
 /**
  * Chef profile page
  */
 const Profile = ({ className, setDocumentTitle }) => {
-  // const [chef] = useContext(UserContext);
-  // console.log('HELLLOOOO', chef, userChef);
+  const { chef } = useContext(UserContext);
 
   useEffect(() => {
     const { firstName, lastName } = chef;

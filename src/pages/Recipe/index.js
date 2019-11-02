@@ -1,10 +1,11 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import wretch from 'wretch';
 import cn from 'classnames';
 import { PageHeader } from 'antd';
 
 import api from '../../constants';
 import ViewRecipe from '../../components/Recipe';
+import UserContext from '../../contexts/UserContext';
 import asPage from '../../hocs/asPage';
 import styles from './styles.css';
 
@@ -17,6 +18,7 @@ const Recipe = ({ className, match, history, setDocumentTitle }) => {
   const {
     params: { id },
   } = match;
+  const { findRecipe } = useContext(UserContext);
 
   const recipe = findRecipe(id);
 

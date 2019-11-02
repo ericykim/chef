@@ -13,7 +13,7 @@ import { chef } from '../../content';
  * Sign in widget for authentication.
  */
 const SignIn = ({ className, form, history }) => {
-  const [_, setUser] = useContext(UserContext);
+  const { setChef: setUser } = useContext(UserContext);
   const [error, setError] = useState('');
   const { validateFields, getFieldDecorator } = form;
 
@@ -23,7 +23,7 @@ const SignIn = ({ className, form, history }) => {
     validateFields(async (err, values) => {
       console.log(chef);
       setUser(chef);
-      history.push(`/explore`);
+      history.push(`/profile`);
     });
   };
 

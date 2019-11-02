@@ -19,7 +19,7 @@ import styles from './styles.css';
 const asPage = ($component, redirect = '/login') =>
   withRouter((props) => {
     const documentTitle = 'Chef';
-    const [user] = useContext(UserContext);
+    const { chef: user } = useContext(UserContext);
 
     useEffect(() => {
       if (redirect && isEmpty(user)) {
