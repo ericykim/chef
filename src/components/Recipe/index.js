@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import { isEmpty } from 'lodash';
-import { Card, Divider } from 'antd';
+import { Card, Divider, Button } from 'antd';
 import cn from 'classnames';
 
 import Dots from '../../components/Dots';
@@ -22,15 +22,24 @@ const Recipe = ({ recipe }) => {
   } = recipe;
 
   const [picIndex, setPicIndex] = useState(0);
+  const [recipeIndex, setRecipeIndex] = useState(0);
+
+  const handleNextStep = () => {
+    if (recipeIndex < directions.length - 1) {
+      setRecipeIndex(recipeIndex + 1);
+    }
+  };
+
+  const handlePreviousStep = () => {
+    if (recipeIndex > 0) {
+      setRecipeIndex(recipeIndex - 1);
+    }
+  };
 
   return (
     <Card
       title={<Title title={title} subtitle={subtitle} />}
-      cover={
-        !isEmpty(pictures) && (
-          <img src={pictures[picIndex]} alt={title} loading={'lazy'} />
-        )
-      }
+      cover={!isEmpty(pictures) && <img src={pictures[picIndex]} alt={title} loading={'lazy'} />}
       data-testid={'Recipe'}
     >
       {!isEmpty(pictures) && (
@@ -40,17 +49,22 @@ const Recipe = ({ recipe }) => {
       <p>{description}</p>
       <Times preparationTime={preparationTime} cookTime={cookTime} />
 
-      <List
-        className={styles.list}
-        header={'Ingredients'}
-        elements={ingredients}
-      />
-      <List
-        className={styles.list}
-        header={'Directions'}
-        elements={directions}
-        ordered
-      />
+      <List className={styles.list} header={'Ingredients'} elements={ingredients} />
+      <List className={styles.list} header={'Directions'} elements={directions} ordered />
+
+      <div>
+        {directions[recipeIndex]}
+        <div>
+          <span>
+            <Button type='primary' onClick={handlePreviousStep}>
+              Back
+            </Button>
+            <Button type='primary' onClick={handleNextStep}>
+              Next
+            </Button>
+          </span>
+        </div>
+      </div>
     </Card>
   );
 };
@@ -94,9 +108,7 @@ const Times = ({ preparationTime, cookTime }) => {
 };
 
 const List = ({ className, header, elements, ordered }) => {
-  const listedElements = elements.map((element, index) => (
-    <li key={index}>{element}</li>
-  ));
+  const listedElements = elements.map((element, index) => <li key={index}>{element}</li>);
 
   return (
     <div className={className}>
