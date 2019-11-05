@@ -9,8 +9,9 @@ import styles from './styles.css';
 /**
  * Recipe detail.
  */
-const Recipe = ({ recipe }) => {
+const Recipe = ({ recipe, history }) => {
   const {
+    id,
     title,
     subtitle,
     description,
@@ -39,7 +40,11 @@ const Recipe = ({ recipe }) => {
   return (
     <Card
       title={<Title title={title} subtitle={subtitle} />}
-      cover={!isEmpty(pictures) && <img src={pictures[picIndex]} alt={title} loading={'lazy'} />}
+      cover={
+        !isEmpty(pictures) && (
+          <img src={pictures[picIndex]} alt={title} loading={'lazy'} />
+        )
+      }
       data-testid={'Recipe'}
     >
       {!isEmpty(pictures) && (
@@ -49,22 +54,24 @@ const Recipe = ({ recipe }) => {
       <p>{description}</p>
       <Times preparationTime={preparationTime} cookTime={cookTime} />
 
-      <List className={styles.list} header={'Ingredients'} elements={ingredients} />
-      <List className={styles.list} header={'Directions'} elements={directions} ordered />
-
-      <div>
-        {directions[recipeIndex]}
-        <div>
-          <span>
-            <Button type='primary' onClick={handlePreviousStep}>
-              Back
-            </Button>
-            <Button type='primary' onClick={handleNextStep}>
-              Next
-            </Button>
-          </span>
-        </div>
-      </div>
+      <List
+        className={styles.list}
+        header={'Ingredients'}
+        elements={ingredients}
+      />
+      <List
+        className={styles.list}
+        header={'Directions'}
+        elements={directions}
+        ordered
+      />
+      <Button
+        className={styles.followRecipe}
+        type="primary"
+        onClick={() => history.push(`/walkthrough/${id}`)}
+      >
+        Follow Recipe
+      </Button>
     </Card>
   );
 };
@@ -108,7 +115,9 @@ const Times = ({ preparationTime, cookTime }) => {
 };
 
 const List = ({ className, header, elements, ordered }) => {
-  const listedElements = elements.map((element, index) => <li key={index}>{element}</li>);
+  const listedElements = elements.map((element, index) => (
+    <li key={index}>{element}</li>
+  ));
 
   return (
     <div className={className}>

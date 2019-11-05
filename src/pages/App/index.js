@@ -7,6 +7,7 @@ import Profile from '../Profile';
 import Explore from '../Explore';
 import Recipe from '../Recipe';
 import CreateRecipe from '../CreateRecipe';
+import RecipeWalkthrough from '../RecipeWalkthrough';
 import Header from '../../components/Header';
 import SideNav from '../../components/SideNav';
 import asPage from '../../hocs/asPage';
@@ -48,6 +49,7 @@ const App = ({ match }) => {
             <Route path={`/profile`} component={Profile} />
             <Route exact path={`/recipe/new`} component={CreateRecipe} />
             <Route path={`/recipe/:id`} component={Recipe} />
+            <Route path={`/walkthrough/:id`} component={RecipeWalkthrough} />
           </Switch>
         </Layout.Content>
       </Layout>

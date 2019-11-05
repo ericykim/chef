@@ -1,15 +1,13 @@
 import React, { useContext } from 'react';
-import wretch from 'wretch';
 import cn from 'classnames';
 import { PageHeader } from 'antd';
 
 import api from '../../constants';
+import { Button } from 'antd';
 import ViewRecipe from '../../components/Recipe';
 import UserContext from '../../contexts/UserContext';
 import asPage from '../../hocs/asPage';
 import styles from './styles.css';
-
-import { findRecipe } from '../../content';
 
 /**
  * View recipe page.
@@ -30,7 +28,7 @@ const Recipe = ({ className, match, history, setDocumentTitle }) => {
           subTitle={'Back to recipes'}
         />
 
-        <ViewRecipe recipe={recipe} />
+        <ViewRecipe recipe={recipe} history={history} />
       </div>
     )
   );
