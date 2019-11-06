@@ -26,15 +26,17 @@ const RecipeWalkthrough = ({ className, match, history, setDocumentTitle }) => {
     }
   };
 
+  const step = index + 1;
+
   return (
     <div>
-      {directions[index]}
+      {step + '. ' + directions[index]}
       <div>
         <span>
-          <Button type="primary" onClick={handlePreviousStep}>
+          <Button type='primary' onClick={handlePreviousStep}>
             Back
           </Button>
-          <Button type="primary" onClick={handleNextStep}>
+          <Button type='primary' onClick={handleNextStep}>
             Next
           </Button>
         </span>
