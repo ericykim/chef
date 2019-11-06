@@ -23,19 +23,6 @@ const Recipe = ({ recipe, history }) => {
   } = recipe;
 
   const [picIndex, setPicIndex] = useState(0);
-  const [recipeIndex, setRecipeIndex] = useState(0);
-
-  const handleNextStep = () => {
-    if (recipeIndex < directions.length - 1) {
-      setRecipeIndex(recipeIndex + 1);
-    }
-  };
-
-  const handlePreviousStep = () => {
-    if (recipeIndex > 0) {
-      setRecipeIndex(recipeIndex - 1);
-    }
-  };
 
   return (
     <Card
@@ -65,13 +52,22 @@ const Recipe = ({ recipe, history }) => {
         elements={directions}
         ordered
       />
-      <Button
-        className={styles.followRecipe}
-        type="primary"
-        onClick={() => history.push(`/walkthrough/${id}`)}
-      >
-        Follow Recipe
-      </Button>
+      <div className={styles.ctas}>
+        <Button
+          className={styles.followRecipe}
+          type="primary"
+          onClick={() => history.push(`/walkthrough/${id}`)}
+        >
+          Follow Recipe
+        </Button>
+        <Button
+          className={styles.followRecipe}
+          type="primary"
+          onClick={() => history.push(`/recipe/new/${id}`)}
+        >
+          Edit Recipe
+        </Button>
+      </div>
     </Card>
   );
 };

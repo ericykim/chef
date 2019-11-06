@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty, get } from 'lodash';
 import wretch from 'wretch';
 import { Card, PageHeader, Input, Button, Icon, message } from 'antd';
 import cn from 'classnames';
@@ -14,19 +14,34 @@ import styles from './styles.css';
 /**
  * Create a new recipe page.
  */
-const CreateRecipe = ({ className, setDocumentTitle, history }) => {
+const CreateRecipe = ({ className, setDocumentTitle, match, history }) => {
+  const {
+    params: { id: recipeId },
+  } = match;
+
   const {
     chef: { id },
     addRecipe,
+    findRecipe,
+    updateRecipe,
   } = useContext(UserContext);
+  const recipe = findRecipe(recipeId);
 
-  const [title, setTitle] = useState(null);
-  const [subtitle, setSubtitle] = useState(null);
-  const [description, setDescription] = useState(null);
-  const [preparationTime, setPreparationTime] = useState(null);
-  const [cookTime, setCookTime] = useState(null);
-  const [ingredients, setIngredients] = useState([null]);
-  const [directions, setDirections] = useState([null]);
+  const [title, setTitle] = useState(get(recipe, 'title', null));
+  const [subtitle, setSubtitle] = useState(get(recipe, 'subtitle', null));
+  const [description, setDescription] = useState(
+    get(recipe, 'description', null),
+  );
+  const [preparationTime, setPreparationTime] = useState(
+    get(recipe, 'preparationTime', null),
+  );
+  const [cookTime, setCookTime] = useState(get(recipe, 'cookTime', null));
+  const [ingredients, setIngredients] = useState(
+    get(recipe, 'ingredients', [null]),
+  );
+  const [directions, setDirections] = useState(
+    get(recipe, 'directions', [null]),
+  );
 
   useEffect(() => {
     setDocumentTitle(title || '');
@@ -36,18 +51,26 @@ const CreateRecipe = ({ className, setDocumentTitle, history }) => {
 
   const save = () => {
     const newRecipe = {
-      id: title,
+      id: get(recipe, 'id', title),
       chef: id,
       title,
       subtitle,
       description,
       preparationTime,
       cookTime,
+      pictures: get(recipe, 'pictures', []),
       ingredients: removeEmpty(ingredients),
       directions: removeEmpty(directions),
     };
 
-    addRecipe(newRecipe);
+    console.log(recipe);
+
+    if (recipe) {
+      updateRecipe(newRecipe);
+    } else {
+      addRecipe(newRecipe);
+    }
+
     history.push('/profile');
   };
 

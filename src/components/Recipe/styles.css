@@ -17,3 +17,9 @@
 .list {
   margin-bottom: 20px;
 }
+
+.ctas {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

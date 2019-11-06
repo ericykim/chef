@@ -47,7 +47,7 @@ const App = ({ match }) => {
           <Switch>
             <Route path={`/explore`} component={Explore} />
             <Route path={`/profile`} component={Profile} />
-            <Route exact path={`/recipe/new`} component={CreateRecipe} />
+            <Route exact path={`/recipe/new/:id?`} component={CreateRecipe} />
             <Route path={`/recipe/:id`} component={Recipe} />
             <Route path={`/walkthrough/:id`} component={RecipeWalkthrough} />
           </Switch>

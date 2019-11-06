@@ -13,6 +13,7 @@ const RecipeWalkthrough = ({ className, match, history, setDocumentTitle }) => {
   const { directions } = findRecipe(id);
 
   const [index, setIndex] = useState(0);
+
   const handleNextStep = () => {
     if (index < directions.length - 1) {
       setIndex(index + 1);
@@ -24,6 +25,7 @@ const RecipeWalkthrough = ({ className, match, history, setDocumentTitle }) => {
       setIndex(index - 1);
     }
   };
+
   return (
     <div>
       {directions[index]}

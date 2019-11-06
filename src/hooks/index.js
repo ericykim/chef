@@ -11,5 +11,10 @@ export const useChef = () => {
   const addRecipe = (recipe) =>
     setChef({ ...chef, recipes: chef.recipes.concat(recipe) });
 
-  return { chef, setChef, findRecipe, addRecipe };
+  const updateRecipe = (recipe) => {
+    const restOfRecipes = chef.recipes.filter(({ id }) => id !== recipe.id);
+    setChef({ ...chef, recipes: restOfRecipes.concat(recipe) });
+  };
+
+  return { chef, setChef, findRecipe, addRecipe, updateRecipe };
 };
