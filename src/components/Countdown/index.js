@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import './styles.css';
+import { Button } from 'antd';
+import cn from 'classnames';
+import styles from './styles.css';
 
-const Countdown = () => {
+const Countdown = ({ className, startTime }) => {
   const [timerOn, setTimerOn] = useState(false);
-  const [timerStart, setTimerStart] = useState(0);
-  const [timerTime, setTimerTime] = useState(0);
+  const [timerStart, setTimerStart] = useState(startTime);
+  const [timerTime, setTimerTime] = useState(timerStart);
+
+  useEffect(() => {
+    setTimerOn(false);
+    setTimerStart(startTime);
+    setTimerTime(startTime);
+  }, [startTime]);
 
   useEffect(() => {
     let timer = null;
     if (timerOn) {
       timer = setInterval(() => {
         if (timerTime > 0) {
-          setTimerTime(timerTime => timerTime - 1);
+          setTimerTime((timerTime) => timerTime - 1);
         } else {
           clearInterval(timer);
           setTimerOn(false);
@@ -34,73 +42,51 @@ const Countdown = () => {
 
   const resetTimer = () => {
     if (timerOn === false) {
-      setTimerTime(timerStart);
+      setTimerTime(startTime);
     }
   };
 
-  const adjustTimer = input => {
-    const max = 216000000;
-    if (!timerOn) {
-      if (input === 'incHours' && timerTime + 3600 < max) {
-        setTimerTime(timerTime + 3600);
-      } else if (input === 'decHours' && timerTime - 3600 >= 0) {
-        setTimerTime(timerTime - 3600);
-      } else if (input === 'incMinutes' && timerTime + 60 < max) {
-        setTimerTime(timerTime + 60);
-      } else if (input === 'decMinutes' && timerTime - 60 >= 0) {
-        setTimerTime(timerTime - 60);
-      } else if (input === 'incSeconds' && timerTime + 1 < max) {
-        setTimerTime(timerTime + 1);
-      } else if (input === 'decSeconds' && timerTime - 1 >= 0) {
-        setTimerTime(timerTime - 1);
-      }
-    }
-  };
-
-  let seconds = Math.floor(timerTime % 60) % 60 === 0 ? '00' : Math.floor(timerTime % 60) % 60;
-  let minutes = Math.floor((timerTime / 60) % 60) === 0 ? '00' : Math.floor((timerTime / 60) % 60);
-  let hours =
-    Math.floor((timerTime / 3600) % 60) === 0 ? '00' : Math.floor((timerTime / 3600) % 60);
+  let seconds =
+    Math.floor(timerTime % 60) % 60 === 0
+      ? '00'
+      : Math.floor(timerTime % 60) % 60;
+  let minutes =
+    Math.floor((timerTime / 60) % 60) === 0
+      ? '00'
+      : Math.floor((timerTime / 60) % 60);
 
   return (
-    <div className='Countdown'>
-      <div className='Countdown-header'>Countdown</div>
-      <div className='Countdown-label'>Hours : Minutes : Seconds</div>
-      <div className='Countdown-display'>
-        <button onClick={() => adjustTimer('incHours')}>&#8679;</button>
-        <button onClick={() => adjustTimer('incMinutes')}>&#8679;</button>
-        <button onClick={() => adjustTimer('incSeconds')}>&#8679;</button>
+    <div className={cn(styles.countdown, className)}>
+      <h2 className={styles.title}>Timer: </h2>
+      <h2 className={styles.timer}>
+        {minutes} : {seconds}
+      </h2>
 
-        <div className='Countdown-time'>
-          {hours} : {minutes} : {seconds}
-        </div>
+      <div className={styles.buttons}>
+        {timerOn === false && (timerStart === 0 || timerTime === timerStart) && (
+          <Button type={'secondary'} onClick={startTimer}>
+            Start
+          </Button>
+        )}
+        {timerOn === true && timerTime >= 1 && (
+          <Button type={'secondary'} onClick={stopTimer}>
+            Stop
+          </Button>
+        )}
+        {timerOn === false &&
+          (timerStart !== 0 && timerStart !== timerTime && timerTime !== 0) && (
+            <Button type={'secondary'} onClick={startTimer}>
+              Resume
+            </Button>
+          )}
 
-        <button onClick={() => adjustTimer('decHours')}>&#8681;</button>
-        <button onClick={() => adjustTimer('decMinutes')}>&#8681;</button>
-        <button onClick={() => adjustTimer('decSeconds')}>&#8681;</button>
+        {(timerOn === false || timerTime < 1) &&
+          (timerStart !== timerTime && timerStart > 0) && (
+            <Button type={'secondary'} onClick={resetTimer}>
+              Reset
+            </Button>
+          )}
       </div>
-
-      {timerOn === false && (timerStart === 0 || timerTime === timerStart) && (
-        <button className='Button-start' onClick={startTimer}>
-          Start
-        </button>
-      )}
-      {timerOn === true && timerTime >= 1 && (
-        <button className='Button-stop' onClick={stopTimer}>
-          Stop
-        </button>
-      )}
-      {timerOn === false && (timerStart !== 0 && timerStart !== timerTime && timerTime !== 0) && (
-        <button className='Button-start' onClick={startTimer}>
-          Resume
-        </button>
-      )}
-
-      {(timerOn === false || timerTime < 1) && (timerStart !== timerTime && timerStart > 0) && (
-        <button className='Button-reset' onClick={resetTimer}>
-          Reset
-        </button>
-      )}
     </div>
   );
 };

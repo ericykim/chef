@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useMemo } from 'react';
 import { Button } from 'antd';
 
 import UserContext from '../../contexts/UserContext';
 import asPage from '../../hocs/asPage';
-import Countdown from '../../components/Countdown'
+import Countdown from '../../components/Countdown';
 import styles from './styles.css';
 
 const RecipeWalkthrough = ({ className, match, history, setDocumentTitle }) => {
@@ -12,8 +12,9 @@ const RecipeWalkthrough = ({ className, match, history, setDocumentTitle }) => {
   } = match;
   const { findRecipe } = useContext(UserContext);
   const { title, directions } = findRecipe(id);
-
+  const getRandomTime = () => Math.max(Math.round(Math.random() * 5), 1) * 60;
   const [index, setIndex] = useState(0);
+  const startTime = useMemo(getRandomTime, [index]);
 
   const handleNextStep = () => {
     if (index < directions.length - 1) {
@@ -36,6 +37,7 @@ const RecipeWalkthrough = ({ className, match, history, setDocumentTitle }) => {
         <h1>{title}</h1>
       </div>
 
+      <Countdown className={styles.countdown} startTime={startTime} />
       <div className={styles.step}>
         <b>Current: </b>
         <h2>{`${step}. ${directions[index]}`}</h2>
@@ -68,7 +70,6 @@ const RecipeWalkthrough = ({ className, match, history, setDocumentTitle }) => {
           </Button>
         )}
       </div>
-      <Countdown/>
     </div>
   );
 };
