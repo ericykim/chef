@@ -1,6 +1,8 @@
 .page :global {
   height: 100%;
   animation: fadeIn 200ms ease-in-out;
+  width: 500px;
+  margin: auto;
 }
 
 .content {

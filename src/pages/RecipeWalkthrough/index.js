@@ -52,7 +52,7 @@ const RecipeWalkthrough = ({ className, match, history, setDocumentTitle }) => {
 
       <div className={styles.buttons}>
         {step === 1 ? (
-          <Button type="primary" onClick={() => history.push('/profile')}>
+          <Button type="primary" onClick={() => history.push(`/recipe/${id}`)}>
             Quit
           </Button>
         ) : (
@@ -61,7 +61,7 @@ const RecipeWalkthrough = ({ className, match, history, setDocumentTitle }) => {
           </Button>
         )}
         {step === directions.length ? (
-          <Button type="primary" onClick={() => history.push('/profile')}>
+          <Button type="primary" onClick={() => history.push(`/recipe/${id}`)}>
             Finish
           </Button>
         ) : (
