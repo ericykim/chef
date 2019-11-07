@@ -3,6 +3,7 @@ import { Button } from 'antd';
 
 import UserContext from '../../contexts/UserContext';
 import asPage from '../../hocs/asPage';
+import Countdown from '../../components/Countdown'
 import styles from './styles.css';
 
 const RecipeWalkthrough = ({ className, match, history, setDocumentTitle }) => {
@@ -41,6 +42,7 @@ const RecipeWalkthrough = ({ className, match, history, setDocumentTitle }) => {
           </Button>
         </span>
       </div>
+      <Countdown/>
     </div>
   );
 };
