@@ -3,7 +3,12 @@ const tonkotsuRecipe = {
   title: 'Tonkotsu Ramen', // required
   subtitle: 'Traditional pork based ramen',
   description: '',
-  ingredients: ['1 lb of pork', '1/2 lb of egg noodles', 'Cabbage', '2 cloves of garlic'],
+  ingredients: [
+    '1 lb of pork',
+    '1/2 lb of egg noodles',
+    'Cabbage',
+    '2 cloves of garlic',
+  ],
   directions: [
     'Roast pork',
     'Prepare pork broth',
@@ -40,7 +45,9 @@ const fluffyPancakes = {
     'Combine flour, sugar, baking powder, baking soda, and salt in a large mixing bowl. Whisk egg and butter into "soured" milk. Pour the flour mixture into the wet ingredients and whisk until lumps are gone',
     'Heat a large skillet over medium heat, and coat with cooking spray. Pour 1/4 cupfuls of batter onto the skillet, and cook until bubbles appear on the surface. Flip with a spatula, and cook until browned on the other side',
   ],
-  pictures: ['https://images.media-allrecipes.com/userphotos/720x405/5079227.jpg'],
+  pictures: [
+    'https://images.media-allrecipes.com/userphotos/720x405/5079227.jpg',
+  ],
   preparationTime: 10,
   cookTime: 25,
 };
@@ -63,7 +70,9 @@ const strawberrySpinachSalad = {
     'Combine the strawberries to the spinach and pecans',
     'Drizzle the dressing and gently toss',
   ],
-  pictures: ['https://www.culinaryhill.com/wp-content/uploads/2019/07/Strawberry-Spinach-Salad-Culinary-Hill-LR-07.jpg'],
+  pictures: [
+    'https://www.culinaryhill.com/wp-content/uploads/2019/07/Strawberry-Spinach-Salad-Culinary-Hill-LR-07.jpg',
+  ],
   preparationTime: 15,
   cookTime: 5,
 };
@@ -73,6 +82,7 @@ export const chef = {
   firstName: 'Gordon',
   lastName: 'Ramsey',
   email: 'gramsey@gmail.com',
-  profilePicture: null,
+  profilePicture:
+    'https://yt3.ggpht.com/a/AGF-l7_6r_NR0iZWw6Tm_eDIiYy35mIUoPqKPUCfgw=s900-c-k-c0xffffffff-no-rj-mo',
   recipes: [tonkotsuRecipe, fluffyPancakes, strawberrySpinachSalad], // add recipes to this array
 };
