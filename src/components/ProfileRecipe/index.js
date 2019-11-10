@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import wretch from 'wretch';
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'lodash';
@@ -10,7 +11,7 @@ import styles from './styles.css';
 /**
  * Recipe card to be displayed on Profile pages.
  */
-const ProfileRecipe = ({ className, recipe, remove }) => {
+const ProfileRecipe = ({ className, recipe, remove, history }) => {
   const { id, title, subtitle, pictures, views, published } = recipe;
   const [openModal, setOpenModal] = useState(false);
 
@@ -54,7 +55,11 @@ const ProfileRecipe = ({ className, recipe, remove }) => {
         className={className}
         cover={!isEmpty(pictures) && <img src={pictures[0]} alt={title} />}
         actions={[
-          <Button type={'link'} icon="edit" />,
+          <Button
+            type={'link'}
+            icon="edit"
+            onClick={() => history.push(`/recipe/new/${id}`)}
+          />,
           <Button
             type={'link'}
             icon="delete"
@@ -87,4 +92,4 @@ const State = ({ published, views }) => {
   );
 };
 
-export default ProfileRecipe;
+export default withRouter(ProfileRecipe);
