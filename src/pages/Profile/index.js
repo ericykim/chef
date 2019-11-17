@@ -39,54 +39,23 @@ const Profile = ({ className, setDocumentTitle }) => {
     </Button>
   );
 
-  const tabs = [
-    {
-      tab: 'My Recipes',
-      filterRecipes: (recipes) => recipes.filter(({ base }) => isEmpty(base)),
-      cta: createRecipeCta,
-      empty: (
-        <Empty
-          className={styles.empty}
-          description={createRecipeCta}
-          data-testid={'Empty'}
-        />
-      ),
-    },
-    {
-      tab: 'Forked',
-      filterRecipes: (recipes) => recipes.filter(({ base }) => !isEmpty(base)),
-      cta: forkRecipeCta,
-      empty: (
-        <Empty
-          className={styles.empty}
-          description={forkRecipeCta}
-          image={<Icon className={styles.forkIcon} type={'fork'} />}
-          data-testid={'Empty'}
-        />
-      ),
-    },
-  ];
+  console.log(chef.recipes);
 
   return (
     !isEmpty(chef) && (
       <div className={cn(styles.page, className)} data-testid={'Profile'}>
         <ProfileChef className={styles.profileChef} {...chef} />
-
-        <Tabs defaultActiveKey={'My Recipes'}>
-          {tabs.map(({ tab, filterRecipes, cta, empty }) => (
-            <Tabs.TabPane tab={tab} key={tab}>
-              {!isEmpty(filterRecipes(chef.recipes)) && (
-                <div className={styles.cta}>{cta}</div>
-              )}
-
-              <Recipes
-                recipes={filterRecipes(chef.recipes)}
-                $component={ProfileRecipe}
-                empty={empty}
-              />
-            </Tabs.TabPane>
-          ))}
-        </Tabs>
+        <Recipes
+          recipes={chef.recipes}
+          $component={ProfileRecipe}
+          empty={
+            <Empty
+              className={styles.empty}
+              description={createRecipeCta}
+              data-testid={'Empty'}
+            />
+          }
+        />
       </div>
     )
   );

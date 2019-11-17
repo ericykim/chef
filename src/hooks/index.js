@@ -16,5 +16,12 @@ export const useChef = () => {
     setChef({ ...chef, recipes: restOfRecipes.concat(recipe) });
   };
 
-  return { chef, setChef, findRecipe, addRecipe, updateRecipe };
+  const removeRecipe = (recipeId) => {
+    setChef({
+      ...chef,
+      recipes: chef.recipes.filter(({ id }) => recipeId !== id),
+    });
+  };
+
+  return { chef, setChef, findRecipe, addRecipe, updateRecipe, removeRecipe };
 };

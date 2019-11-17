@@ -1,10 +1,11 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import wretch from 'wretch';
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import { Button, Card, Tag, Modal } from 'antd';
 
+import UserContext from '../../contexts/UserContext';
 import api from '../../constants';
 import styles from './styles.css';
 
@@ -14,17 +15,11 @@ import styles from './styles.css';
 const ProfileRecipe = ({ className, recipe, remove, history }) => {
   const { id, title, subtitle, pictures, views, published } = recipe;
   const [openModal, setOpenModal] = useState(false);
+  const { removeRecipe } = useContext(UserContext);
 
   const deleteRecipe = async () => {
-    await wretch(`${api.DELETE_RECIPE}/${recipe.id}`)
-      .delete()
-      .error(304, () => {})
-      .res(({ status }) => {
-        if (status === 200) {
-          remove(recipe.id);
-          setOpenModal(false);
-        }
-      });
+    removeRecipe(id);
+    setOpenModal(false);
   };
 
   return (
