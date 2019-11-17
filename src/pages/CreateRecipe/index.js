@@ -42,6 +42,7 @@ const CreateRecipe = ({ className, setDocumentTitle, match, history }) => {
   const [directions, setDirections] = useState(
     get(recipe, 'directions', [null]),
   );
+  const [pictures, setPictures] = useState(get(recipe, 'pictures', [null]));
 
   useEffect(() => {
     setDocumentTitle(title || '');
@@ -61,9 +62,8 @@ const CreateRecipe = ({ className, setDocumentTitle, match, history }) => {
       pictures: get(recipe, 'pictures', []),
       ingredients: removeEmpty(ingredients),
       directions: removeEmpty(directions),
+      pictures: removeEmpty(pictures),
     };
-
-    console.log(recipe);
 
     if (recipe) {
       updateRecipe(newRecipe);
@@ -119,6 +119,7 @@ const CreateRecipe = ({ className, setDocumentTitle, match, history }) => {
         />
 
         <DynamicList
+          className={styles.dynamicList}
           header={'Ingredients'}
           placeholder={'ingredient'}
           elements={ingredients}
@@ -126,10 +127,19 @@ const CreateRecipe = ({ className, setDocumentTitle, match, history }) => {
         />
 
         <DynamicList
+          className={styles.dynamicList}
           header={'Directions'}
           placeholder={'direction'}
           elements={directions}
           setElements={setDirections}
+        />
+
+        <DynamicList
+          className={styles.dynamicList}
+          header={'Pictures'}
+          placeholder={'picture'}
+          elements={pictures}
+          setElements={setPictures}
         />
 
         <Button className={styles.save} type={'primary'} onClick={save} block>

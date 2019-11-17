@@ -33,29 +33,30 @@ const Profile = ({ className, setDocumentTitle }) => {
     </Link>
   );
 
-  const forkRecipeCta = (
-    <Button type={'primary'} icon={'form'} block>
-      Fork a recipe
-    </Button>
-  );
-
   console.log(chef.recipes);
 
   return (
     !isEmpty(chef) && (
       <div className={cn(styles.page, className)} data-testid={'Profile'}>
         <ProfileChef className={styles.profileChef} {...chef} />
-        <Recipes
-          recipes={chef.recipes}
-          $component={ProfileRecipe}
-          empty={
-            <Empty
-              className={styles.empty}
-              description={createRecipeCta}
-              data-testid={'Empty'}
+        <Tabs defaultActiveKey={'My Recipes'}>
+          <Tabs.TabPane tab={'My Recipes'} key={'My Recipes'}>
+            {!isEmpty(chef.recipes) && (
+              <div className={styles.cta}>{createRecipeCta}</div>
+            )}
+            <Recipes
+              recipes={chef.recipes}
+              $component={ProfileRecipe}
+              empty={
+                <Empty
+                  className={styles.empty}
+                  description={createRecipeCta}
+                  data-testid={'Empty'}
+                />
+              }
             />
-          }
-        />
+          </Tabs.TabPane>
+        </Tabs>
       </div>
     )
   );
