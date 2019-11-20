@@ -30,14 +30,10 @@ const ProfileRecipe = ({ className, recipe, remove, history }) => {
         onOk={deleteRecipe}
         onCancel={() => setOpenModal(false)}
         footer={[
-          <Button key="back" onClick={deleteRecipe}>
+          <Button key='back' onClick={deleteRecipe}>
             Remove
           </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            onClick={() => setOpenModal(false)}
-          >
+          <Button key='submit' type='primary' onClick={() => setOpenModal(false)}>
             Cancel
           </Button>,
         ]}
@@ -48,16 +44,18 @@ const ProfileRecipe = ({ className, recipe, remove, history }) => {
       </Modal>
       <Card
         className={className}
-        cover={!isEmpty(pictures) && <img src={pictures[0]} alt={title} />}
+        cover={
+          !isEmpty(pictures) && (
+            <Link to={`/recipe/${id}`}>
+              <img src={pictures[0]} alt={title} />
+            </Link>
+          )
+        }
         actions={[
+          <Button type={'link'} icon='edit' onClick={() => history.push(`/recipe/new/${id}`)} />,
           <Button
             type={'link'}
-            icon="edit"
-            onClick={() => history.push(`/recipe/new/${id}`)}
-          />,
-          <Button
-            type={'link'}
-            icon="delete"
+            icon='delete'
             onClick={() => setOpenModal(true)}
             data-testid={'delete'}
           />,
