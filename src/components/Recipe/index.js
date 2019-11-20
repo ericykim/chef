@@ -58,7 +58,7 @@ const Recipe = ({ recipe, history }) => {
           type="primary"
           onClick={() => history.push(`/walkthrough/${id}`)}
         >
-          Follow Recipe
+          Cook Recipe!
         </Button>
         <Button
           className={styles.followRecipe}

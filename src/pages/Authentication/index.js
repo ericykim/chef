@@ -17,11 +17,6 @@ const Authentication = ({ mode = 'Login', setDocumentTitle }) => {
   const modes = {
     Login: {
       Component: SignIn,
-      prompt: (
-        <span>
-          New to Chef? <Link to={'/register'}>Register now!</Link>
-        </span>
-      ),
     },
     Register: {
       Component: Register,
@@ -43,7 +38,6 @@ const Authentication = ({ mode = 'Login', setDocumentTitle }) => {
     <div className={styles.page}>
       <div className={styles.authComponent}>
         <Component className={styles.card} />
-        <Card className={styles.card}>{prompt}</Card>
       </div>
     </div>
   );
