@@ -67,7 +67,7 @@ const ProfileRecipe = ({ className, recipe, remove, history }) => {
           <Card.Meta title={title} />
           <div className={styles.subtitle}>{subtitle}</div>
         </Link>
-        <State published={published} views={views} />
+        {/* <State published={published} views={views} /> */}
       </Card>
     </Fragment>
   );
