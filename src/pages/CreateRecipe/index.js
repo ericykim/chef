@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { isEmpty, get } from 'lodash';
 import wretch from 'wretch';
-import { Card, PageHeader, Input, Button, Icon, message } from 'antd';
+import { Modal, Card, PageHeader, Input, Button, Icon, message } from 'antd';
 import cn from 'classnames';
 
 import Times from './Times';
@@ -26,6 +26,7 @@ const CreateRecipe = ({ className, setDocumentTitle, match, history }) => {
     updateRecipe,
   } = useContext(UserContext);
   const recipe = findRecipe(recipeId);
+  const [openModal, setOpenModal] = useState(false);
 
   const [title, setTitle] = useState(get(recipe, 'title', null));
   const [subtitle, setSubtitle] = useState(get(recipe, 'subtitle', null));
@@ -81,9 +82,52 @@ const CreateRecipe = ({ className, setDocumentTitle, match, history }) => {
 
   return (
     <div className={cn(styles.page, className)} data-testid={'CreateRecipe'}>
+      <Modal
+        visible={openModal && title}
+        title={`Save as draft?`}
+        onOk={() => {
+          save();
+          history.push('/profile');
+        }}
+        onCancel={() => setOpenModal(false)}
+        footer={[
+          <Button
+            type={'danger'}
+            className={styles.discard}
+            key="discard"
+            onClick={() => history.push('/profile')}
+          >
+            Discard
+          </Button>,
+          <Button key="back" onClick={() => setOpenModal(false)}>
+            Go Back
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            onClick={() => {
+              save();
+              history.push('/profile');
+            }}
+          >
+            Save Recipe
+          </Button>,
+        ]}
+      >
+        <p>
+          Do you want to save <b>{title}</b>?
+        </p>
+      </Modal>
+
       <PageHeader
         subTitle={'Back to recipes'}
-        onBack={() => history.push('/profile')}
+        onBack={() => {
+          if (title) {
+            setOpenModal(true);
+          } else {
+            history.push('/profile');
+          }
+        }}
       />
 
       <Card

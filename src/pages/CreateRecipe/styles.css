@@ -40,3 +40,7 @@
 .dynamicList {
   margin-bottom: 20px;
 }
+
+.discard {
+  float: left;
+}
