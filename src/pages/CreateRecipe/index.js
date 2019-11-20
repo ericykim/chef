@@ -51,6 +51,11 @@ const CreateRecipe = ({ className, setDocumentTitle, match, history }) => {
   const removeEmpty = (array) => array.filter((e) => !isEmpty(e));
 
   const save = () => {
+    if (isEmpty(title)) {
+      message.error('Recipe title is missing');
+      return;
+    }
+
     const newRecipe = {
       id: get(recipe, 'id', title),
       chef: id,

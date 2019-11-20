@@ -41,8 +41,6 @@ const App = ({ match }) => {
       />
 
       <Layout className={cn(styles.content, { [styles.expanded]: !collapse })}>
-        <Header onHamburger={() => setCollapse(!collapse)} />
-
         <Layout.Content>
           <Switch>
             <Route path={`/explore`} component={Explore} />
