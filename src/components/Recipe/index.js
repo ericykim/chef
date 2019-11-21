@@ -41,22 +41,28 @@ const Recipe = ({ recipe, history }) => {
       <p>{description}</p>
       <Times preparationTime={preparationTime} cookTime={cookTime} />
 
-      <List
-        className={styles.list}
-        header={'Ingredients'}
-        elements={ingredients}
-      />
-      <List
-        className={styles.list}
-        header={'Directions'}
-        elements={directions}
-        ordered
-      />
+      {!isEmpty(ingredients) && (
+        <List
+          className={styles.list}
+          header={'Ingredients'}
+          elements={ingredients}
+        />
+      )}
+
+      {!isEmpty(directions) && (
+        <List
+          className={styles.list}
+          header={'Directions'}
+          elements={directions}
+          ordered
+        />
+      )}
       <div className={styles.ctas}>
         <Button
           className={styles.followRecipe}
           type="primary"
           onClick={() => history.push(`/walkthrough/${id}`)}
+          disabled={isEmpty(ingredients) || isEmpty(directions)}
         >
           Cook Recipe!
         </Button>
@@ -118,7 +124,11 @@ const List = ({ className, header, elements, ordered }) => {
   return (
     <div className={className}>
       <h4> {header} </h4>
-      {ordered ? <ol>{listedElements}</ol> : <ul>{listedElements}</ul>}
+      {ordered ? (
+        <ol className={styles.listItem}>{listedElements}</ol>
+      ) : (
+        <ul className={styles.listItem}>{listedElements}</ul>
+      )}
     </div>
   );
 };

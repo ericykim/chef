@@ -48,7 +48,7 @@ const DynamicList = ({
     <div className={cn(className)} data-testid={'DynamicList'}>
       <h4>{header}</h4>
       {elements.map((element, index) => (
-        <Input
+        <Input.TextArea
           key={index}
           value={element}
           onChange={updateAtFunc(index)}
@@ -56,6 +56,8 @@ const DynamicList = ({
           className={styles.input}
           defaultValue={element}
           placeholder={`${ordinal(index + 1)} ${placeholder}`}
+          rows={3}
+          autosize
           suffix={
             index > 0 && (
               <Button
