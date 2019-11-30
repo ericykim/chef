@@ -48,28 +48,30 @@ const DynamicList = ({
     <div className={cn(className)} data-testid={'DynamicList'}>
       <h4>{header}</h4>
       {elements.map((element, index) => (
-        <Input.TextArea
-          key={index}
-          value={element}
-          onChange={updateAtFunc(index)}
-          onPressEnter={onEnter(index)}
-          className={styles.input}
-          defaultValue={element}
-          placeholder={`${ordinal(index + 1)} ${placeholder}`}
-          rows={3}
-          autosize
-          suffix={
-            index > 0 && (
-              <Button
-                className={styles.remove}
-                icon={'close'}
-                type={'link'}
-                style={{ color: 'rgba(0,0,0,.45)' }}
-                onClick={removeAtFunc(index)}
-              />
-            )
-          }
-        />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Input.TextArea
+            key={index}
+            value={element}
+            onChange={updateAtFunc(index)}
+            onPressEnter={onEnter(index)}
+            className={styles.input}
+            defaultValue={element}
+            placeholder={`${placeholder}` == 'picture' ? 
+              "Link for " + `${ordinal(index + 1)} ${placeholder}` : 
+                `${ordinal(index + 1)} ${placeholder}`}
+            rows={3}
+            style={{ maxWidth: '95%', resize: 'none'}}
+            autosize
+          />
+          <Button
+            className={styles.remove}
+            icon={'close'}
+            type={'link'}
+            style={{ color: 'rgba(0,0,0,.45)' }}
+            onHover={{ cursor: 'pointer'}}
+            onClick={removeAtFunc(index)}
+          />
+        </div>
       ))}
       <Button
         className={styles.addButton}
